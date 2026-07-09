@@ -3,9 +3,9 @@ import { setRequestLocale } from "next-intl/server";
 import { GalleryGrid, type GalleryPhoto } from "@/components/GalleryGrid";
 
 export const metadata: Metadata = {
-  title: "Galerija — rafting na Tari, kamp, hrana i priroda | Rafting kamp Konak",
+  title: "Galerija — rafting na Tari, kamp i hrana | Rafting kamp Konak",
   description:
-    "Fotografije rafting kampa Konak: spust niz Taru, lux bungalovi, domaća kuhinja, kanjon i avanture u okolini. Filtriraj po kategorijama — rafting, kamp, hrana, priroda, aktivnosti.",
+    "Fotografije rafting kampa Konak: spust niz Taru, lux bungalovi i domaća kuhinja. Filtriraj po kategorijama — rafting, kamp, hrana.",
   keywords: [
     "rafting Tara fotografije",
     "galerija kamp Konak",
@@ -17,38 +17,243 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Galerija — Rafting kamp Konak",
     description:
-      "Tara, kakvu morate vidjeti — rafting, kamp, hrana i priroda u jednoj galeriji.",
+      "Tara, kakvu morate vidjeti — rafting, kamp i domaća kuhinja u jednoj galeriji.",
     type: "website",
   },
 };
 
 const SITE = "https://www.raftingkampkonak.com";
+const IMG = "/images/galerija";
 
-const GRADIENTS = [
-  "linear-gradient(160deg, #2e8b74, #0f3d32)",
-  "linear-gradient(160deg, #3a9580, #13443a)",
-  "linear-gradient(160deg, #1c6a58, #0a2a23)",
+const ASPECTS: GalleryPhoto["aspect"][] = ["3/4", "4/3", "1/1", "4/3", "3/4"];
+
+function aspectAt(i: number): GalleryPhoto["aspect"] {
+  return ASPECTS[i % ASPECTS.length];
+}
+
+const FOTOS: GalleryPhoto[] = [
+  // Rafting (13)
+  {
+    id: "r-2",
+    labela: "Rafting",
+    cat: "rafting",
+    aspect: aspectAt(0),
+    src: `${IMG}/galerija2.jpg`,
+    alt: "Rafting na Tari — čamac u kanjonu",
+  },
+  {
+    id: "r-3",
+    labela: "Spust niz Taru",
+    cat: "rafting",
+    aspect: aspectAt(1),
+    src: `${IMG}/galerija3.jpg`,
+    alt: "Spust niz Taru kroz bukove",
+  },
+  {
+    id: "r-4",
+    labela: "Ekipa na vodi",
+    cat: "rafting",
+    aspect: aspectAt(2),
+    src: `${IMG}/galerija4.jpg`,
+    alt: "Ekipa na rafting spustu niz Taru",
+  },
+  {
+    id: "r-5",
+    labela: "Kanjon Tare",
+    cat: "rafting",
+    aspect: aspectAt(3),
+    src: `${IMG}/galerija5.jpg`,
+    alt: "Rafting kroz kanjon Tare",
+  },
+  {
+    id: "r-7",
+    labela: "Brzaci",
+    cat: "rafting",
+    aspect: aspectAt(4),
+    src: `${IMG}/galerija7.jpg`,
+    alt: "Rafting kroz brzake na Tari",
+  },
+  {
+    id: "r-11",
+    labela: "Čamac u kanjonu",
+    cat: "rafting",
+    aspect: aspectAt(5),
+    src: `${IMG}/galerija11.jpg`,
+    alt: "Rafting čamac u kanjonu Tare",
+  },
+  {
+    id: "r-12",
+    labela: "Grupa na spustu",
+    cat: "rafting",
+    aspect: aspectAt(6),
+    src: `${IMG}/galerija12.jpg`,
+    alt: "Grupa na rafting spustu niz Taru",
+  },
+  {
+    id: "r-13",
+    labela: "Smaragdna voda",
+    cat: "rafting",
+    aspect: aspectAt(7),
+    src: `${IMG}/galerija13.jpg`,
+    alt: "Smaragdna voda Tare tokom raftinga",
+  },
+  {
+    id: "r-15",
+    labela: "Veslanje",
+    cat: "rafting",
+    aspect: aspectAt(8),
+    src: `${IMG}/galerija15.jpg`,
+    alt: "Veslanje na rafting turi na Tari",
+  },
+  {
+    id: "r-16",
+    labela: "Dolazak u Hum",
+    cat: "rafting",
+    aspect: aspectAt(9),
+    src: `${IMG}/galerija16.jpg`,
+    alt: "Rafting — dolazak u Hum",
+  },
+  {
+    id: "r-36",
+    labela: "Avantura na vodi",
+    cat: "rafting",
+    aspect: aspectAt(10),
+    src: `${IMG}/galerija36.jpg`,
+    alt: "Avantura raftinga na Tari",
+  },
+  {
+    id: "r-38",
+    labela: "Skiperi i gosti",
+    cat: "rafting",
+    aspect: aspectAt(11),
+    src: `${IMG}/galerija38.jpg`,
+    alt: "Skiperi i gosti na rafting turi",
+  },
+  {
+    id: "r-40",
+    labela: "Trenutak sa Tare",
+    cat: "rafting",
+    aspect: aspectAt(12),
+    src: `${IMG}/galerija40.jpg`,
+    alt: "Trenutak sa raftinga na Tari",
+  },
+
+  // Kamp (8)
+  {
+    id: "k-1",
+    labela: "Kamp uz rijeku",
+    cat: "kamp",
+    aspect: aspectAt(0),
+    src: `${IMG}/kamp_konak.webp`,
+    alt: "Rafting kamp Konak uz rijeku",
+  },
+  {
+    id: "k-2",
+    labela: "Bungalovi",
+    cat: "kamp",
+    aspect: aspectAt(1),
+    src: `${IMG}/kamp_konak1.webp`,
+    alt: "Lux bungalovi kampa Konak",
+  },
+  {
+    id: "k-3",
+    labela: "Ispred kampa",
+    cat: "kamp",
+    aspect: aspectAt(2),
+    src: `${IMG}/konak_ispred.webp`,
+    alt: "Ulaz i dvorište rafting kampa Konak",
+  },
+  {
+    id: "k-4",
+    labela: "Smještaj",
+    cat: "kamp",
+    aspect: aspectAt(3),
+    src: `${IMG}/smjestaj_kamp_konak.webp`,
+    alt: "Smještaj u lux bungalovu kampa Konak",
+  },
+  {
+    id: "k-5",
+    labela: "Soba bungalova",
+    cat: "kamp",
+    aspect: aspectAt(4),
+    src: `${IMG}/smjestaj_konak2.webp`,
+    alt: "Soba lux bungalova kampa Konak",
+  },
+  {
+    id: "k-6",
+    labela: "Odmor u kampu",
+    cat: "kamp",
+    aspect: aspectAt(5),
+    src: `${IMG}/smjestaj_konak3.webp`,
+    alt: "Odmor u bungalovu kampa Konak",
+  },
+  {
+    id: "k-7",
+    labela: "Kamp na obali",
+    cat: "kamp",
+    aspect: aspectAt(6),
+    src: `${IMG}/smjestaj-konak-pocetna.jpg`,
+    alt: "Kamp Konak na obali Tare",
+  },
+  {
+    id: "k-8",
+    labela: "Kupatilo",
+    cat: "kamp",
+    aspect: aspectAt(7),
+    src: `${IMG}/toalet_kamp_konak.webp`,
+    alt: "Privatno kupatilo u bungalovu kampa Konak",
+  },
+
+  // Hrana (6)
+  {
+    id: "h-1",
+    labela: "Čorba i ručak",
+    cat: "hrana",
+    aspect: aspectAt(0),
+    src: `${IMG}/corba_rucak.jpg`,
+    alt: "Domaća čorba i ručak u kampu Konak",
+  },
+  {
+    id: "h-2",
+    labela: "Desert",
+    cat: "hrana",
+    aspect: aspectAt(1),
+    src: `${IMG}/dezert.jpg`,
+    alt: "Domaći deserti u kampu Konak",
+  },
+  {
+    id: "h-3",
+    labela: "Doručak",
+    cat: "hrana",
+    aspect: aspectAt(2),
+    src: `${IMG}/dorucaak50.jpg`,
+    alt: "Domaći doručak u kampu Konak",
+  },
+  {
+    id: "h-4",
+    labela: "Pite i sirevi",
+    cat: "hrana",
+    aspect: aspectAt(3),
+    src: `${IMG}/dorucak_konak.jpg`,
+    alt: "Domaći doručak — pite i sirevi",
+  },
+  {
+    id: "h-5",
+    labela: "Jela uz vatru",
+    cat: "hrana",
+    aspect: aspectAt(4),
+    src: `${IMG}/dorucak_konak1.jpg`,
+    alt: "Domaća jela uz vatru u kampu Konak",
+  },
+  {
+    id: "h-6",
+    labela: "Ručak ispod sača",
+    cat: "hrana",
+    aspect: aspectAt(5),
+    src: `${IMG}/rucak_konak.jpg`,
+    alt: "Domaći ručak ispod sača u kampu Konak",
+  },
 ];
-
-const FOTOS: GalleryPhoto[] = (
-  [
-    { id: "1", labela: "Rafting", cat: "rafting", aspect: "3/4" },
-    { id: "2", labela: "Spust niz buk", cat: "rafting", aspect: "4/3" },
-    { id: "3", labela: "Lux bungalov", cat: "kamp", aspect: "1/1" },
-    { id: "4", labela: "Domaća kuhinja", cat: "hrana", aspect: "4/3" },
-    { id: "5", labela: "Kanjon Tare", cat: "priroda", aspect: "3/4" },
-    { id: "6", labela: "Ekipa na vodi", cat: "rafting", aspect: "1/1" },
-    { id: "7", labela: "Kamp uz rijeku", cat: "kamp", aspect: "4/3" },
-    { id: "8", labela: "NP Sutjeska", cat: "aktivnosti", aspect: "3/4" },
-    { id: "9", labela: "Roštilj i specijaliteti", cat: "hrana", aspect: "1/1" },
-    { id: "10", labela: "Smaragdni vir", cat: "priroda", aspect: "4/3" },
-    { id: "11", labela: "Jahanje konja", cat: "aktivnosti", aspect: "3/4" },
-    { id: "12", labela: "Terasa restorana", cat: "kamp", aspect: "4/3" },
-    { id: "13", labela: "Skok u Taru", cat: "rafting", aspect: "3/4" },
-    { id: "14", labela: "Vidikovac", cat: "priroda", aspect: "1/1" },
-    { id: "15", labela: "Kanjoning", cat: "aktivnosti", aspect: "4/3" },
-  ] satisfies Omit<GalleryPhoto, "gradient">[]
-).map((p, i) => ({ ...p, gradient: GRADIENTS[i % 3] }));
 
 export default async function GalerijaPage({
   params,
@@ -63,13 +268,13 @@ export default async function GalerijaPage({
     "@type": "ImageGallery",
     name: "Galerija — Rafting kamp Konak",
     description:
-      "Fotografije rafting kampa Konak: rafting na Tari, kamp, hrana, priroda i aktivnosti.",
+      "Fotografije rafting kampa Konak: rafting na Tari, kamp i domaća kuhinja.",
     url: `${SITE}/galerija`,
     associatedMedia: FOTOS.map((p) => ({
       "@type": "ImageObject",
       name: p.labela,
       caption: p.labela,
-      ...(p.src ? { contentUrl: p.src } : {}),
+      contentUrl: `${SITE}${p.src}`,
     })),
   };
 
@@ -97,8 +302,7 @@ export default async function GalerijaPage({
             className="mt-5 max-w-2xl font-sans text-body"
             style={{ fontSize: "clamp(16px, 1.4vw, 19px)", lineHeight: 1.65 }}
           >
-            Spust niz rijeku, kamp i domaća kuhinja, kanjon i avanture u okolini
-            — izaberi kategoriju.
+            Spust niz rijeku, kamp i domaća kuhinja — izaberi kategoriju.
           </p>
         </div>
       </section>

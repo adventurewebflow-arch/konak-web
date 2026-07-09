@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ImageSlot } from "./ImageSlot";
 
-export type GalleryCat = "rafting" | "kamp" | "hrana" | "priroda" | "aktivnosti";
+export type GalleryCat = "rafting" | "kamp" | "hrana";
 
 export interface GalleryPhoto {
   id: string;
@@ -22,8 +22,6 @@ const FILTERI: { id: Filter; label: string }[] = [
   { id: "rafting", label: "Rafting" },
   { id: "kamp", label: "Kamp" },
   { id: "hrana", label: "Hrana" },
-  { id: "priroda", label: "Priroda i kanjon" },
-  { id: "aktivnosti", label: "Aktivnosti" },
 ];
 
 const ASPECT_CLS: Record<GalleryPhoto["aspect"], string> = {
