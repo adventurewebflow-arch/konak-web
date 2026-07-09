@@ -7,14 +7,37 @@ const PHONE_DIGITS = "38765848110";
 const EMAIL = "konakraftingkamp@gmail.com";
 const MAPS_URL = "https://maps.app.goo.gl/prErkjurQca1w3ccA";
 
-const FOOTER_LINKS = [
-  { href: "/", label: "Početna" },
-  { href: "/ponuda", label: "Ponuda" },
-  { href: "/rafting", label: "Rafting" },
-  { href: "/kamp", label: "Kamp" },
-  { href: "/galerija", label: "Galerija" },
-  { href: "/blog", label: "Blog" },
-  { href: "/kontakt", label: "Kontakt" },
+const FOOTER_COLS = [
+  {
+    title: "Avantura",
+    links: [
+      { href: "/rafting", label: "Rafting" },
+      { href: "/kanjoning", label: "Kanjoning" },
+      { href: "/aktivnosti", label: "Aktivnosti" },
+      { href: "/izleti", label: "Izleti" },
+      { href: "/ponuda", label: "Ponuda" },
+    ],
+  },
+  {
+    title: "Kamp",
+    links: [
+      { href: "/kamp", label: "O kampu" },
+      { href: "/smjestaj", label: "Smještaj" },
+      { href: "/hrana", label: "Hrana" },
+      { href: "/teambuilding", label: "Teambuilding" },
+      { href: "/galerija", label: "Galerija" },
+    ],
+  },
+  {
+    title: "Info",
+    links: [
+      { href: "/kako-do-nas", label: "Kako do nas" },
+      { href: "/oprema-i-sigurnost", label: "Oprema i sigurnost" },
+      { href: "/cesta-pitanja", label: "Česta pitanja" },
+      { href: "/blog", label: "Blog" },
+      { href: "/kontakt", label: "Kontakt" },
+    ],
+  },
 ] as const;
 
 function Topo() {
@@ -231,19 +254,30 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Donji red */}
-        <div className="mt-[clamp(40px,6vh,72px)] flex flex-col gap-4 border-t border-white/13 pt-7 min-[861px]:flex-row min-[861px]:items-center min-[861px]:justify-between">
-          <nav className="flex flex-wrap gap-x-6 gap-y-2" aria-label="Podnožje navigacija">
-            {FOOTER_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="font-sans text-[13.5px] font-semibold text-on-dark-muted transition-colors hover:text-white"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+        {/* Mapa sajta */}
+        <div className="mt-[clamp(40px,6vh,72px)] grid gap-8 border-t border-white/13 pt-10 sm:grid-cols-3">
+          {FOOTER_COLS.map((col) => (
+            <nav key={col.title} aria-label={col.title}>
+              <p className="mb-3 font-sans text-xs font-bold uppercase tracking-[0.16em] text-amber-light">
+                {col.title}
+              </p>
+              <ul className="flex flex-col gap-2">
+                {col.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="font-sans text-[13.5px] font-semibold text-on-dark-muted transition-colors hover:text-white"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+        </div>
+
+        <div className="mt-8 border-t border-white/13 pt-6">
           <p className="font-sans text-[13px] text-on-dark-muted">
             © 2026 Rafting kamp Konak · Hum, Foča
           </p>

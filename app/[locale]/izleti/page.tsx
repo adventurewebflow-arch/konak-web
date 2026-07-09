@@ -31,16 +31,16 @@ const SITE = "https://www.raftingkampkonak.com";
 
 const KOMBINACIJE = [
   {
-    kategorija: "Najtraženije",
+    kategorija: "Najtraženije · na upit",
     naslov: "Rafting + NP Sutjeska",
     opis:
-      "Dan na vodi i dan u prašumi Perućici i kod Trnovačkog jezera — voda i planina u savršenom balansu.",
-    href: "/rezervacija",
-    linkLabel: "Sklopi aranžman →",
+      "Dan na vodi i dan u prašumi Perućici i kod Trnovačkog jezera — voda i planina u balansu. Cijena na upit.",
+    href: "/kontakt",
+    linkLabel: "Pošalji upit →",
     gradient: "var(--gradient-slot-1)",
   },
   {
-    kategorija: "Za avanturiste",
+    kategorija: "Za avanturiste · od 120€",
     naslov: "Rafting + kanjoning",
     opis:
       "Dupla doza adrenalina — spust niz Taru i probijanje kroz Nevidio ili Hrčavku. Za one koji ne staju.",
@@ -49,21 +49,21 @@ const KOMBINACIJE = [
     gradient: "var(--gradient-slot-2)",
   },
   {
-    kategorija: "Opušteno",
+    kategorija: "Opušteno · na upit",
     naslov: "Rafting + Durmitor",
     opis:
-      "Adrenalin na rijeci, pa miran dan na Durmitoru i kod Crnog jezera. Idealno za porodice i mješovite grupe.",
-    href: "/aktivnosti",
-    linkLabel: "Vidi aktivnosti →",
+      "Adrenalin na rijeci, pa miran dan na Durmitoru i kod Crnog jezera. Cijena na upit.",
+    href: "/kontakt",
+    linkLabel: "Pošalji upit →",
     gradient: "var(--gradient-slot-3)",
   },
 ];
 
 const PLANINSKI = [
-  { naslov: "Prašuma Perućica", meta: "NP Sutjeska · pola/cijeli dan" },
-  { naslov: "Trnovačko jezero", meta: "Hiking · srednje" },
-  { naslov: "Zelengora", meta: "Gorska jezera · cijeli dan" },
-  { naslov: "Pivsko jezero", meta: "Izlet · pola dana" },
+  { naslov: "Prašuma Perućica", meta: "NP Sutjeska · na upit" },
+  { naslov: "Trnovačko jezero", meta: "Hiking · na upit" },
+  { naslov: "Zelengora", meta: "Gorska jezera · na upit" },
+  { naslov: "Pivsko jezero", meta: "Izlet · na upit" },
 ];
 
 export default async function IzletiPage({
@@ -138,13 +138,16 @@ export default async function IzletiPage({
             {PLANINSKI.map((p) => (
               <Link
                 key={p.naslov}
-                href="/rezervacija"
+                href="/kontakt"
                 className="rounded-card border border-line bg-surface px-5 py-4 transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-soft"
               >
                 <h3 className="font-display text-base font-semibold text-ink">
                   {p.naslov}
                 </h3>
                 <p className="mt-1 font-sans text-sm text-muted">{p.meta}</p>
+                <span className="mt-2 inline-block font-sans text-xs font-bold text-terracotta">
+                  Pošalji upit →
+                </span>
               </Link>
             ))}
           </div>

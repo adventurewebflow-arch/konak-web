@@ -29,10 +29,10 @@ export const metadata: Metadata = {
 
 const SITE = "https://www.raftingkampkonak.com";
 
-// Hub kartice — vode na kategorijske stranice ili rezervaciju.
+// Hub kartice — rafting/kanjoning sa cijenama na svojim stranicama; izleti „na upit".
 const AKTIVNOSTI = [
   {
-    kategorija: "Glavna ponuda",
+    kategorija: "Glavna ponuda · od 50€",
     naslov: "Rafting na Tari",
     opis:
       "Jednodnevni i višednevni aranžmani niz najdublji kanjon Evrope — od brzog spusta do četvorodnevne ekspedicije cijelim tokom Tare.",
@@ -41,7 +41,7 @@ const AKTIVNOSTI = [
     gradient: "var(--gradient-slot-1)",
   },
   {
-    kategorija: "Kanjoning",
+    kategorija: "Kanjoning · od 120€",
     naslov: "Nevidio i Hrčavka",
     opis:
       "Skokovi, tobogani i prolazi kroz dva najljepša kanjona u okolini — za početnike (Hrčavka) i iskusne avanturiste (Nevidio).",
@@ -59,30 +59,30 @@ const AKTIVNOSTI = [
     gradient: "var(--gradient-slot-3)",
   },
   {
-    kategorija: "NP Sutjeska",
+    kategorija: "NP Sutjeska · na upit",
     naslov: "Perućica i Trnovačko jezero",
     opis:
-      "Cjelodnevni izlet u najstariji nacionalni park — prašuma Perućica i hiking do srcolikog jezera ispod Maglića. Od 85€ / osobi.",
-    href: "/rezervacija",
-    linkLabel: "Dodaj u rezervaciju →",
+      "Cjelodnevni izlet u najstariji nacionalni park — prašuma Perućica i srcoliko jezero ispod Maglića. Cijena na upit.",
+    href: "/izleti",
+    linkLabel: "Vidi izlete →",
     gradient: "var(--gradient-slot-2)",
   },
   {
-    kategorija: "Nacionalni park",
+    kategorija: "Planina · na upit",
     naslov: "Durmitor i Crno jezero",
     opis:
-      "Planinski izlet do čuvenog Crnog jezera i vidikovaca Durmitora — netaknuta priroda na kratkoj vožnji iz kampa.",
-    href: "/rezervacija",
-    linkLabel: "Pitaj za termin →",
+      "Kratki izlet do Crnog jezera i vidikovaca Durmitora — uz rafting boravak. Cijena na upit.",
+    href: "/kontakt",
+    linkLabel: "Pošalji upit →",
     gradient: "var(--gradient-slot-1)",
   },
   {
-    kategorija: "Avantura",
+    kategorija: "Avantura · na upit",
     naslov: "Jahanje konja",
     opis:
-      "Staza do vidikovca sa pogledom na kanjon Tare — pogodno i za potpune početnike, uz pratnju iskusnog vodiča.",
-    href: "/rezervacija",
-    linkLabel: "Pitaj za termin →",
+      "Staza do vidikovca sa pogledom na kanjon Tare — i za početnike. Cijena na upit.",
+    href: "/kontakt",
+    linkLabel: "Pošalji upit →",
     gradient: "var(--gradient-slot-3)",
   },
 ];
