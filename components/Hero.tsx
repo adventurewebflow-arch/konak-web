@@ -134,7 +134,7 @@ export function Hero({
               src={slika.src}
               alt={slika.alt}
               fill
-              priority={isA}
+              priority
               sizes="100vw"
               className="object-cover kon-heroimg"
               style={{ animation: "konHeroZoom 1.4s ease-out both" }}

@@ -6,6 +6,7 @@ import { Bricolage_Grotesque, Manrope } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { MobileCtaBar } from "@/components/MobileCtaBar";
 import "../globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -60,6 +61,7 @@ export default async function LocaleLayout({
           <Nav />
           {children}
           <Footer />
+          <MobileCtaBar />
         </NextIntlClientProvider>
       </body>
     </html>

@@ -8,6 +8,9 @@ interface BlogCardProps {
   opis: string;
   href: string;
   featured?: boolean;
+  /** Tekst linka (default: „Pročitaj"). */
+  linkLabel?: string;
+  gradient?: string;
 }
 
 const LIFT =
@@ -36,12 +39,14 @@ export function BlogCard({
   opis,
   href,
   featured = false,
+  linkLabel = "Pročitaj",
+  gradient = "var(--gradient-slot-2)",
 }: BlogCardProps) {
   if (featured) {
     return (
       <Link
         href={href}
-        className={`group grid overflow-hidden rounded-card bg-ink text-white md:grid-cols-[1.1fr_0.9fr] ${LIFT}`}
+        className={`kon-feat group grid overflow-hidden rounded-card bg-ink text-white ${LIFT}`}
       >
         <ImageSlot
           src={slika?.src}
@@ -58,7 +63,7 @@ export function BlogCard({
           <h3 className="font-display text-2xl font-semibold text-white md:text-3xl">{naslov}</h3>
           <p className="font-sans text-[15px] leading-relaxed text-on-dark-muted">{opis}</p>
           <span className="mt-1 inline-flex items-center gap-1 font-sans text-sm font-bold text-amber-light">
-            Pročitaj
+            {linkLabel}
             <Arrow />
           </span>
         </div>
@@ -76,7 +81,7 @@ export function BlogCard({
         alt={slika?.alt}
         className="aspect-[16/10]"
         imageClassName={ZOOM}
-        gradient="var(--gradient-slot-2)"
+        gradient={gradient}
       />
       <div className="p-[22px]">
         <span className="font-sans text-xs font-bold uppercase tracking-[0.14em] text-teal">
@@ -85,7 +90,7 @@ export function BlogCard({
         <h3 className="mt-2 font-display text-xl font-semibold text-ink">{naslov}</h3>
         <p className="mt-2 font-sans text-sm leading-relaxed text-text-secondary">{opis}</p>
         <span className="mt-4 inline-flex items-center gap-1 font-sans text-sm font-bold text-terracotta">
-          Pročitaj
+          {linkLabel}
           <Arrow />
         </span>
       </div>

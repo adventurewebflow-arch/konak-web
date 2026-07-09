@@ -24,6 +24,8 @@ interface TourCardProps {
   varijanta?: TourVarijanta;
   /** Red varijanta: slika desno umjesto lijevo. */
   obrnuto?: boolean;
+  /** Red varijanta: tamna (pine) pozadina umjesto svijetle. */
+  tamna?: boolean;
 }
 
 function Arrow() {
@@ -106,41 +108,63 @@ export function TourCard({
   tag,
   varijanta = "grid",
   obrnuto = false,
+  tamna = false,
 }: TourCardProps) {
   const highlighted = Boolean(tag);
 
   // ---- RED varijanta (horizontalna) ----
   if (varijanta === "red") {
+    const redBorder = tamna
+      ? "border border-white/12"
+      : highlighted
+        ? "border-2 border-amber shadow-featured"
+        : "border border-line";
+    const redBg = tamna ? "bg-pine" : "bg-surface";
+    const redBodyBg = !tamna && highlighted ? "bg-surface-warm" : "";
+    const redKicker = tamna ? "text-teal-light" : highlighted ? "text-terracotta" : "text-teal";
+    const redTitle = tamna ? "text-white" : "text-ink";
+    const redText = tamna ? "text-on-dark-muted" : "text-text-secondary";
+    const redPrice = tamna ? "text-teal-light" : "text-pine";
+    const redLabel = tamna ? "text-on-dark-muted" : "text-faint";
+
     return (
       <Link
         href={href}
-        className={`group flex flex-col overflow-hidden rounded-card border border-line bg-surface ${LIFT} ${
-          obrnuto ? "md:flex-row-reverse" : "md:flex-row"
+        className={`group flex flex-col overflow-hidden rounded-card ${redBg} ${redBorder} ${LIFT} ${
+          obrnuto ? "min-[880px]:flex-row-reverse" : "min-[880px]:flex-row"
         }`}
       >
         <ImageSlot
           src={slika?.src}
           alt={slika?.alt}
-          className="aspect-[16/10] md:aspect-auto md:min-h-[240px] md:basis-[46%]"
+          className="aspect-[16/10] min-[880px]:aspect-auto min-[880px]:min-h-[240px] min-[880px]:basis-[46%]"
           imageClassName={ZOOM}
-          gradient="var(--gradient-slot-2)"
-          sizes="(max-width: 768px) 100vw, 520px"
-        />
-        <div className="flex flex-col justify-center gap-3 p-6 md:basis-[54%]">
+          gradient={tamna ? "var(--gradient-slot-3)" : "var(--gradient-slot-2)"}
+          sizes="(max-width: 880px) 100vw, 520px"
+        >
+          {tag && (
+            <span className="absolute left-3 top-3 rounded-pill bg-amber px-3 py-1 font-sans text-[11px] font-bold uppercase tracking-[0.08em] text-ink shadow-featured">
+              {tag}
+            </span>
+          )}
+        </ImageSlot>
+        <div
+          className={`flex flex-col justify-center gap-3 p-6 min-[880px]:basis-[54%] ${redBodyBg}`}
+        >
           {kicker && (
-            <span className="font-sans text-xs font-bold uppercase tracking-[0.16em] text-teal">
+            <span className={`font-sans text-xs font-bold uppercase tracking-[0.16em] ${redKicker}`}>
               {kicker}
             </span>
           )}
-          <h3 className="font-display text-2xl font-semibold text-ink">{naslov}</h3>
-          {opis && <p className="font-sans text-sm leading-relaxed text-text-secondary">{opis}</p>}
-          <Fakti fakti={fakti} iconCls="text-teal" textCls="text-text-secondary" />
+          <h3 className={`font-display text-2xl font-semibold ${redTitle}`}>{naslov}</h3>
+          {opis && <p className={`font-sans text-sm leading-relaxed ${redText}`}>{opis}</p>}
+          <Fakti fakti={fakti} iconCls={redKicker} textCls={redText} />
           <div className="mt-1">
             <Cijena
               cijena={cijena}
               cijenaLabel={cijenaLabel}
-              labelCls="text-faint"
-              priceCls="text-pine"
+              labelCls={redLabel}
+              priceCls={redPrice}
               detaljnijeLabel="Pogledaj program"
             />
           </div>

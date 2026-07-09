@@ -5,8 +5,7 @@ const PHONE_DISPLAY = "+387 65 848 110";
 const PHONE_TEL = "+38765848110";
 const PHONE_DIGITS = "38765848110";
 const EMAIL = "konakraftingkamp@gmail.com";
-const MAPS_URL =
-  "https://maps.google.com/?q=Rafting+kamp+Konak+Hum+Foča";
+const MAPS_URL = "https://maps.app.goo.gl/prErkjurQca1w3ccA";
 
 const FOOTER_LINKS = [
   { href: "/", label: "Početna" },
@@ -110,11 +109,10 @@ function IconFacebook() {
   );
 }
 
-// ⚠️ PROVJERITI/POPUNITI: prave URL adrese društvenih mreža (vlasnik).
 const SOCIALS = [
-  { label: "Instagram", href: "#", Icon: IconInstagram },
-  { label: "TikTok", href: "#", Icon: IconTikTok },
-  { label: "Facebook", href: "#", Icon: IconFacebook },
+  { label: "Instagram", href: "https://instagram.com/raftingkampkonak/", Icon: IconInstagram },
+  { label: "TikTok", href: "https://tiktok.com/@tararafting2", Icon: IconTikTok },
+  { label: "Facebook", href: "https://facebook.com/RaftingKonak/", Icon: IconFacebook },
 ];
 
 export function Footer() {
