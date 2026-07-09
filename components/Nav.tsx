@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { Link, usePathname } from "@/i18n/navigation";
 import { CtaButton } from "./CtaButton";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -29,26 +30,6 @@ const NAV_ITEMS: NavItem[] = [
   { type: "link", href: "/blog", label: "Blog" },
   { type: "link", href: "/kontakt", label: "Kontakt" },
 ];
-
-function LogoIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M3 17c2.5 1.5 4.5 1.5 6 0s3.5-1.5 6 0 4.5 1.5 6 0"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
-      <path
-        d="M14.5 3.5 8 10l3.5 3.5L18 7l-3.5-3.5Z"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinejoin="round"
-      />
-      <path d="M8 10 5.5 12.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 function Chevron({ open }: { open?: boolean }) {
   return (
@@ -137,18 +118,19 @@ export function Nav() {
         className="mx-auto flex items-center justify-between"
         style={{ maxWidth: "var(--container)", padding: "14px var(--px-section)" }}
       >
-        <Link href="/" className="flex items-center gap-2.5" aria-label="Rafting kamp Konak — početna">
-          <span className="flex h-10 w-10 items-center justify-center rounded-[11px] bg-pine text-white">
-            <LogoIcon />
-          </span>
-          <span className="flex flex-col leading-none">
-            <span className="font-display text-[22px] font-extrabold leading-none text-ink">
-              KONAK
-            </span>
-            <span className="mt-0.5 font-sans text-[9px] font-bold uppercase tracking-[0.32em] text-teal">
-              Rafting kamp · Tara
-            </span>
-          </span>
+        <Link
+          href="/"
+          className="flex shrink-0 items-center"
+          aria-label="Rafting kamp Konak — početna"
+        >
+          <Image
+            src="/logo_konak.png"
+            alt="Konak Rafting Kamp"
+            width={200}
+            height={80}
+            className="h-[72px] w-auto object-contain sm:h-20"
+            priority
+          />
         </Link>
 
         <nav
@@ -223,7 +205,12 @@ export function Nav() {
 
         <div className="flex items-center gap-3">
           <LanguageSwitcher className="hidden min-[960px]:flex" />
-          <CtaButton variant="primary" size="sm" href="/rezervacija">
+          <CtaButton
+            variant="primary"
+            size="sm"
+            href="/rezervacija"
+            className="hidden min-[960px]:inline-flex"
+          >
             Rezerviši
           </CtaButton>
           <button

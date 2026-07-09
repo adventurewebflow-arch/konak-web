@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import Image from "next/image";
 import { CtaButton } from "./CtaButton";
 
 const PHONE_DISPLAY = "+387 65 848 110";
@@ -154,6 +155,15 @@ export function Footer() {
         <div className="grid gap-[clamp(36px,6vw,90px)] min-[861px]:grid-cols-[1.3fr_1fr]">
           {/* Lijevo: poziv na akciju */}
           <div>
+            <Link href="/" className="mb-5 inline-block" aria-label="Rafting kamp Konak">
+              <Image
+                src="/logo_konak.png"
+                alt="Konak Rafting Kamp"
+                width={180}
+                height={72}
+                className="h-16 w-auto object-contain brightness-0 invert sm:h-[72px]"
+              />
+            </Link>
             <p className="mb-4 inline-flex items-center gap-2.5 font-sans text-xs font-bold uppercase tracking-[0.18em] text-amber-light">
               <span className="h-[1.5px] w-[22px] bg-amber-light" aria-hidden="true" />
               Spremni za Taru?

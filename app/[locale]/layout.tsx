@@ -24,9 +24,36 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Rafting kamp Konak",
+  metadataBase: new URL("https://www.raftingkampkonak.com"),
+  title: {
+    default: "Rafting kamp Konak",
+    template: "%s | Rafting kamp Konak",
+  },
   description:
     "Rafting kamp Konak — rafting na Tari, kanjoning, smještaj i domaća kuhinja u Humu kod Foče.",
+  openGraph: {
+    type: "website",
+    siteName: "Rafting kamp Konak",
+    locale: "sr_BA",
+    title: "Rafting kamp Konak",
+    description:
+      "Rafting na Tari, kanjoning, smještaj i domaća kuhinja u Humu kod Foče.",
+    images: [
+      {
+        url: "/og-konak.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Rafting kamp Konak — rafting na Tari",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rafting kamp Konak",
+    description:
+      "Rafting na Tari, kanjoning, smještaj i domaća kuhinja u Humu kod Foče.",
+    images: ["/og-konak.jpg"],
+  },
 };
 
 export function generateStaticParams() {
