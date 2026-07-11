@@ -105,6 +105,16 @@ const PLANINSKI = [
       alt: "Izlet do Pivskog jezera",
     },
   },
+  {
+    naslov: "Jahanje konja",
+    meta: "Avantura · na upit",
+    opis:
+      "Jahanje na vrhu najdubljeg kanjona Tare — pogled odozgo na rijeku, hiljadu i tri stotine metara ispod. Organizujemo na upit.",
+    slika: {
+      src: "/images/hero-slike-konak/np-sutjeska-konak.webp",
+      alt: "Pogled na kanjon Tare — jahanje na vidikovcu",
+    },
+  },
 ];
 
 export default async function IzletiPage({

@@ -1,8 +1,8 @@
 import { defineRouting } from "next-intl/routing";
 
 export const routing = defineRouting({
-  // SR = default (bez prefiksa na /), ostali jezici sa prefiksom (/en, /de, /ru)
-  locales: ["sr", "en", "de", "ru"],
+  // SR = default (bez prefiksa na /), EN sa prefiksom (/en)
+  locales: ["sr", "en"],
   defaultLocale: "sr",
   localePrefix: "as-needed",
 });

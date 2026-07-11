@@ -10,7 +10,7 @@ import { GroupInquiryForm } from "@/components/GroupInquiryForm";
 export const metadata: Metadata = {
   title: "Teambuilding i grupe — rafting, kanjoning, smještaj | Rafting kamp Konak",
   description:
-    "Teambuilding i grupni aranžmani u kampu Konak: rafting na Tari, kanjoning, planinski izleti, smještaj do 55 ležajeva, domaća kuhinja i livada za timske aktivnosti.",
+    "Teambuilding i grupni aranžmani u kampu Konak: rafting na Tari, kanjoning, planinski izleti, smještaj i hrana za grupe do 60 osoba, livada za timske aktivnosti.",
   keywords: [
     "teambuilding rafting",
     "grupe Tara",
@@ -78,7 +78,7 @@ const PONUDA: { naslov: string; opis: string; ikona: ReactNode }[] = [
   {
     naslov: "Smještaj za grupe",
     opis:
-      "13 bungalova i 55 ležajeva — privatna kupatila, mir uz rijeku i kapacitet za firme, škole i sportske timove od 4 do 55 osoba.",
+      "13 bungalova — privatna kupatila, mir uz rijeku. Spavanje i hrana za grupe do 60 osoba: firme, škole i sportski timovi.",
     ikona: <IconBed />,
   },
   {
@@ -156,7 +156,7 @@ export default async function TeambuildingPage({
     "@type": "Service",
     name: "Teambuilding i grupni aranžmani — Rafting kamp Konak",
     description:
-      "Teambuilding programi sa raftingom, kanjoningom i planinskim izletima. Smještaj, domaća hrana i livada za grupe od 4 do 55 osoba.",
+      "Teambuilding programi sa raftingom, kanjoningom i planinskim izletima. Smještaj, domaća hrana i livada za grupe do 60 osoba.",
     url: `${SITE}/teambuilding`,
     provider: {
       "@type": "LocalBusiness",
@@ -203,13 +203,13 @@ export default async function TeambuildingPage({
             naslov="Sve što timu treba — na obali rijeke."
             opis="Nema transfera po gradu, nema gužve u restoranu u pet sati poslije podne. Kamp Konak je zatvoreni ekosistem: smještaj, hrana, oprema i vodiči na istom mjestu. Tim provodi dan na vodi ili u kanjonu, veče uz roštilj i rakiju dobrodošlice, a livada čeka za timske igre ili prezentacije."
             chips={[
-              "Do 55 ležajeva",
+              "Do 60 osoba",
               "Profesionalni vodiči",
               "Pun pansion",
               "Livada za grupe",
               "Parking za autobus",
             ]}
-            imageBadge="Grupe 4+"
+            imageBadge="Grupe do 60"
             slika={{
               src: "/images/galerija/galerija40.jpg",
               alt: "Grupni gosti u opremi ispred kampa Konak",

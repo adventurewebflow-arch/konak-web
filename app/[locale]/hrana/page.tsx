@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Hero } from "@/components/Hero";
 import { MenuCard } from "@/components/MenuCard";
-import { ImageSlot } from "@/components/ImageSlot";
 import { CtaButton } from "@/components/CtaButton";
 
 export const metadata: Metadata = {
@@ -150,49 +149,39 @@ export default async function HranaPage({
         </div>
       </section>
 
-      {/* Kuvar Brane — istaknuti blok */}
+      {/* Kuvar Brane — istaknuti tekstualni blok */}
       <section className="kon-section">
         <div className="kon-container">
           <div
-            className="kon-split kon-split-stack overflow-hidden rounded-card-lg border border-mint-border bg-mint-surface"
-            style={{ ["--split-cols" as string]: "0.95fr 1.05fr" }}
+            className="mx-auto max-w-3xl overflow-hidden rounded-card-lg border border-mint-border bg-mint-surface px-6 py-8 sm:px-10 sm:py-10"
           >
-            <div className="kon-split-media p-0 sm:p-0">
-              <ImageSlot
-                className="aspect-[4/5] w-full sm:min-h-[320px] sm:rounded-none"
-                gradient="var(--gradient-slot-2)"
-                sizes="(max-width: 960px) 100vw, 480px"
-              />
-            </div>
-            <div className="kon-split-body px-6 py-8 sm:px-10 sm:py-10">
-              <span className="font-sans text-xs font-bold uppercase tracking-[0.14em] text-teal">
-                Naša kuhinja
-              </span>
-              <h2
-                className="mt-3 font-display font-extrabold text-pine"
-                style={{
-                  fontSize: "clamp(26px, 3.5vw, 40px)",
-                  lineHeight: 1.08,
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                Kuvar Brane
-              </h2>
-              <p
-                className="mt-5 font-sans text-body"
-                style={{ fontSize: "clamp(16px, 1.35vw, 18px)", lineHeight: 1.65 }}
-              >
-                Brane vodi kuhinju kampa već od prvog dana — sač, roštilj i domaći hljeb
-                peče se po receptima koje je naučio u porodici Spasojević. Zna tačno koje
-                meso sa Zavaita ide ispod sača, koliko treba strpljenja za čorbu i kako da
-                svaki obrok bude ono što gosti pamte kad se vrate kući.
-              </p>
-              <p
-                className="mt-4 font-sans text-sm font-semibold text-text-secondary"
-              >
-                Domaća kuhinja · farme Spasojevići · Zavait 1600 m
-              </p>
-            </div>
+            <span className="font-sans text-xs font-bold uppercase tracking-[0.14em] text-teal">
+              Naša kuhinja
+            </span>
+            <h2
+              className="mt-3 font-display font-extrabold text-pine"
+              style={{
+                fontSize: "clamp(26px, 3.5vw, 40px)",
+                lineHeight: 1.08,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Kuvar Brane
+            </h2>
+            <p
+              className="mt-5 font-sans text-body"
+              style={{ fontSize: "clamp(16px, 1.35vw, 18px)", lineHeight: 1.65 }}
+            >
+              Brane vodi kuhinju kampa već od prvog dana — sač, roštilj i domaći hljeb
+              peče se po receptima koje je naučio u porodici Spasojević. Zna tačno koje
+              meso sa Zavaita ide ispod sača, koliko treba strpljenja za čorbu i kako da
+              svaki obrok bude ono što gosti pamte kad se vrate kući.
+            </p>
+            <p
+              className="mt-4 font-sans text-sm font-semibold text-text-secondary"
+            >
+              Domaća kuhinja · farme Spasojevići · Zavait 1600 m
+            </p>
           </div>
         </div>
       </section>

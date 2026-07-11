@@ -8,8 +8,6 @@ import { routing } from "@/i18n/routing";
 const LABELS: Record<string, string> = {
   sr: "SR",
   en: "EN",
-  de: "DE",
-  ru: "RU",
 };
 
 export function LanguageSwitcher({ className = "" }: { className?: string }) {

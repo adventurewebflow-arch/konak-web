@@ -153,7 +153,6 @@ export default async function SmjestajPage({
       { "@type": "LocationFeatureSpecification", name: "Topla voda", value: true },
       { "@type": "LocationFeatureSpecification", name: "WiFi", value: true },
     ],
-    priceRange: "€€",
   };
 
   return (
@@ -224,13 +223,14 @@ export default async function SmjestajPage({
           <div className="kon-stay mt-10">
             <StayCard
               naslov="Lux bungalovi"
-              badge="13 jedinica · 55 ležajeva"
+              badge="u aranžmanu"
               opis={
                 <>
                   Svaki bungalov ima{" "}
                   <strong className="font-semibold text-ink">sopstveno kupatilo</strong>{" "}
                   i toplu vodu. Namjerno jednostavni — čist, topao i tih prostor za
-                  odmor poslije rijeke, sa terasom uz vodu.
+                  odmor poslije rijeke, sa terasom uz vodu. Dostupni su kroz rafting
+                  aranžmane, ne kao samostalno noćenje.
                 </>
               }
               chips={[
@@ -239,8 +239,8 @@ export default async function SmjestajPage({
                 "Sopstveno kupatilo",
                 "Terasa uz rijeku",
               ]}
-              href="/rezervacija"
-              linkLabel="Rezerviši →"
+              href="/ponuda"
+              linkLabel="Pogledaj aranžmane →"
               slika={{
                 src: `${IMG}/smjestaj_kamp_konak.webp`,
                 alt: "Lux bungalovi kampa Konak",
@@ -320,21 +320,21 @@ export default async function SmjestajPage({
               letterSpacing: "-0.025em",
             }}
           >
-            Rezerviši svoj bungalov
+            Spoji smještaj sa avanturom
           </h2>
           <p
             className="mt-5 max-w-xl font-sans text-body"
             style={{ fontSize: "clamp(16px, 1.4vw, 19px)", lineHeight: 1.65 }}
           >
-            Spojite smještaj sa rafting aranžmanom ili nas pitajte za slobodne termine
-            i cijene.
+            Lux bungalovi idu uz rafting aranžmane. Auto kamp možete rezervisati
+            i samostalno — javite nam termin.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <CtaButton href="/rezervacija" arrow>
-              Rezerviši
+            <CtaButton href="/ponuda" arrow>
+              Pogledaj aranžmane
             </CtaButton>
             <CtaButton href="/kontakt" variant="secondary">
-              Pitaj za termine
+              Pošalji upit
             </CtaButton>
           </div>
         </div>

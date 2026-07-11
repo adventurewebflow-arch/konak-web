@@ -210,7 +210,7 @@ const RECENZIJE = [
 // Google Maps profil kampa (recenzije)
 const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/prErkjurQca1w3ccA";
 
-// FAQ — 13 pitanja (sekcija 4.9). ⚠️ PROVJERITI konkretne uslove (uzrast, plaćanje).
+// FAQ — 13 pitanja (sekcija 4.9).
 const FAQ_PITANJA = [
   {
     pitanje: "Da li je rafting na Tari bezbjedan?",
@@ -284,7 +284,7 @@ const BLOG_IMG = "/images/blog-konak";
 // Blog — 3 kartice (sekcija 4.10). Opisi su radni tekst do finalnih članaka.
 const BLOG_KARTICE = [
   {
-    href: "/blog",
+    href: "/blog/kada-na-taru",
     kategorija: "Vodič",
     naslov: "Kada je najbolje vrijeme za rafting na Tari?",
     opis: "Sezona, vodostaj i savjeti kako izabrati pravi termin za spust.",
@@ -305,9 +305,9 @@ const BLOG_KARTICE = [
   },
   {
     href: "/blog/np-sutjeska-vodic",
-    kategorija: "Priroda",
-    naslov: "NP Sutjeska: prašuma Perućica i Maglić",
-    opis: "Vodič kroz najstariju prašumu i najviši vrh BiH nadomak kampa.",
+    kategorija: "Izlet",
+    naslov: "NP Sutjeska — izlet iz kampa",
+    opis: "Perućica, Trnovačko i Maglić — šta se stigne za jedan dan.",
     slika: {
       src: `${BLOG_IMG}/blog-np-sutjeska-konak.jpg`,
       alt: "Nacionalni park Sutjeska — Perućica i Maglić",

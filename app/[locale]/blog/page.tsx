@@ -83,14 +83,14 @@ export default async function BlogPage({
         <div className="kon-container flex flex-col gap-10">
           <BlogCard
             featured
-            kategorija="IZDVOJENO · PRIPREMA"
+            kategorija="IZDVOJENO · PLANIRANJE"
             naslov={featured.title}
-            opis="Kompletna lista — šta dobijate od nas, a šta nosite sami: odjeća, obuća, zaštita od sunca i sitnice koje prave razliku na rijeci."
+            opis={featured.excerpt}
             href={`/blog/${featured.slug}`}
             linkLabel="Pročitaj"
             slika={{
-              src: "/images/rafting/rafting-galerija8.jpg",
-              alt: "Rafting oprema — kacige, prsluci i neopren na Tari",
+              src: "/images/blog-konak/blog-najbolje-vrijeme-rafting-konak.jpg",
+              alt: "Rafting na Tari — kada je najbolje vrijeme za spust",
             }}
           />
 
@@ -101,12 +101,17 @@ export default async function BlogPage({
                 slug === "np-sutjeska-vodic"
                   ? {
                       src: "/images/blog-konak/blog-np-sutjeska-konak.jpg",
-                      alt: "Nacionalni park Sutjeska — vodič i pejzaž",
+                      alt: "Nacionalni park Sutjeska — izlet iz kampa",
                     }
-                  : {
-                      src: "/images/hero-slike-konak/izleti-konak.png",
-                      alt: "Aktivnosti i izleti oko Tare",
-                    };
+                  : slug === "aktivnosti-na-tari"
+                    ? {
+                        src: "/images/hero-slike-konak/izleti-konak.png",
+                        alt: "Aktivnosti i izleti oko Tare",
+                      }
+                    : {
+                        src: "/images/blog-konak/blog-sta-ponijeti-konak.jpg",
+                        alt: "Šta ponijeti na rafting — oprema na Tari",
+                      };
               return (
                 <BlogCard
                   key={slug}

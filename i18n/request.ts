@@ -8,8 +8,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     ? requested
     : routing.defaultLocale;
 
-  // Prevod još ne postoji (Task 5). Dok fajl za traženi jezik ne postoji,
-  // pada nazad na srpski skelet — sadržaj ostaje srpski na svim rutama.
+  // Prevod (EN) još nije urađen — sadržaj ostaje srpski; messages/en.json je skelet.
   let messages: Record<string, unknown>;
   try {
     messages = (await import(`../messages/${locale}.json`)).default;

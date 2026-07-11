@@ -374,7 +374,7 @@ const TURE: Record<string, TuraData> = {
         label: "DAN 3",
         naslov: "Izlet ili mirno jutro",
         tekst:
-          "Poslije doručka birate: cjelodnevna aktivnost u Nacionalnom parku Sutjeska (dogovaramo se prema vašim željama), ili mirno jutro uz rijeku prije nego krenete. Kako vam duša kaže.",
+          "Poslije doručka birate: cjelodnevna aktivnost u Nacionalnom parku Sutjeska, ili mirno jutro uz rijeku prije nego krenete. Aktivnost trećeg dana dogovaramo na upit — gostima koji su već uzeli rafting aranžman pravimo najbolju cijenu.",
       },
     ],
     menuTitle: "Jelovnik (5 obroka)",
@@ -421,7 +421,9 @@ const TURE: Record<string, TuraData> = {
       ...NOT_INCLUDED_BASE,
       "Aktivnost u NP Sutjeska (3. dan) — na upit",
     ],
-    notesExtra: [],
+    notesExtra: [
+      "Aktivnost trećeg dana dogovaramo na upit — gostima koji su već uzeli rafting aranžman pravimo najbolju cijenu.",
+    ],
     similar: [
       {
         href: "/rafting/dvodnevni",

@@ -117,18 +117,19 @@ export default async function BlogClanakPage({
             <h3
               className="font-display text-2xl font-bold text-white sm:text-3xl"
             >
-              Spremni za Taru?
+              {post.cta ? "Spremni za sljedeći korak?" : "Spremni za Taru?"}
             </h3>
             <p
               className="mx-auto mt-4 max-w-lg font-sans text-on-dark"
               style={{ fontSize: "clamp(16px, 1.4vw, 18px)", lineHeight: 1.65 }}
             >
-              Izaberite turu i termin — cijenu računamo odmah, a upit šaljete u
-              dva klika.
+              {post.cta
+                ? "Javite nam šta vas zanima — dogovaramo termin i detalje."
+                : "Izaberite turu i termin — cijenu računamo odmah, a upit šaljete u dva klika."}
             </p>
             <div className="mt-8">
-              <CtaButton href="/rezervacija" arrow>
-                Rezerviši rafting
+              <CtaButton href={post.cta?.href ?? "/rezervacija"} arrow>
+                {post.cta?.label ?? "Rezerviši rafting"}
               </CtaButton>
             </div>
           </div>

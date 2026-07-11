@@ -50,7 +50,7 @@ const INFO = [
 const RUTE = [
   {
     naslov: "Iz Sarajeva",
-    opis: "Putem preko Foče i Tjentišta, kroz NP Sutjeska, do Huma.",
+    opis: "Sarajevo → Trnovo → Foča → Hum.",
     meta: "90 km",
   },
   {

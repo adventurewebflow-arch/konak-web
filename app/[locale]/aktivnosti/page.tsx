@@ -71,12 +71,12 @@ const AKTIVNOSTI = [
     kategorija: "Avantura · na upit",
     naslov: "Jahanje konja",
     opis:
-      "Staza do vidikovca sa pogledom na kanjon Tare — i za početnike. Cijena na upit.",
+      "Jahanje na vrhu najdubljeg kanjona Tare — pogled odozgo na rijeku, hiljadu i tri stotine metara ispod. Organizujemo na upit.",
     href: "/kontakt",
     linkLabel: "Pošalji upit →",
     slika: {
-      src: "/images/galerija/galerija11.jpg",
-      alt: "Priroda oko kampa Konak — staza za jahanje uz kanjon Tare",
+      src: "/images/hero-slike-konak/np-sutjeska-konak.webp",
+      alt: "Pogled na kanjon Tare — jahanje na vidikovcu",
     },
   },
 ];
