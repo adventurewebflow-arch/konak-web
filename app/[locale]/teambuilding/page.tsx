@@ -256,7 +256,7 @@ export default async function TeambuildingPage({
             className="mt-4 max-w-2xl font-sans text-body"
             style={{ fontSize: "clamp(16px, 1.35vw, 18px)", lineHeight: 1.65 }}
           >
-            Popunite formu — šaljemo upit direktno na WhatsApp ili e-mail kampa.
+            Popunite formu — šaljemo upit direktno u kamp. Možete i preko WhatsApp-a.
             Minimum 4 osobe; odgovaramo sa ponudom i tačnim terminom.
           </p>
           <div className="mt-8 max-w-2xl">

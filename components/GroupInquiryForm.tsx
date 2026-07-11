@@ -1,56 +1,37 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { CtaButton } from "./CtaButton";
+import {
+  CAMP_EMAIL,
+  EMPTY_UTM,
+  FORM_ERROR_MSG,
+  FORM_SUCCESS_MSG,
+  readUtmFromWindow,
+  submitToFormspree,
+  type UtmFields,
+} from "@/lib/formspree";
 
 const WHATSAPP_NUM = "38765848110";
-const EMAIL = "konakraftingkamp@gmail.com";
 const MIN_LJUDI = 4;
 
-interface Utm {
-  utm_source: string;
-  utm_medium: string;
-  utm_campaign: string;
-  utm_term: string;
-  utm_content: string;
-  gclid: string;
-  referrer: string;
-  landing_page: string;
-}
-
-const EMPTY_UTM: Utm = {
-  utm_source: "",
-  utm_medium: "",
-  utm_campaign: "",
-  utm_term: "",
-  utm_content: "",
-  gclid: "",
-  referrer: "",
-  landing_page: "",
-};
+type Status = "idle" | "loading" | "success" | "error";
 
 export function GroupInquiryForm() {
   const [firma, setFirma] = useState("");
   const [kontakt, setKontakt] = useState("");
   const [telefon, setTelefon] = useState("");
+  const [email, setEmail] = useState("");
   const [ljudi, setLjudi] = useState(MIN_LJUDI);
   const [datum, setDatum] = useState("");
   const [poruka, setPoruka] = useState("");
-  const [utm, setUtm] = useState<Utm>(EMPTY_UTM);
+  const [gotcha, setGotcha] = useState("");
+  const [utm, setUtm] = useState<UtmFields>(EMPTY_UTM);
+  const [status, setStatus] = useState<Status>("idle");
 
   useEffect(() => {
-    const p = new URLSearchParams(window.location.search);
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setUtm({
-      utm_source: p.get("utm_source") ?? "",
-      utm_medium: p.get("utm_medium") ?? "",
-      utm_campaign: p.get("utm_campaign") ?? "",
-      utm_term: p.get("utm_term") ?? "",
-      utm_content: p.get("utm_content") ?? "",
-      gclid: p.get("gclid") ?? "",
-      referrer: document.referrer || "",
-      landing_page: window.location.href || "",
-    });
+    setUtm(readUtmFromWindow());
   }, []);
 
   const tekst = useMemo(() => {
@@ -59,6 +40,7 @@ export function GroupInquiryForm() {
     l.push(`Firma / organizacija: ${firma || "—"}`);
     l.push(`Kontakt osoba: ${kontakt || "—"}`);
     l.push(`Telefon: ${telefon || "—"}`);
+    if (email) l.push(`Email: ${email}`);
     l.push(`Broj ljudi: ${ljudi}`);
     l.push(`Datum: ${datum || "nije izabran"}`);
     if (poruka) l.push(`Poruka: ${poruka}`);
@@ -77,22 +59,64 @@ export function GroupInquiryForm() {
       l.push(...tail);
     }
     return l.join("\n");
-  }, [firma, kontakt, telefon, ljudi, datum, poruka, utm]);
+  }, [firma, kontakt, telefon, email, ljudi, datum, poruka, utm]);
 
   const waHref = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(tekst)}`;
-  const mailHref = `mailto:${EMAIL}?subject=${encodeURIComponent(
-    `Upit grupe: ${firma || kontakt || "Teambuilding"}`,
-  )}&body=${encodeURIComponent(tekst)}`;
 
   const inputCls =
     "w-full rounded-input border border-line bg-surface px-4 py-3 font-sans text-[15px] text-ink outline-none focus:border-teal";
   const labelCls =
     "mb-2 block font-sans text-[11px] font-bold uppercase tracking-[0.16em] text-muted";
 
-  const canSend = firma.trim() && kontakt.trim() && telefon.trim() && datum && ljudi >= MIN_LJUDI;
+  const canSend = Boolean(
+    firma.trim() &&
+      kontakt.trim() &&
+      telefon.trim() &&
+      email.trim() &&
+      datum &&
+      ljudi >= MIN_LJUDI,
+  );
+
+  async function onSubmit(e: FormEvent) {
+    e.preventDefault();
+    if (!canSend || status === "loading") return;
+
+    setStatus("loading");
+    const result = await submitToFormspree({
+      tip: "Teambuilding / Grupa",
+      _subject: `KONAK — Upit za grupu: ${firma.trim() || kontakt.trim()}`,
+      _gotcha: gotcha,
+      email: email.trim(),
+      firma: firma.trim(),
+      kontakt_osoba: kontakt.trim(),
+      telefon: telefon.trim(),
+      broj_ljudi: ljudi,
+      datum,
+      poruka: poruka.trim(),
+      ...utm,
+    });
+
+    setStatus(result.ok ? "success" : "error");
+  }
 
   return (
-    <div className="rounded-card-lg border border-line bg-surface p-6 sm:p-8">
+    <form onSubmit={onSubmit} className="rounded-card-lg border border-line bg-surface p-6 sm:p-8" noValidate>
+      <div
+        className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
+        aria-hidden="true"
+      >
+        <label htmlFor="grp-gotcha">Ne popunjavajte</label>
+        <input
+          id="grp-gotcha"
+          type="text"
+          name="_gotcha"
+          tabIndex={-1}
+          autoComplete="off"
+          value={gotcha}
+          onChange={(e) => setGotcha(e.target.value)}
+        />
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="grp-firma" className={labelCls}>
@@ -134,6 +158,19 @@ export function GroupInquiryForm() {
           />
         </div>
         <div>
+          <label htmlFor="grp-email" className={labelCls}>
+            E-mail
+          </label>
+          <input
+            id="grp-email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className={inputCls}
+          />
+        </div>
+        <div>
           <span className={labelCls}>Broj ljudi (min. {MIN_LJUDI})</span>
           <div className="flex items-center gap-3">
             <button
@@ -159,7 +196,7 @@ export function GroupInquiryForm() {
             </button>
           </div>
         </div>
-        <div className="sm:col-span-2">
+        <div>
           <label htmlFor="grp-datum" className={labelCls}>
             Datum dolaska
           </label>
@@ -189,37 +226,58 @@ export function GroupInquiryForm() {
         </div>
       </div>
 
+      {status === "success" && (
+        <p
+          role="status"
+          className="mt-5 rounded-input border border-mint-border bg-mint-surface px-4 py-3 font-sans text-sm font-semibold text-pine"
+        >
+          {FORM_SUCCESS_MSG}
+        </p>
+      )}
+      {status === "error" && (
+        <p
+          role="alert"
+          className="mt-5 rounded-input border border-terracotta/40 bg-terracotta/10 px-4 py-3 font-sans text-sm font-semibold text-ink"
+        >
+          {FORM_ERROR_MSG}
+        </p>
+      )}
+
       <div className="mt-6 flex flex-col gap-2.5 sm:flex-row">
+        <CtaButton
+          type="submit"
+          variant="primary"
+          className="w-full sm:flex-1"
+          disabled={!canSend || status === "loading"}
+        >
+          {status === "loading" ? "Šalje se…" : "Pošalji upit"}
+        </CtaButton>
         {canSend ? (
-          <>
-            <CtaButton href={waHref} variant="primary" className="w-full sm:flex-1">
-              Pošalji na WhatsApp
-            </CtaButton>
-            <CtaButton href={mailHref} variant="secondary" className="w-full sm:flex-1">
-              Ili pošalji e-mailom
-            </CtaButton>
-          </>
+          <CtaButton href={waHref} variant="secondary" className="w-full sm:flex-1">
+            Ili pošalji na WhatsApp
+          </CtaButton>
         ) : (
-          <>
-            <CtaButton variant="primary" className="w-full cursor-not-allowed opacity-50 sm:flex-1" aria-disabled>
-              Pošalji na WhatsApp
-            </CtaButton>
-            <CtaButton variant="secondary" className="w-full cursor-not-allowed opacity-50 sm:flex-1" aria-disabled>
-              Ili pošalji e-mailom
-            </CtaButton>
-          </>
+          <CtaButton
+            variant="secondary"
+            className="w-full cursor-not-allowed opacity-50 sm:flex-1"
+            aria-disabled
+          >
+            Ili pošalji na WhatsApp
+          </CtaButton>
         )}
       </div>
 
       {!canSend && (
         <p className="mt-3 font-sans text-xs text-muted">
-          Popunite firmu, kontakt osobu, telefon, datum i broj ljudi (min. {MIN_LJUDI}).
+          Popunite firmu, kontakt osobu, telefon, e-mail, datum i broj ljudi (min.{" "}
+          {MIN_LJUDI}).
         </p>
       )}
 
-      {Object.entries(utm).map(([k, v]) => (
-        <input key={k} type="hidden" name={k} value={v} readOnly />
-      ))}
-    </div>
+      <p className="mt-4 font-sans text-xs text-muted">
+        Ili nam pišite na{" "}
+        <span className="font-semibold text-body">{CAMP_EMAIL}</span>
+      </p>
+    </form>
   );
 }

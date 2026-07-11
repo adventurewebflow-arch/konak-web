@@ -61,7 +61,7 @@ export default async function RezervacijaPage({
             <span className="text-teal-light">vidi cijenu odmah.</span>
           </>
         }
-        lead="Izaberi turu, datum, broj osoba i dodatke — cijenu računamo u realnom vremenu. Upit šalješ na WhatsApp ili e-mail u dva klika."
+        lead="Izaberi turu, datum, broj osoba i dodatke — cijenu računamo u realnom vremenu. Upit šalješ online ili na WhatsApp."
       />
 
       <section className="kon-section">

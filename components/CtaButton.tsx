@@ -16,7 +16,9 @@ interface CtaButtonProps {
   type?: "button" | "submit" | "reset";
   className?: string;
   onClick?: () => void;
+  disabled?: boolean;
   "aria-label"?: string;
+  "aria-disabled"?: boolean;
 }
 
 const BASE =
@@ -67,11 +69,15 @@ export function CtaButton({
   type = "button",
   className = "",
   onClick,
+  disabled = false,
   "aria-label": ariaLabel,
+  "aria-disabled": ariaDisabled,
 }: CtaButtonProps) {
   const shadow =
     variant === "primary" ? (size === "sm" ? "shadow-cta-sm" : "shadow-cta") : "";
-  const cls = `${BASE} ${SIZES[size]} ${VARIANTS[variant]} ${shadow} ${className}`.trim();
+  const cls = `${BASE} ${SIZES[size]} ${VARIANTS[variant]} ${shadow} ${
+    disabled ? "pointer-events-none opacity-50" : ""
+  } ${className}`.trim();
 
   const content = (
     <>
@@ -96,7 +102,14 @@ export function CtaButton({
   }
 
   return (
-    <button type={type} className={cls} aria-label={ariaLabel} onClick={onClick}>
+    <button
+      type={type}
+      className={cls}
+      aria-label={ariaLabel}
+      aria-disabled={ariaDisabled}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {content}
     </button>
   );

@@ -1,10 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { CtaButton } from "./CtaButton";
+import {
+  CAMP_EMAIL,
+  EMPTY_UTM,
+  FORM_ERROR_MSG,
+  FORM_SUCCESS_MSG,
+  readUtmFromWindow,
+  submitToFormspree,
+  type UtmFields,
+} from "@/lib/formspree";
 
 const WHATSAPP_NUM = "38765848110";
-const EMAIL = "konakraftingkamp@gmail.com";
 
 interface Tour {
   id: string;
@@ -33,27 +41,7 @@ const DODACI = [
   { id: "jahanje", naziv: "Jahanje konja", sub: "vidikovac" },
 ];
 
-interface Utm {
-  utm_source: string;
-  utm_medium: string;
-  utm_campaign: string;
-  utm_term: string;
-  utm_content: string;
-  gclid: string;
-  referrer: string;
-  landing_page: string;
-}
-
-const EMPTY_UTM: Utm = {
-  utm_source: "",
-  utm_medium: "",
-  utm_campaign: "",
-  utm_term: "",
-  utm_content: "",
-  gclid: "",
-  referrer: "",
-  landing_page: "",
-};
+type Status = "idle" | "loading" | "success" | "error";
 
 function isWeekend(dateStr: string, tour: Tour): boolean {
   if (!dateStr || !tour.weekend) return false;
@@ -122,23 +110,15 @@ export function BookingCalculator() {
   const [ime, setIme] = useState("");
   const [telefon, setTelefon] = useState("");
   const [email, setEmail] = useState("");
-  const [utm, setUtm] = useState<Utm>(EMPTY_UTM);
+  const [gotcha, setGotcha] = useState("");
+  const [utm, setUtm] = useState<UtmFields>(EMPTY_UTM);
+  const [status, setStatus] = useState<Status>("idle");
 
   // UTM čitamo tek nakon mounta (window je dostupan samo na klijentu);
   // ostaje prazno pri SSR-u da izbjegnemo hydration mismatch.
   useEffect(() => {
-    const p = new URLSearchParams(window.location.search);
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setUtm({
-      utm_source: p.get("utm_source") ?? "",
-      utm_medium: p.get("utm_medium") ?? "",
-      utm_campaign: p.get("utm_campaign") ?? "",
-      utm_term: p.get("utm_term") ?? "",
-      utm_content: p.get("utm_content") ?? "",
-      gclid: p.get("gclid") ?? "",
-      referrer: document.referrer || "",
-      landing_page: window.location.href || "",
-    });
+    setUtm(readUtmFromWindow());
   }, []);
 
   const tour = TOURS.find((t) => t.id === tourId) ?? TOURS[0];
@@ -212,12 +192,44 @@ export function BookingCalculator() {
   ]);
 
   const waHref = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(poruka)}`;
-  const mailHref = `mailto:${EMAIL}?subject=${encodeURIComponent(
-    `Upit: ${tour.naziv}`,
-  )}&body=${encodeURIComponent(poruka)}`;
 
   const toggleDodatak = (id: string) =>
     setAddons((prev) => ({ ...prev, [id]: !prev[id] }));
+
+  const canSubmit = Boolean(ime.trim() && telefon.trim() && email.trim() && datum);
+
+  async function onSubmit(e: FormEvent) {
+    e.preventDefault();
+    if (!canSubmit || status === "loading") return;
+
+    setStatus("loading");
+    const result = await submitToFormspree({
+      tip: "Rezervacija",
+      _subject: `KONAK — Rezervacija: ${tour.naziv}`,
+      _gotcha: gotcha,
+      email: email.trim(),
+      ime: ime.trim(),
+      telefon: telefon.trim(),
+      tura: tour.naziv,
+      tura_id: tour.id,
+      datum,
+      osobe,
+      djeca,
+      rucak:
+        tour.id === "r1" ? (lunch ? "sa ručkom" : "bez ručka") : "n/a",
+      vikend: weekend ? "da" : "ne",
+      cijena_po_osobi: perPerson,
+      procjena_ukupno: `${total}€`,
+      dodatne_aktivnosti: activeDodaci.length
+        ? activeDodaci.map((d) => d.naziv).join(", ")
+        : "—",
+      posebna_ishrana: ishrana.trim() || "—",
+      poruka_sažetak: poruka,
+      ...utm,
+    });
+
+    setStatus(result.ok ? "success" : "error");
+  }
 
   const stepLabel =
     "mb-4 inline-flex items-center gap-2.5 font-display text-lg font-bold text-pine";
@@ -367,7 +379,27 @@ export function BookingCalculator() {
 
       {/* DESNO — sažetak + forma (tamna sticky kartica) */}
       <aside className="kon-calc-side">
-        <div className="rounded-card-lg bg-ink p-7 text-on-dark">
+        <form
+          onSubmit={onSubmit}
+          noValidate
+          className="rounded-card-lg bg-ink p-7 text-on-dark"
+        >
+          <div
+            className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
+            aria-hidden="true"
+          >
+            <label htmlFor="rez-gotcha">Ne popunjavajte</label>
+            <input
+              id="rez-gotcha"
+              type="text"
+              name="_gotcha"
+              tabIndex={-1}
+              autoComplete="off"
+              value={gotcha}
+              onChange={(e) => setGotcha(e.target.value)}
+            />
+          </div>
+
           <div className="flex items-center justify-between gap-3">
             <h2 className="font-display text-xl font-bold text-white">
               Tvoja avantura
@@ -431,6 +463,7 @@ export function BookingCalculator() {
               value={ime}
               onChange={(e) => setIme(e.target.value)}
               placeholder="Ime i prezime"
+              required
               className="w-full rounded-input border border-white/15 bg-white/5 px-4 py-3 font-sans text-[15px] text-white placeholder:text-on-dark-muted outline-none focus:border-teal-light"
             />
             <input
@@ -438,36 +471,62 @@ export function BookingCalculator() {
               value={telefon}
               onChange={(e) => setTelefon(e.target.value)}
               placeholder="Telefon / WhatsApp"
+              required
               className="w-full rounded-input border border-white/15 bg-white/5 px-4 py-3 font-sans text-[15px] text-white placeholder:text-on-dark-muted outline-none focus:border-teal-light"
             />
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email (opciono)"
+              placeholder="E-mail"
+              required
               className="w-full rounded-input border border-white/15 bg-white/5 px-4 py-3 font-sans text-[15px] text-white placeholder:text-on-dark-muted outline-none focus:border-teal-light"
             />
           </div>
 
+          {status === "success" && (
+            <p
+              role="status"
+              className="mt-4 rounded-input border border-teal/40 bg-teal/15 px-4 py-3 font-sans text-sm font-semibold text-teal-light"
+            >
+              {FORM_SUCCESS_MSG}
+            </p>
+          )}
+          {status === "error" && (
+            <p
+              role="alert"
+              className="mt-4 rounded-input border border-terracotta/50 bg-terracotta/20 px-4 py-3 font-sans text-sm font-semibold text-white"
+            >
+              {FORM_ERROR_MSG}
+            </p>
+          )}
+
           <div className="mt-4 flex flex-col gap-2.5">
-            <CtaButton href={waHref} variant="primary" className="w-full">
-              Pošalji upit na WhatsApp
+            <CtaButton
+              type="submit"
+              variant="primary"
+              className="w-full"
+              disabled={!canSubmit || status === "loading"}
+            >
+              {status === "loading" ? "Šalje se…" : "Pošalji upit"}
             </CtaButton>
-            <CtaButton href={mailHref} variant="ghost" className="w-full">
-              Ili pošalji e-mailom
+            <CtaButton href={waHref} variant="ghost" className="w-full">
+              Ili pošalji na WhatsApp
             </CtaButton>
           </div>
 
+          {!canSubmit && (
+            <p className="mt-3 font-sans text-xs text-on-dark-muted">
+              Unesite datum, ime, telefon i e-mail da pošaljete upit.
+            </p>
+          )}
+
           <p className="mt-4 font-sans text-xs leading-relaxed text-on-dark-muted">
             * Okvirna cijena. Djeca do 6 god. besplatno, 6–12 god. 50%. Tačan termin
-            i ponudu potvrđujemo nakon upita.
+            i ponudu potvrđujemo nakon upita. Pišite nam i na{" "}
+            <span className="text-on-dark">{CAMP_EMAIL}</span>.
           </p>
-
-          {/* Skrivena UTM polja (za budući backend) */}
-          {Object.entries(utm).map(([k, v]) => (
-            <input key={k} type="hidden" name={k} value={v} readOnly />
-          ))}
-        </div>
+        </form>
       </aside>
     </div>
   );
