@@ -98,6 +98,10 @@ export default async function IzletiPage({
           </>
         }
         lead="Najljepši boravci su oni koji spoje vodu i planinu. Evo kombinacija koje gosti najviše vole — rafting kao okosnica, a uz njega što god poželite."
+        slika={{
+          src: "/images/hero-slike-konak/izleti-konak.png",
+          alt: "Planinski izleti oko Tare i NP Sutjeska",
+        }}
       />
 
       {/* 4.3 — Omiljene kombinacije */}

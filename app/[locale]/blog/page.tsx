@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
+import { Hero } from "@/components/Hero";
 import { BlogCard } from "@/components/BlogCard";
 import {
   BLOG_POSTS,
@@ -66,33 +67,17 @@ export default async function BlogPage({
 
   return (
     <>
-      <section
-        className="kon-section bg-sand"
-        style={{ paddingBlock: "clamp(44px, 8vh, 84px)" }}
-      >
-        <div className="kon-container">
-          <span className="font-sans text-xs font-bold uppercase tracking-[0.14em] text-teal">
-            Vodič kroz Taru
-          </span>
-          <h1
-            className="mt-3 font-display font-extrabold text-pine"
-            style={{
-              fontSize: "clamp(36px, 5vw, 68px)",
-              lineHeight: 1.05,
-              letterSpacing: "-0.025em",
-            }}
-          >
-            Blog i savjeti
-          </h1>
-          <p
-            className="mt-5 max-w-2xl font-sans text-body"
-            style={{ fontSize: "clamp(16px, 1.4vw, 19px)", lineHeight: 1.65 }}
-          >
-            Sve što treba da znate prije dolaska — vrijeme, priprema, oprema i
-            najljepše tačke kanjona Tare.
-          </p>
-        </div>
-      </section>
+      <Hero
+        variant="b"
+        visina="48vh"
+        eyebrow="Vodič kroz Taru"
+        naslov="Blog i savjeti"
+        lead="Sve što treba da znate prije dolaska — vrijeme, priprema, oprema i najljepše tačke kanjona Tare."
+        slika={{
+          src: "/images/blog-konak/blog-najbolje-vrijeme-rafting-konak.jpg",
+          alt: "Rafting na Tari — blog i vodiči kampa Konak",
+        }}
+      />
 
       <section className="kon-section">
         <div className="kon-container flex flex-col gap-10">

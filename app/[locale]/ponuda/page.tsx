@@ -97,6 +97,10 @@ export default async function PonudaPage({
           </>
         }
         lead="Uporedite rafting ture, kanjoning i izlete sa cijenama za sezonu 2026, pa izaberite svoj doživljaj."
+        slika={{
+          src: "/images/galerija/galerija9.jpg",
+          alt: "Rafting i avanture u ponudi kampa Konak",
+        }}
       />
 
       <section className="kon-section">

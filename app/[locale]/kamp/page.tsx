@@ -146,6 +146,10 @@ export default async function KampPage({
         eyebrow="Kamp Konak"
         naslov="Domaćinstvo na obali"
         lead="Tamo gdje se Tara i Piva spajaju u Drinu, u Humu kod Foče. Vaša baza za avanturu — topla, mirna i na samoj rijeci."
+        slika={{
+          src: "/images/kamp/dobra_slika_konaka.webp",
+          alt: "Rafting kamp Konak na obali Tare",
+        }}
       />
 
       {/* 4.3 — O KAMPU split */}

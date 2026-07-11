@@ -114,6 +114,10 @@ export default async function AktivnostiPage({
         eyebrow="Više od rijeke"
         naslov="Aktivnosti oko kampa"
         lead="Nacionalni parkovi, kanjoning, planinski izleti i jahanje — spojite više avantura u jedan boravak. Sve organizujemo iz kampa."
+        slika={{
+          src: "/images/blog-konak/blog-np-sutjeska-konak.jpg",
+          alt: "Aktivnosti oko kampa — pogled na NP Sutjeska",
+        }}
       />
 
       <section className="kon-section">

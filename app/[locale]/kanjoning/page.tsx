@@ -76,6 +76,10 @@ export default async function KanjoningPage({
         eyebrow="Kanjoning"
         naslov="Kanjoning"
         lead="Tamo gdje rafting stane, kanjoning počinje. Skokovi, tobogani i prolazi kroz dva najljepša kanjona u okolini — uz iskusne vodiče."
+        slika={{
+          src: "/images/hero-slike-konak/kanjoning-pocetna.jpg",
+          alt: "Kanjoning na Tari — prolaz kroz kanjon",
+        }}
       />
 
       <section className="kon-section">

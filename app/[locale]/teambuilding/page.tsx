@@ -180,6 +180,10 @@ export default async function TeambuildingPage({
           </>
         }
         lead="Firme, škole i sportske ekipe — sve na jednom mjestu uz Taru. Rafting, kanjoning, smještaj i domaća kuhinja bez logističke muke."
+        slika={{
+          src: "/images/galerija/galerija25.jpg",
+          alt: "Teambuilding grupa na raftingu u kampu Konak",
+        }}
       />
 
       {/* Zašto Konak */}

@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Hero } from "@/components/Hero";
-import { BookingCalculator } from "@/components/BookingCalculator";
+import { ReservationForm } from "@/components/ReservationForm";
 
 export const metadata: Metadata = {
-  title: "Rezervacija i kalkulator cijene — Rafting kamp Konak | Tara",
+  title: "Rezervacija — pošalji upit | Rafting kamp Konak",
   description:
-    "Izračunaj cijenu rafting ture na Tari: izaberi turu, datum, broj osoba i dodatke — cijena se računa odmah. Pošalji upit na WhatsApp ili e-mail.",
+    "Pošaljite upit za rafting, kanjoning ili teambuilding na Tari. Javljamo se u najkraćem roku sa tačnom ponudom — za grupe imamo dobar popust.",
   keywords: [
-    "rafting Tara cijena",
-    "rezervacija rafting",
-    "kalkulator rafting",
+    "rezervacija rafting Tara",
+    "upit rafting kamp Konak",
+    "rafting rezervacija",
     "rafting kamp Konak rezervacija",
   ],
   alternates: { canonical: "https://www.raftingkampkonak.com/rezervacija" },
   openGraph: {
-    title: "Rezervacija i kalkulator cijene — Rafting kamp Konak",
+    title: "Rezervacija — Rafting kamp Konak",
     description:
-      "Sastavi paket i vidi cijenu odmah. Upit šalješ na WhatsApp ili e-mail u dva klika.",
+      "Pošaljite upit za turu. Cijene su okvirne — javljamo se sa tačnom ponudom.",
     type: "website",
   },
 };
@@ -53,20 +53,20 @@ export default async function RezervacijaPage({
 
       <Hero
         variant="b"
-        visina="52vh"
+        visina="48vh"
         eyebrow="Rezervacija"
         naslov={
           <>
-            Sastavi paket,{" "}
-            <span className="text-teal-light">vidi cijenu odmah.</span>
+            Pošalji upit,{" "}
+            <span className="text-teal-light">javljamo se brzo.</span>
           </>
         }
-        lead="Izaberi turu, datum, broj osoba i dodatke — cijenu računamo u realnom vremenu. Upit šalješ online ili na WhatsApp."
+        lead="Izaberi turu, datum i broj osoba — ostalo dogovaramo nakon upita. Za grupe imamo dobar popust."
       />
 
       <section className="kon-section">
         <div className="kon-container">
-          <BookingCalculator />
+          <ReservationForm />
         </div>
       </section>
     </>
