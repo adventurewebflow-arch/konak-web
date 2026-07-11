@@ -44,7 +44,7 @@ const FAQ: FaqItem[] = [
   {
     pitanje: "Koliki je minimalan broj učesnika?",
     odgovor:
-      "Za jednodnevni rafting nema minimuma — vodimo i pojedince i parove. Za višednevne aranžmane i za kanjoning minimum je 4 osobe.",
+      "Nema minimalnog broja učesnika — vodimo i pojedince i parove. Možete se priključiti postojećoj grupi.",
   },
   {
     pitanje: "Mogu li djeca na rafting?",

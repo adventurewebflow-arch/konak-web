@@ -41,7 +41,7 @@ const TURE = [
     kicker: "1 DAN · bez noćenja",
     naslov: "Jednodnevni rafting",
     opis:
-      "Idealan za one u prolazu — spust uz ručak (domaća kuhinja) i stajanja za kupanje u srcu kanjona. Sve uključeno.",
+      "Osamnaest kilometara i osamnaest bukova kroz najljepši dio kanjona Tare. Bez noćenja — 50 € bez ručka ili 65 € sa domaćim ručkom.",
     cijena: "50€",
     cijenaLabel: "od",
     obrnuto: false,
@@ -55,7 +55,7 @@ const TURE = [
     kicker: "2 DANA · 1 noćenje · pun pansion",
     naslov: "Dvodnevni aranžman",
     opis:
-      "Doček i večera prvog dana, zabava u kampu i noćenje u lux bungalovu, pa rafting drugog dana.",
+      "Jedno veče u kampu i jedan dan na rijeci — večera kraj vatre, pa spust 18 km.",
     cijena: "100€",
     cijenaLabel: "od",
     obrnuto: true,
@@ -69,7 +69,7 @@ const TURE = [
     kicker: "3 DANA · 2 noćenja · 5 obroka",
     naslov: "Trodnevni aranžman",
     opis:
-      "Najpopularniji aranžman: Brštanovica – Šćepan Polje – Hum. Rafting, relax i dvije večeri zabave uz domaću kuhinju.",
+      "Aranžman koji gosti najčešće biraju — rafting, dvije večeri u kampu i dan za Sutjesku ili mir.",
     cijena: "140€",
     cijenaLabel: "od",
     tag: "Najtraženije",
@@ -84,7 +84,7 @@ const TURE = [
     kicker: "4 DANA · 76 km · cijeli tok",
     naslov: "Rafting cijelim tokom Tare",
     opis:
-      "Đurđevića Tara – Brštanovica – Šćepan Polje – Hum. Najveća avantura koju Tara nudi: 8 obroka, 3 noćenja.",
+      "Cijeli plovni tok — 76 km od Đurđevića mosta do Huma, pećine, vodopadi i noć u kanjonu.",
     cijena: "300€",
     cijenaLabel: "od",
     tamna: true,

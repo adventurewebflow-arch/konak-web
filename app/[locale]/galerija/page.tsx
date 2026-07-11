@@ -203,8 +203,24 @@ const FOTOS: GalleryPhoto[] = [
     src: `${IMG}/toalet_kamp_konak.webp`,
     alt: "Privatno kupatilo u bungalovu kampa Konak",
   },
+  {
+    id: "k-9",
+    labela: "Auto kamp",
+    cat: "kamp",
+    aspect: aspectAt(8),
+    src: "/images/autokamp/autokapm-konak.jpg",
+    alt: "Auto kamp na obali Tare — parcele za kampere",
+  },
+  {
+    id: "k-10",
+    labela: "Kamperi u kampu",
+    cat: "kamp",
+    aspect: aspectAt(9),
+    src: "/images/autokamp/auto-konak.jpg",
+    alt: "Auto kamp Konak — kamperi pod krošnjama",
+  },
 
-  // Hrana (6)
+  // Hrana
   {
     id: "h-1",
     labela: "Čorba i ručak",
@@ -252,6 +268,38 @@ const FOTOS: GalleryPhoto[] = [
     aspect: aspectAt(5),
     src: `${IMG}/rucak_konak.jpg`,
     alt: "Domaći ručak ispod sača u kampu Konak",
+  },
+  {
+    id: "h-7",
+    labela: "Balkanski doručak",
+    cat: "hrana",
+    aspect: aspectAt(6),
+    src: "/images/hrana/dorucak2.jpg",
+    alt: "Domaći doručak — jaja, pršuta, sir i kajmak",
+  },
+  {
+    id: "h-8",
+    labela: "Obilni doručak",
+    cat: "hrana",
+    aspect: aspectAt(7),
+    src: "/images/hrana/dorucak3.jpg",
+    alt: "Obilni doručak za goste kampa Konak",
+  },
+  {
+    id: "h-9",
+    labela: "Ispod sača",
+    cat: "hrana",
+    aspect: aspectAt(8),
+    src: "/images/hrana/sac-konak.jpg",
+    alt: "Teletina ispod sača — pečenje u kaminu",
+  },
+  {
+    id: "h-10",
+    labela: "Kolač i ručak",
+    cat: "hrana",
+    aspect: aspectAt(9),
+    src: "/images/hrana/dorucak-dezert-konak.jpg",
+    alt: "Domaći čokoladni kolač uz ručak ispod sača",
   },
 ];
 

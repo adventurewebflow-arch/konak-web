@@ -7,10 +7,14 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { CtaButton } from "@/components/CtaButton";
 import { ImageSlot } from "@/components/ImageSlot";
+import { TourCard } from "@/components/TourCard";
+import { Breadcrumbs, breadcrumbListLd } from "@/components/Breadcrumbs";
 
 const SITE = "https://www.raftingkampkonak.com";
 const WHATSAPP_NUM = "38765848110";
 const EMAIL = "konakraftingkamp@gmail.com";
+const HERO_IMG = "/images/hero-slike-konak";
+const RAFTING_IMG = "/images/rafting";
 
 interface ProgramItem {
   broj: number;
@@ -19,237 +23,557 @@ interface ProgramItem {
   tekst: string;
 }
 
+interface PriceOption {
+  label: string;
+  price: string;
+}
+
+interface MenuItem {
+  label?: string;
+  tekst: string;
+}
+
+interface SimilarCard {
+  href: string;
+  naslov: string;
+  opis: string;
+  kicker: string;
+  cijena: string;
+  tag?: string;
+  slika?: { src: string; alt: string };
+  fakti?: { tekst: string }[];
+}
+
 interface TuraData {
   badge: string;
   title: string;
   subtitle: string;
   price: string;
   priceNote: string;
+  priceOptions: PriceOption[];
   unit: number;
   durationFact: string;
   stayFact: string;
   mealsFact: string;
   intro: string;
+  introExtra?: string;
   program: ProgramItem[];
+  menuTitle: string;
+  menuItems: MenuItem[];
+  menuNote?: string;
+  canyonStay?: string;
   included: string[];
+  notIncluded: string[];
+  notesExtra: string[];
+  similar: SimilarCard[];
+  cardKicker: string;
+  cardCijena: string;
   metaTitle: string;
   metaDescription: string;
 }
 
-// Podaci doslovno iz page-tura-detalj.md (sekcija 5) + page-rafting.md (subtitle/opis).
-// Napomena: included[] za višednevne izveden iz fakata + FAQ #2 (dokument ga eksplicitno daje samo za jednodnevni).
+/** Zajedničke napomene — rafting-ture-obogacene.md */
+const NOTES_SHARED = [
+  "Iskustvo nije potrebno — Tara je idealna i za one koji prvi put sjedaju u čamac.",
+  "Dolazak u kamp nije vezan za sat — dođite kad vam odgovara, dobrodošli ste.",
+  "Djeca do 6 godina besplatno, od 6 do 12 godina pola cijene.",
+  "Obavezno ponesite ličnu kartu ili pasoš — rijeka na dijelu toka prolazi kroz dvije države.",
+  "Ponesite kupaći, peškir, suvu odjeću i obuću koja smije da se pokvasi. Sve ostalo dobijate od nas.",
+  "Do kampa gosti dolaze sami. Za grupe od 6 i više osoba možemo organizovati prevoz — plaća se posebno, javite se da dogovorimo.",
+  "Za veće grupe imamo dobar popust — pozovite nas i dogovorićemo se.",
+  "Plaćanje je isključivo u gotovini, u kampu. Kartice ne primamo.",
+  "Sezona: maj–oktobar. Zadržavamo pravo procjene vremenskih uslova radi sigurnosti gostiju.",
+];
+
+const NOT_INCLUDED_BASE = [
+  "Piće u restoranu i na vodi",
+  "Lični troškovi",
+];
+
+// Sadržaj iz rafting-ture-obogacene.md
 const TURE: Record<string, TuraData> = {
   jednodnevni: {
-    badge: "1 dan · bez noćenja",
+    badge: "1 dan · bez noćenja · 18 km",
     title: "Jednodnevni rafting",
     subtitle:
-      "Idealan za one u prolazu — spust uz ručak (domaća kuhinja) i stajanja za kupanje u srcu kanjona. Sve uključeno.",
+      "Osamnaest kilometara i osamnaest bukova kroz najljepši dio kanjona Tare. Bez noćenja, bez komplikacija — jedan dan koji se pamti godinama.",
     price: "od 50€",
-    priceNote: "60€ sa ručkom · vikend 60€/70€",
+    priceNote: "po osobi",
+    priceOptions: [
+      { label: "Bez ručka", price: "50€" },
+      { label: "Sa domaćim ručkom", price: "65€" },
+      { label: "Vikend bez ručka", price: "60€" },
+      { label: "Vikend sa ručkom", price: "75€" },
+    ],
     unit: 50,
     durationFact: "5–6 sati",
     stayFact: "bez noćenja",
-    mealsFact: "1 (ručak)",
+    mealsFact: "ručak opciono",
     intro:
-      "Najtraženiji jednodnevni doživljaj na Tari. Nakon opreme i kratke obuke vozimo vas do startne tačke, a iskusni skiper vas vodi niz 18 km i 18 bukova kroz srce kanjona. Stajemo za kupanje na smaragdnoj vodi, a spust krunišemo toplim ručkom domaće kuhinje.",
+      "Ovo je spust koji svi traže. Osamnaest kilometara od Brštanovice do Huma, kroz najuzbudljiviji dio kanjona — bukovi se nižu jedan za drugim, a između njih rijeka umiri i pusti vas da pogledate gore, u zidove koji se dižu i po hiljadu metara. Ne treba vam iskustvo: u čamcu je skiper koji Taru vozi preko dvadeset godina i zna svaki buk po imenu. Vi veslate kad kaže, i uživate ostalo vrijeme.",
     program: [
       {
         broj: 1,
-        label: "JUTRO",
-        naslov: "Doček i oprema",
+        label: "DOLAZAK",
+        naslov: "Doček u kampu",
         tekst:
-          "Dočekujemo vas u kampu i podešavamo opremu: neopren, čizme, prsluk, kacigu i veslo. Prije polaska svi prolaze kratku sigurnosnu obuku sa skiperom.",
+          "Dočekujemo vas u kampu u Humu, na sastavu Tare i Pive. Rakija dobrodošlice i kratak dogovor oko dana. Nema fiksnog sata — dođite kad vam odgovara.",
       },
       {
         broj: 2,
-        label: "POLAZAK",
-        naslov: "Prevoz do startne tačke",
+        label: "OPREMA",
+        naslov: "Oprema i brifing",
         tekst:
-          "Organizovanim prevozom vas vozimo uzvodno do startne tačke spusta. Sama vožnja kroz kanjon je uvod u ono što slijedi na vodi.",
+          "Birate opremu: neopren, čizme, prsluk, kacigu i veslo. Skiper drži brifing — kako se vesla, kako se sjedi, šta ako neko upadne u vodu. Kratko, jasno, i tek kad su svi spremni — krećemo.",
       },
       {
         broj: 3,
-        label: "SPUST",
-        naslov: "18 km i 18 bukova",
+        label: "PREVOZ",
+        naslov: "Do Brštanovice",
         tekst:
-          "Slijedi 18 km spusta preko 18 bukova kroz srce najdubljeg kanjona Evrope. Između brzaka stajemo na mirnim mjestima za kupanje u smaragdnoj vodi.",
+          "Našim vozilima do startne tačke. Vožnja uz kanjon je i sama dio doživljaja — pogled na Taru odozgo priprema vas za ono što slijedi.",
       },
       {
         broj: 4,
-        label: "RUČAK",
-        naslov: "Domaći obrok i povratak",
+        label: "SPUST",
+        naslov: "18 km, 18 bukova",
         tekst:
-          "Po izlasku iz vode čeka vas topli ručak domaće kuhinje. Nakon obroka i predaha slijedi povratak do kampa.",
+          "Najatraktivnija dionica Tare. Stajemo za kupanje na smaragdnoj vodi i za fotografije na mjestima koja se ne mogu vidjeti ni sa jednog puta. U maju je voda brza pa spust traje oko sat i po; u avgustu je mirnija i toplija, pa se rastegne i do tri i po sata.",
+      },
+      {
+        broj: 5,
+        label: "POVRATAK",
+        naslov: "Tuš i ručak",
+        tekst:
+          "Čamci pristaju kod kampa. Topla voda, tuširanje, suva odjeća — a onda, ako ste uzeli aranžman sa ručkom, ono zbog čega nam se ljudi vraćaju.",
       },
     ],
-    included: [
-      "Kompletna oprema",
-      "Licencirani skiper",
-      "Topli ručak",
-      "Prevoz do startne tačke",
-      "Osiguranje i takse",
+    menuTitle: "Jelovnik (uz aranžman od 65 €)",
+    menuItems: [
+      {
+        tekst:
+          "Kremasta domaća čorba za početak. Zatim teletina ispod sača — od domaćeg teleta, ne od onog što je dva mjeseca putovalo iz Argentine — sa domaćim hljebom koji se peče na isti način, pod žarom. Uz to sveže salate od povrća iz okolnih bašta i kajmak i sir porodice Spasojević sa Zavaita, sa 1600 metara. Za desert domaći kolači po starim receptima.",
+      },
+      {
+        tekst:
+          "Sač kod nas pravi Brane — kuvar od svoje devetnaeste, izučen po nekada najelitnijim konobama bivše Jugoslavije. Ono što on izvadi ispod žara ne uči se na brzinu.",
+      },
     ],
+    menuNote: "Ručak nije obavezan — ali je razlog zbog kojeg nam se mnogi vrate.",
+    included: [
+      "Kompletna rafting oprema (neopren, čizme, prsluk, kaciga, veslo)",
+      "Licencirani skiper u svakom čamcu",
+      "Sigurnosni brifing prije polaska",
+      "Prevoz našim vozilima do startne tačke i nazad",
+      "Vodootporne barele za sitnice",
+      "Rakija dobrodošlice",
+      "Besplatan parking pod video nadzorom",
+      "Sve takse i osiguranje",
+      "Ručak (samo u aranžmanu od 65 €)",
+    ],
+    notIncluded: NOT_INCLUDED_BASE,
+    notesExtra: [
+      "Nema minimalnog broja učesnika — vodimo i parove i pojedince. Možete se priključiti postojećoj grupi.",
+    ],
+    similar: [
+      {
+        href: "/rafting/dvodnevni",
+        naslov: "Dvodnevni aranžman",
+        opis: "Jedno veče u kampu i jedan dan na rijeci.",
+        kicker: "2 DANA · 1 noćenje",
+        cijena: "100€",
+        slika: {
+          src: `${HERO_IMG}/raftingtarom-dvodnevni.jpg`,
+          alt: "Dvodnevni rafting na Tari",
+        },
+        fakti: [{ tekst: "2 dana" }, { tekst: "3 obroka" }],
+      },
+      {
+        href: "/rafting/trodnevni",
+        naslov: "Trodnevni aranžman",
+        opis: "Aranžman koji gosti najčešće biraju — i zbog kojeg se vraćaju.",
+        kicker: "3 DANA · 2 noćenja",
+        cijena: "140€",
+        tag: "Najtraženije",
+        slika: {
+          src: `${HERO_IMG}/raftingtarom-trodnevni.jpg`,
+          alt: "Trodnevni rafting na Tari",
+        },
+        fakti: [{ tekst: "3 dana" }, { tekst: "5 obroka" }],
+      },
+      {
+        href: "/kanjoning/hrcavka",
+        naslov: "Kanjoning Hrčavka",
+        opis: "Pitomiji kanjon u NP Sutjeska — idealan za prvi susret sa kanjoningom.",
+        kicker: "HRČAVKA · pola dana",
+        cijena: "120€",
+        fakti: [{ tekst: "Pola dana" }, { tekst: "NP Sutjeska" }],
+      },
+    ],
+    cardKicker: "1 DAN · bez noćenja",
+    cardCijena: "50€",
     metaTitle: "Jednodnevni rafting na Tari — od 50€ | Rafting kamp Konak",
     metaDescription:
-      "Jednodnevni rafting Tarom iz kampa Konak: 18 km i 18 bukova, oprema, licencirani skiper, topli ručak i prevoz. Radni dan od 50€ (60€ sa ručkom), vikend 60€/70€.",
+      "Jednodnevni rafting Tarom: 18 km i 18 bukova, oprema, skiper i prevoz. 50 € bez ručka ili 65 € sa domaćim ručkom. Vikend 60 € / 75 €.",
   },
+
   dvodnevni: {
-    badge: "2 dana · 1 noćenje",
+    badge: "2 dana · 1 noćenje · 18 km",
     title: "Dvodnevni aranžman",
     subtitle:
-      "Doček i večera prvog dana, zabava u kampu i noćenje u lux bungalovu, pa rafting drugog dana.",
+      "Jedno veče u kampu i jedan dan na rijeci. Za one koji ne žele da avantura prođe u trku — nego da se u nju uđe polako, sa večerom kraj vatre.",
     price: "od 100€",
-    priceNote: "radni dan · vikend 120€ / osobi",
+    priceNote: "po osobi",
+    priceOptions: [
+      { label: "Radni dan", price: "100€" },
+      { label: "Vikend", price: "120€" },
+    ],
     unit: 100,
     durationFact: "2 dana",
     stayFact: "1 noćenje · lux bungalov",
     mealsFact: "3 obroka",
     intro:
-      "Za one koji žele i avanturu i odmor. Dočekujemo vas u kampu uz piće dobrodošlice, smeštaj u lux bungalovu sa sopstvenim kupatilom i veče uz domaću kuhinju. Drugog dana slijedi pravi rafting spust niz najljepše bukove Tare.",
+      "Dolazite bez žurbe, smjestite se u lux bungalov, i prvo veče provedete onako kako se na Tari i treba — uz rakiju dobrodošlice, domaću večeru i zvuk rijeke koji vas uspava. Sutradan, odmorni i siti, sjedate u čamac i spuštate se osamnaest kilometara niz najljepši dio kanjona.",
     program: [
       {
         broj: 1,
-        label: "DOLAZAK",
-        naslov: "Doček i smeštaj",
+        label: "DAN 1",
+        naslov: "Dolazak i veče u kampu",
         tekst:
-          "Dočekujemo vas uz piće dobrodošlice i smeštaj u lux bungalov sa sopstvenim kupatilom. Ostatak popodneva je za opuštanje uz rijeku.",
-      },
-      {
-        broj: 1,
-        label: "VEČE",
-        naslov: "Večera i druženje",
-        tekst:
-          "Uveče vas služimo večerom iz domaće kuhinje. Družimo se uz rijeku i pripremamo za sutrašnji spust.",
+          "Dočekujemo vas rakijom dobrodošlice i smještamo u lux bungalov sa sopstvenim kupatilom. Ostatak dana je vaš — rijeka je na korak, obala je vaša, žurbe nema. Uveče večera iz naše kuhinje, uz vatru i priču koja se otegne do kasno.",
       },
       {
         broj: 2,
-        label: "RAFTING",
-        naslov: "Spust niz Taru",
+        label: "DAN 2",
+        naslov: "Doručak, oprema i spust",
         tekst:
-          "Drugog dana slijedi pravi rafting spust niz najljepše bukove Tare. Skiper vas vodi kroz brzake, uz stajanja za kupanje i odmor.",
+          "Doručak u kampu — pite, uštipci, kajmak i sir Spasojevića. Zatim oprema, brifing i prevoz kombijem do Brštanovice. Slijedi spust: osamnaest kilometara niz Taru i Drinu, osamnaest bukova, kupanje na smaragdnoj vodi.",
       },
       {
         broj: 2,
-        label: "POVRATAK",
-        naslov: "Povratak i odjava",
+        label: "DAN 2",
+        naslov: "Ručak i odjava",
         tekst:
-          "Po završetku spusta vraćamo se u kamp na obrok i predah. Nakon odjave nastavljate put sa punim utiscima.",
+          "Povratak u kamp, topla voda i ručak — teletina ispod sača, čorba, domaći hljeb. Poslije ručka aranžman se završava, ali niko vas ne tjera — ostanite koliko vam duša želi.",
+      },
+    ],
+    menuTitle: "Jelovnik",
+    menuItems: [
+      {
+        label: "Večera (dan 1)",
+        tekst:
+          "Roštilj od mesa sa lokalnih farmi, sveže salate od povrća iz okolnih bašta. Uz vatru, uz čašu vina.",
+      },
+      {
+        label: "Doručak (dan 2)",
+        tekst:
+          "Domaće pite i topli uštipci, suhomesnati proizvodi, kajmak i sir porodice Spasojević sa Zavaita, omleti i kobasice.",
+      },
+      {
+        label: "Ručak (dan 2)",
+        tekst:
+          "Kremasta domaća čorba, teletina ispod sača od domaćeg teleta, hljeb ispod sača, salate. Za desert domaći kolači.",
+      },
+      {
+        tekst:
+          "Sve iz ruku Braneta — kuvara od svoje devetnaeste, izučenog po nekada najelitnijim konobama bivše Jugoslavije.",
       },
     ],
     included: [
-      "Kompletna oprema",
-      "Licencirani skiper",
-      "Noćenje u lux bungalovu",
-      "Pun pansion (3 obroka)",
-      "Prevoz do startne tačke",
-      "Osiguranje i takse",
+      "1 noćenje u lux bungalovu sa sopstvenim kupatilom",
+      "3 obroka (večera, doručak, ručak)",
+      "Kompletna rafting oprema",
+      "Licencirani skiper i sigurnosni brifing",
+      "Prevoz do startne tačke i nazad",
+      "Rakija dobrodošlice",
+      "Besplatan parking pod video nadzorom",
+      "Sve takse i osiguranje",
     ],
+    notIncluded: NOT_INCLUDED_BASE,
+    notesExtra: [],
+    similar: [
+      {
+        href: "/rafting/jednodnevni",
+        naslov: "Jednodnevni rafting",
+        opis: "18 km i 18 bukova — jedan dan koji se pamti.",
+        kicker: "1 DAN · bez noćenja",
+        cijena: "50€",
+        slika: {
+          src: `${HERO_IMG}/raftingtarom-jednodnevni.jpg`,
+          alt: "Jednodnevni rafting na Tari",
+        },
+        fakti: [{ tekst: "5–6 sati" }, { tekst: "18 km" }],
+      },
+      {
+        href: "/rafting/trodnevni",
+        naslov: "Trodnevni aranžman",
+        opis: "Aranžman koji gosti najčešće biraju — i zbog kojeg se vraćaju.",
+        kicker: "3 DANA · 2 noćenja",
+        cijena: "140€",
+        tag: "Najtraženije",
+        slika: {
+          src: `${HERO_IMG}/raftingtarom-trodnevni.jpg`,
+          alt: "Trodnevni rafting na Tari",
+        },
+        fakti: [{ tekst: "3 dana" }, { tekst: "5 obroka" }],
+      },
+      {
+        href: "/rafting/cijela-tara",
+        naslov: "Rafting cijelim tokom Tare",
+        opis: "76 km — cijeli plovni tok, pećine, vodopadi i noć u kanjonu.",
+        kicker: "4 DANA · 76 km",
+        cijena: "300€",
+        slika: {
+          src: `${HERO_IMG}/raftingtarom-cetverodnevni.jpg`,
+          alt: "Rafting cijelim tokom Tare",
+        },
+        fakti: [{ tekst: "4 dana" }, { tekst: "8 obroka" }],
+      },
+    ],
+    cardKicker: "2 DANA · 1 noćenje · pun pansion",
+    cardCijena: "100€",
     metaTitle: "Dvodnevni rafting aranžman na Tari — od 100€ | Rafting kamp Konak",
     metaDescription:
-      "Dvodnevni rafting aranžman: doček uz piće dobrodošlice, noćenje u lux bungalovu, pun pansion i spust niz Taru. Radni dan od 100€, vikend 120€.",
+      "Dvodnevni rafting: noćenje u lux bungalovu, 3 obroka i spust 18 km. Radni dan od 100 €, vikend 120 €.",
   },
+
   trodnevni: {
-    badge: "Najtraženije",
+    badge: "Najtraženije · 3 dana · 18 km",
     title: "Trodnevni aranžman",
     subtitle:
-      "Najpopularniji aranžman: Brštanovica – Šćepan Polje – Hum. Rafting, relax i dvije večeri zabave uz domaću kuhinju.",
+      "Aranžman koji gosti najčešće biraju — i zbog kojeg se vraćaju. Rafting, dvije večeri u kampu, i još jedan dan da vidite ono što se sa rijeke ne vidi.",
     price: "od 140€",
-    priceNote: "radni dan · vikend 160€ / osobi",
+    priceNote: "po osobi",
+    priceOptions: [
+      { label: "Radni dan", price: "140€" },
+      { label: "Vikend", price: "160€" },
+    ],
     unit: 140,
     durationFact: "3 dana",
     stayFact: "2 noćenja · lux bungalov",
     mealsFact: "5 obroka",
     intro:
-      "Aranžman koji gosti najčešće biraju i zbog kojeg se vraćaju. Spaja pravi cjelodnevni rafting sa opuštanjem u kampu, domaćom kuhinjom i dvije večeri druženja na obali. Idealno za grupe, prijatelje i team building.",
+      "Tri dana su taman. Prvo veče se smjestite i upoznate kamp. Drugi dan je rijeka — osamnaest kilometara, osamnaest bukova. A treći dan, kad ste već umorni na onaj dobar način, birate kako ćete ga provesti: aktivnost u Nacionalnom parku Sutjeska, ili prosto još jedno mirno jutro uz rijeku prije nego krenete kući.",
     program: [
       {
         broj: 1,
-        label: "DOLAZAK",
-        naslov: "Doček i prva večer",
+        label: "DAN 1",
+        naslov: "Dolazak, rakija, večera",
         tekst:
-          "Prvog dana vas smeštamo u lux bungalov uz piće dobrodošlice. Veče provodimo uz domaću kuhinju i druženje na obali.",
+          "Doček uz rakiju dobrodošlice i smještaj u lux bungalov. Veče u kampu — večera iz naše kuhinje, vatra, rijeka, priča. Bez rasporeda, bez žurbe.",
       },
       {
         broj: 2,
-        label: "RAFTING",
-        naslov: "Cjelodnevni spust",
+        label: "DAN 2",
+        naslov: "Cjelodnevni rafting",
         tekst:
-          "Drugi dan je cjelodnevni rafting na dionici Brštanovica – Šćepan Polje – Hum. Između brzaka stajemo za kupanje, a ručak je uz rijeku.",
+          "Doručak, pa oprema i brifing. Kombijem do Brštanovice, i onda spust — osamnaest kilometara niz Taru i Drinu, kroz najuzbudljiviji dio kanjona. Pauze za kupanje i fotografije. Povratak u kamp, topla voda i ručak ispod sača. Uveče druga večera, i onaj razgovor koji se otegne dok vatra ne dogori.",
       },
       {
         broj: 3,
-        label: "ODLAZAK",
-        naslov: "Opušteno jutro",
+        label: "DAN 3",
+        naslov: "Izlet ili mirno jutro",
         tekst:
-          "Posljednje jutro je opušteno, uz doručak i kafu na obali. Nakon odjave ispraćamo vas sa uspomenama sa Tare.",
+          "Poslije doručka birate: cjelodnevna aktivnost u Nacionalnom parku Sutjeska (dogovaramo se prema vašim željama), ili mirno jutro uz rijeku prije nego krenete. Kako vam duša kaže.",
+      },
+    ],
+    menuTitle: "Jelovnik (5 obroka)",
+    menuItems: [
+      {
+        label: "Večera (dan 1)",
+        tekst:
+          "Roštilj sa lokalnih farmi, sveže salate iz okolnih bašta, uz vatru i čašu vina.",
+      },
+      {
+        label: "Doručak (dan 2)",
+        tekst:
+          "Domaće pite, uštipci, suhomesnato, kajmak i sir Spasojevića sa 1600 metara.",
+      },
+      {
+        label: "Ručak (dan 2)",
+        tekst:
+          "Kremasta čorba, teletina ispod sača od domaćeg teleta, hljeb ispod sača, salate, domaći kolači.",
+      },
+      {
+        label: "Večera (dan 2)",
+        tekst: "Još jedno veče uz vatru — roštilj, salate, priča.",
+      },
+      {
+        label: "Doručak (dan 3)",
+        tekst: "Balkanski doručak prije puta.",
+      },
+      {
+        tekst:
+          "Sve pravi Brane — kuvar sa četrdeset godina staža, izučen po nekada najelitnijim konobama bivše Jugoslavije.",
       },
     ],
     included: [
-      "Kompletna oprema",
-      "Licencirani skiper",
-      "2 noćenja u lux bungalovu",
-      "5 obroka (domaća kuhinja)",
-      "Prevoz do startne tačke",
-      "Osiguranje i takse",
+      "2 noćenja u lux bungalovu sa sopstvenim kupatilom",
+      "5 obroka",
+      "Kompletna rafting oprema",
+      "Licencirani skiper i sigurnosni brifing",
+      "Prevoz do startne tačke i nazad",
+      "Rakija dobrodošlice",
+      "Besplatan parking pod video nadzorom",
+      "Sve takse i osiguranje",
     ],
+    notIncluded: [
+      ...NOT_INCLUDED_BASE,
+      "Aktivnost u NP Sutjeska (3. dan) — na upit",
+    ],
+    notesExtra: [],
+    similar: [
+      {
+        href: "/rafting/dvodnevni",
+        naslov: "Dvodnevni aranžman",
+        opis: "Jedno veče u kampu i jedan dan na rijeci.",
+        kicker: "2 DANA · 1 noćenje",
+        cijena: "100€",
+        slika: {
+          src: `${HERO_IMG}/raftingtarom-dvodnevni.jpg`,
+          alt: "Dvodnevni rafting na Tari",
+        },
+        fakti: [{ tekst: "2 dana" }, { tekst: "3 obroka" }],
+      },
+      {
+        href: "/rafting/cijela-tara",
+        naslov: "Rafting cijelim tokom Tare",
+        opis: "76 km — cijeli plovni tok i noć u najdubljoj tački kanjona.",
+        kicker: "4 DANA · 76 km",
+        cijena: "300€",
+        slika: {
+          src: `${HERO_IMG}/raftingtarom-cetverodnevni.jpg`,
+          alt: "Rafting cijelim tokom Tare",
+        },
+        fakti: [{ tekst: "4 dana" }, { tekst: "8 obroka" }],
+      },
+      {
+        href: "/kanjoning/hrcavka",
+        naslov: "Kanjoning Hrčavka",
+        opis: "Pitomiji kanjon u NP Sutjeska — idealan za prvi susret sa kanjoningom.",
+        kicker: "HRČAVKA · pola dana",
+        cijena: "120€",
+        fakti: [{ tekst: "Pola dana" }, { tekst: "NP Sutjeska" }],
+      },
+    ],
+    cardKicker: "3 DANA · 2 noćenja · 5 obroka",
+    cardCijena: "140€",
     metaTitle: "Trodnevni rafting aranžman na Tari — od 140€ | Rafting kamp Konak",
     metaDescription:
-      "Najtraženiji trodnevni rafting aranžman: cjelodnevni spust, 2 noćenja u lux bungalovu, 5 obroka i dvije večeri druženja. Radni dan od 140€, vikend 160€.",
+      "Najtraženiji trodnevni rafting: cjelodnevni spust, 2 noćenja, 5 obroka. Radni dan od 140 €, vikend 160 €.",
   },
+
   "cijela-tara": {
-    badge: "4 dana · cijeli tok",
+    badge: "4 dana · cijeli tok · 76 km",
     title: "Rafting cijelim tokom Tare",
     subtitle:
-      "Đurđevića Tara – Brštanovica – Šćepan Polje – Hum. Najveća avantura koju Tara nudi: 8 obroka, 3 noćenja.",
+      "Cijeli plovni tok Tare — sedamdeset šest kilometara, od Đurđevića mosta do Huma. Pećine, vodopadi, i jedna noć u najdubljoj tački kanjona, daleko od svega.",
     price: "od 300€",
-    priceNote: "radni dan · vikend 340€ / osobi",
+    priceNote: "po osobi",
+    priceOptions: [
+      { label: "Radni dan", price: "300€" },
+      { label: "Vikend", price: "340€" },
+    ],
     unit: 300,
     durationFact: "4 dana",
     stayFact: "3 noćenja (1 u kanjonu)",
     mealsFact: "8 obroka · pun pansion",
     intro:
-      "Ekspedicija za prave avanturiste. Prelazimo cijeli plovni tok Tare — od čuvenog Đurđevića mosta do ušća u Drinu kod Huma — kroz najdublji dio kanjona od 1300 metara. Spavamo uz rijeku i jednu noć u srcu kanjona, daleko od svega, pod zvijezdama.",
+      "Ovo je ekspedicija, ne izlet. Prelazimo cijeli plovni tok Tare, kroz najdublji kanjon Evrope — hiljadu i tri stotine metara stijene iznad glave. Do startne tačke se vozimo Durmitorskim prstenom, jednim od najljepših puteva na Balkanu, koji je i sam vrijedan putovanja. A jednu noć spavamo tamo gdje je kanjon najdublji, u malom motelu uz rijeku — daleko od puta, daleko od signala, pod zvijezdama.",
+    introExtra: "Na ovoj dionici je Tara 2009. bila domaćin Svjetskog prvenstva u raftingu.",
     program: [
       {
         broj: 1,
-        naslov: "Đurđevića Tara → Radovan Luka",
+        label: "DAN 1",
+        naslov: "Dolazak u kamp",
         tekst:
-          "Ekspedicija počinje kod čuvenog Đurđevića mosta i vodi do Radovan Luke. Prvi dan vas uvodi u ritam rijeke i najviše djelove kanjona.",
+          "Doček uz rakiju dobrodošlice, smještaj u lux bungalov, veče u kampu uz domaću večeru. Priprema za ono što slijedi.",
       },
       {
         broj: 2,
-        naslov: "Radovan Luka → Brštanovica",
+        label: "DAN 2",
+        naslov: "Durmitorski prsten i početak ekspedicije",
         tekst:
-          "Nastavljamo kroz najdublji dio kanjona od 1300 metara. Prolazimo netaknutu prirodu daleko od puteva i naselja.",
+          "Poslije doručka krećemo Durmitorskim prstenom — put koji se penje preko planine i otvara poglede kakve ne zaboravljate. Stižemo do mjesta gdje je Tara plovna i spuštamo čamce. Prvi dan na vodi: pećine, vodopadi, netaknuta divljina. Spavamo u motelu u najdubljoj tački kanjona.",
       },
       {
         broj: 3,
-        naslov: "Brštanovica → Šćepan Polje",
+        label: "DAN 3",
+        naslov: "Kroz srce kanjona",
         tekst:
-          "Treći dan donosi neke od najuzbudljivijih bukova na toku. Jednu noć spavamo uz rijeku, u srcu kanjona pod zvijezdama.",
+          "Nastavljamo nizvodno, kroz najdublji dio kanjona. Rijeka mijenja lice iz sata u sat — mirni bazeni, pa bukovi, pa vodopadi koji padaju pravo u vodu. Povratak u kamp, večera i odmor.",
       },
       {
         broj: 4,
-        naslov: "Šćepan Polje → Hum",
+        label: "DAN 4",
+        naslov: "Doručak i odlazak",
+        tekst: "Doručak u kampu i mirno jutro prije puta kući.",
+      },
+    ],
+    canyonStay:
+      "Noć u kanjonu provodimo u malom motelu u najdubljoj tački Tare — čist, uređen, sa dušom. Hrana je švedski sto. Ovo je mjesto do kojeg se skoro i ne može doći drugačije nego rijekom.",
+    menuTitle: "Jelovnik (8 obroka, pun pansion)",
+    menuItems: [
+      {
         tekst:
-          "Posljednja etapa vodi do ušća Tare u Drinu kod Huma. Spust krunišemo povratkom u kamp i zajedničkim obrokom.",
+          "Doručci i večere u kampu — domaće pite, uštipci, kajmak Spasojevića, roštilj sa lokalnih farmi, teletina ispod sača iz Branovih ruku. U kanjonu, u motelu, hrana je švedski sto. Svaki obrok je uključen u cijenu.",
       },
     ],
     included: [
-      "Kompletna oprema",
-      "Licencirani skiper",
-      "3 noćenja (1 u kanjonu)",
-      "Pun pansion (8 obroka)",
-      "Prevoz do startne tačke",
-      "Osiguranje i takse",
+      "3 noćenja (lux bungalov + noć u motelu u kanjonu)",
+      "8 obroka, pun pansion",
+      "Kompletna rafting oprema",
+      "Licencirani skiper i sigurnosni brifing",
+      "Sav prevoz i transferi (uključujući Durmitorski prsten)",
+      "Rakija dobrodošlice",
+      "Besplatan parking pod video nadzorom",
+      "Sve takse i osiguranje",
     ],
+    notIncluded: NOT_INCLUDED_BASE,
+    notesExtra: [],
+    similar: [
+      {
+        href: "/rafting/trodnevni",
+        naslov: "Trodnevni aranžman",
+        opis: "Aranžman koji gosti najčešće biraju — i zbog kojeg se vraćaju.",
+        kicker: "3 DANA · 2 noćenja",
+        cijena: "140€",
+        tag: "Najtraženije",
+        slika: {
+          src: `${HERO_IMG}/raftingtarom-trodnevni.jpg`,
+          alt: "Trodnevni rafting na Tari",
+        },
+        fakti: [{ tekst: "3 dana" }, { tekst: "5 obroka" }],
+      },
+      {
+        href: "/kanjoning/nevidio",
+        naslov: "Kanjoning Nevidio",
+        opis: "Najzahtjevniji kanjon Crne Gore — skokovi, spustovi i plivanje.",
+        kicker: "NEVIDIO · cijeli dan",
+        cijena: "130€",
+        fakti: [{ tekst: "Cijeli dan" }, { tekst: "Durmitor" }],
+      },
+      {
+        href: "/rafting/dvodnevni",
+        naslov: "Dvodnevni aranžman",
+        opis: "Jedno veče u kampu i jedan dan na rijeci.",
+        kicker: "2 DANA · 1 noćenje",
+        cijena: "100€",
+        slika: {
+          src: `${HERO_IMG}/raftingtarom-dvodnevni.jpg`,
+          alt: "Dvodnevni rafting na Tari",
+        },
+        fakti: [{ tekst: "2 dana" }, { tekst: "3 obroka" }],
+      },
+    ],
+    cardKicker: "4 DANA · 76 km · cijeli tok",
+    cardCijena: "300€",
     metaTitle: "Rafting cijelim tokom Tare — 4 dana, od 300€ | Rafting kamp Konak",
     metaDescription:
-      "Četvorodnevna rafting ekspedicija cijelim tokom Tare: Đurđevića Tara – Hum, 76 km, 3 noćenja (1 u kanjonu), 8 obroka i pun pansion. Od 300€.",
+      "Četvorodnevna ekspedicija cijelim tokom Tare: 76 km, 3 noćenja (1 u kanjonu), 8 obroka. Od 300 €, vikend 340 €.",
   },
 };
 
-// FAQ — 5 pitanja, doslovno, isti za sve ture (sekcija 4.4)
 const FAQ = [
   {
     pitanje: "Da li je tura bezbjedna i za neiskusne?",
@@ -259,7 +583,7 @@ const FAQ = [
   {
     pitanje: "Šta je uključeno u cijenu?",
     odgovor:
-      "Kompletna oprema, licencirani vodič, prevoz do startne tačke, obrok(i), osiguranje i sve takse. Kod višednevnih tura i noćenje i pun pansion.",
+      "Kompletna oprema, licencirani vodič, prevoz do startne tačke, obrok(i) po aranžmanu, osiguranje i sve takse. Kod višednevnih tura i noćenje i pun pansion. Plaćanje je isključivo u gotovini.",
   },
   {
     pitanje: "Kako se primjenjuje vikend cijena?",
@@ -277,9 +601,6 @@ const FAQ = [
       "Nije. Upišite to u polje za posebnu ishranu pri rezervaciji (vegetarijanski, bez glutena i sl.) i prilagodićemo obroke.",
   },
 ];
-
-const HERO_IMG = "/images/hero-slike-konak";
-const RAFTING_IMG = "/images/rafting";
 
 const TURA_IMAGES: Record<
   string,
@@ -412,6 +733,19 @@ function IconCheck() {
   );
 }
 
+function IconX() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path
+        d="M4 4l8 8M12 4l-8 8"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 function IconClock() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -467,6 +801,13 @@ export default async function TuraDetaljPage({
   setRequestLocale(locale);
 
   const images = TURA_IMAGES[tura];
+  const notes = [...NOTES_SHARED, ...t.notesExtra];
+
+  const crumbs = [
+    { label: "Naslovna", href: "/" },
+    { label: "Ponuda", href: "/ponuda" },
+    { label: t.title, href: `/rafting/${tura}` },
+  ];
 
   const waText = encodeURIComponent(
     `Zdravo! Zanima me ${t.title} (${t.price}). Molim vas slobodne termine i detalje.`,
@@ -488,12 +829,19 @@ export default async function TuraDetaljPage({
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
       url: `${SITE}/rafting/${tura}`,
+      description:
+        tura === "jednodnevni"
+          ? "50 EUR bez ručka / 65 EUR sa domaćim ručkom (po osobi)"
+          : undefined,
     },
   };
 
+  const crumbsLd = breadcrumbListLd(crumbs, SITE);
+
   return (
     <>
-      {/* 4.1 — HERO */}
+      <Breadcrumbs items={crumbs} />
+
       <Hero
         variant="b"
         eyebrow={t.badge}
@@ -503,12 +851,9 @@ export default async function TuraDetaljPage({
         slika={images.hero}
       />
 
-      {/* 4.2 — BODY (sadržaj + booking) */}
       <section className="kon-section">
         <div className="kon-container kon-td-grid">
-          {/* Lijevo */}
           <div>
-            {/* 3 fakta */}
             <div className="kon-td-facts">
               {[
                 { label: "TRAJANJE", value: t.durationFact, icon: <IconClock /> },
@@ -532,17 +877,23 @@ export default async function TuraDetaljPage({
               ))}
             </div>
 
-            {/* Intro */}
             <p
               className="mt-8 font-sans text-body"
               style={{ fontSize: "clamp(16px, 1.4vw, 19px)", lineHeight: 1.7 }}
             >
               {t.intro}
             </p>
+            {t.introExtra && (
+              <p
+                className="mt-4 font-sans font-semibold text-ink"
+                style={{ fontSize: "clamp(16px, 1.4vw, 18px)", lineHeight: 1.65 }}
+              >
+                {t.introExtra}
+              </p>
+            )}
 
-            {/* Program */}
             <h2 className="mt-10 font-display text-2xl font-extrabold text-pine">
-              Program ture
+              Vremenski plan
             </h2>
             <ol className="mt-6">
               {t.program.map((p, i) => (
@@ -571,9 +922,48 @@ export default async function TuraDetaljPage({
                 </li>
               ))}
             </ol>
+
+            {t.canyonStay && (
+              <div className="mt-10 rounded-card border border-mint-border bg-mint-surface p-6">
+                <h3 className="font-display text-lg font-extrabold text-pine">
+                  Smještaj u kanjonu
+                </h3>
+                <p className="mt-3 font-sans text-[15px] leading-[1.65] text-body">
+                  {t.canyonStay}
+                </p>
+              </div>
+            )}
+
+            <div className="mt-10 rounded-card-lg border border-line bg-surface p-6 sm:p-8">
+              <h2 className="font-display text-2xl font-extrabold text-pine">
+                {t.menuTitle}
+              </h2>
+              <div className="mt-5 flex flex-col gap-5">
+                {t.menuItems.map((item, i) => (
+                  <div key={i}>
+                    {item.label && (
+                      <span className="font-sans text-xs font-bold uppercase tracking-[0.14em] text-teal">
+                        {item.label}
+                      </span>
+                    )}
+                    <p
+                      className={`font-sans text-[15px] leading-[1.65] text-body ${
+                        item.label ? "mt-1.5" : ""
+                      }`}
+                    >
+                      {item.tekst}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              {t.menuNote && (
+                <p className="mt-5 font-sans text-sm italic text-text-secondary">
+                  {t.menuNote}
+                </p>
+              )}
+            </div>
           </div>
 
-          {/* Desno — statična booking kartica */}
           <aside className="kon-td-side">
             <div className="rounded-card-lg bg-pine p-7 text-on-dark">
               <span className="font-sans text-xs font-bold uppercase tracking-[0.16em] text-teal-light">
@@ -587,6 +977,20 @@ export default async function TuraDetaljPage({
               <p className="mt-1 font-sans text-sm text-on-dark-muted">
                 {t.priceNote}
               </p>
+
+              <ul className="mt-4 flex flex-col gap-2 rounded-input bg-white/8 p-3.5">
+                {t.priceOptions.map((opt) => (
+                  <li
+                    key={opt.label}
+                    className="flex items-baseline justify-between gap-3 font-sans text-sm"
+                  >
+                    <span className="text-on-dark-muted">{opt.label}</span>
+                    <span className="font-display text-base font-bold text-white">
+                      {opt.price}
+                    </span>
+                  </li>
+                ))}
+              </ul>
 
               <div className="my-6 h-px bg-white/12" />
 
@@ -607,6 +1011,23 @@ export default async function TuraDetaljPage({
                 ))}
               </ul>
 
+              <span className="mt-6 block font-sans text-xs font-bold uppercase tracking-[0.16em] text-on-dark-muted">
+                Nije uključeno
+              </span>
+              <ul className="mt-3 flex flex-col gap-2.5">
+                {t.notIncluded.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-2.5 font-sans text-sm text-on-dark-muted"
+                  >
+                    <span className="mt-0.5 opacity-70">
+                      <IconX />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
               <div className="mt-6 flex flex-col gap-2.5">
                 <CtaButton href={waHref} variant="primary" className="w-full">
                   Pošalji upit na WhatsApp
@@ -617,7 +1038,7 @@ export default async function TuraDetaljPage({
               </div>
 
               <p className="mt-4 font-sans text-xs leading-relaxed text-on-dark-muted">
-                Okvirna cijena za radne dane. Dodatne aktivnosti i tačan termin
+                Okvirna cijena. Plaćanje isključivo u gotovini. Tačan termin
                 potvrđujemo na upit.
               </p>
 
@@ -634,7 +1055,30 @@ export default async function TuraDetaljPage({
         </div>
       </section>
 
-      {/* 4.3 — GALERIJA */}
+      <section className="kon-section pt-0">
+        <div className="kon-container">
+          <div className="rounded-card-lg border border-line bg-surface p-6 sm:p-8">
+            <h2 className="font-display text-xl font-extrabold text-pine sm:text-2xl">
+              Napomene
+            </h2>
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+              {notes.map((note) => (
+                <li
+                  key={note}
+                  className="flex items-start gap-2.5 font-sans text-[15px] leading-relaxed text-body"
+                >
+                  <span
+                    className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-teal"
+                    aria-hidden="true"
+                  />
+                  {note}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <section className="kon-section bg-sand">
         <div className="kon-container">
           <SectionHeader
@@ -656,8 +1100,33 @@ export default async function TuraDetaljPage({
         </div>
       </section>
 
-      {/* 4.4 — FAQ */}
       <section className="kon-section">
+        <div className="kon-container">
+          <SectionHeader
+            eyebrow="Istraži dalje"
+            naslov="Slične ponude"
+            link={{ href: "/rafting", label: "Sve rafting ture" }}
+          />
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
+            {t.similar.map((card) => (
+              <TourCard
+                key={card.href}
+                href={card.href}
+                naslov={card.naslov}
+                opis={card.opis}
+                kicker={card.kicker}
+                cijena={card.cijena}
+                cijenaLabel="od"
+                tag={card.tag}
+                slika={card.slika}
+                fakti={card.fakti}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="kon-section bg-sand">
         <div className="kon-container" style={{ maxWidth: "var(--container-narrow)" }}>
           <SectionHeader
             eyebrow="Česta pitanja"
@@ -673,6 +1142,10 @@ export default async function TuraDetaljPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbsLd) }}
       />
     </>
   );

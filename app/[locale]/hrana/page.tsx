@@ -36,8 +36,8 @@ const JELOVNIK = [
     opis:
       "Dan počinje obilno — domaće pite i topli uštipci, suhomesnati proizvodi i vrhunski sirevi sa planine, omleti i kobasice. Taman snaga prije spusta niz Taru.",
     slika: {
-      src: `${IMG}/dorucak_konak.jpg`,
-      alt: "Domaći doručak — pite i sirevi",
+      src: `${IMG}/dorucak2.jpg`,
+      alt: "Domaći doručak — jaja, pršuta, sir i kajmak",
     },
   },
   {
@@ -46,8 +46,8 @@ const JELOVNIK = [
     opis:
       "Domaća kremasta čorba za početak, a onda glavni adut — sočna teletina od domaćeg teleta ispod sača, sa domaćim hljebom koji se peče na isti način. Strpljivo, pod žarom, kako se jedino i može valjano.",
     slika: {
-      src: `${IMG}/corba_rucak.jpg`,
-      alt: "Teletina ispod sača i domaća čorba",
+      src: `${IMG}/rucak_konak.jpg`,
+      alt: "Teletina ispod sača sa pečenim krompirom i čorbom",
     },
   },
   {
@@ -56,8 +56,8 @@ const JELOVNIK = [
     opis:
       "Roštilj od mesa sa lokalnih farmi, uz sveže salate od povrća iz okolnih bašta. Sve se najljepše jede uz vatru, kraj kamina, sa čašom vina i pričom koja se otegne do kasno.",
     slika: {
-      src: `${IMG}/dorucak_konak1.jpg`,
-      alt: "Večera u kampu Konak — domaća jela uz vatru",
+      src: `${IMG}/dorucak3.jpg`,
+      alt: "Obilna večera u kampu — jaja, suhomesnato i sir",
     },
   },
   {
@@ -66,8 +66,8 @@ const JELOVNIK = [
     opis:
       "Za kraj — domaći kolači rađeni po receptima iz bakine kuhinje. Organski, bez vještačkih dodataka, onako slatki kako treba i taman da zaokruže dan.",
     slika: {
-      src: `${IMG}/dezert.jpg`,
-      alt: "Domaći deserti po bakinim receptima",
+      src: `${IMG}/dorucak-dezert-konak.jpg`,
+      alt: "Domaći čokoladni kolač uz ručak u kampu Konak",
     },
   },
 ];
@@ -117,8 +117,8 @@ export default async function HranaPage({
         }
         lead="Mnogi nam se vrate i zbog rijeke, i zbog onoga što ih čeka kad se vrate s vode. Kuvamo srcem, od domaćih namirnica sa okolnih farmi."
         slika={{
-          src: `${IMG}/rucak_konak.jpg`,
-          alt: "Domaći ručak u rafting kampu Konak",
+          src: `${IMG}/sac-konak.jpg`,
+          alt: "Teletina ispod sača — pečenje u kaminu kampa Konak",
         }}
       />
 

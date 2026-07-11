@@ -7,6 +7,8 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { CtaButton } from "@/components/CtaButton";
 import { ImageSlot } from "@/components/ImageSlot";
+import { TourCard } from "@/components/TourCard";
+import { Breadcrumbs, breadcrumbListLd } from "@/components/Breadcrumbs";
 
 const SITE = "https://www.raftingkampkonak.com";
 const WHATSAPP_NUM = "38765848110";
@@ -19,12 +21,18 @@ interface ProgramItem {
   tekst: string;
 }
 
+interface PriceOption {
+  label: string;
+  price: string;
+}
+
 interface TuraData {
   badge: string;
   title: string;
   subtitle: string;
   price: string;
   priceNote: string;
+  priceOptions: PriceOption[];
   unit: number;
   durationFact: string;
   stayFact: string;
@@ -32,12 +40,51 @@ interface TuraData {
   intro: string;
   program: ProgramItem[];
   included: string[];
+  cardKicker: string;
+  cardCijena: string;
   faq: { pitanje: string; odgovor: string }[];
   metaTitle: string;
   metaDescription: string;
   galleryEyebrow: string;
   galleryTitle: string;
 }
+
+/** Generički tekst — Petar ubacuje finalni. */
+const NOT_INCLUDED = ["Piće u restoranu", "Lični troškovi"];
+
+const NOTES = [
+  "Nema minimalnog broja učesnika — vodimo i parove i pojedince. Možete se priključiti postojećoj grupi.",
+  "Uzrast: pogodno za većinu uzrasta; djeca uz pratnju odraslih.",
+  "Prethodno iskustvo nije potrebno — obuka je uključena prije spusta.",
+  "Plaćanje: avans pri rezervaciji, ostatak u kampu (gotovina ili kartica).",
+  "Dokumenti: lična karta ili pasoš (obavezno za sve učesnike).",
+  "Zadržavamo pravo procjene vremenskih uslova i prilagođavanja programa radi bezbjednosti.",
+];
+
+const RELATED_RAFTING = [
+  {
+    href: "/rafting/jednodnevni",
+    naslov: "Jednodnevni rafting",
+    opis: "Spust uz ručak i stajanja za kupanje u srcu kanjona.",
+    kicker: "1 DAN · bez noćenja",
+    cijena: "50€",
+    slika: {
+      src: "/images/hero-slike-konak/raftingtarom-jednodnevni.jpg",
+      alt: "Jednodnevni rafting na Tari",
+    },
+  },
+  {
+    href: "/rafting/trodnevni",
+    naslov: "Trodnevni aranžman",
+    opis: "Najpopularniji aranžman: rafting, relax i dvije večeri u kampu.",
+    kicker: "3 DANA · 2 noćenja",
+    cijena: "140€",
+    slika: {
+      src: "/images/hero-slike-konak/raftingtarom-trodnevni.jpg",
+      alt: "Trodnevni rafting na Tari",
+    },
+  },
+];
 
 // Podaci iz page-kanjoning.md + page-aktivnosti.md; cijene potvrđene u Task 12/13.
 const TURE: Record<string, TuraData> = {
@@ -47,7 +94,11 @@ const TURE: Record<string, TuraData> = {
     subtitle:
       "Najzahtjevniji kanjon Crne Gore — rijeka Komarnica ispod Durmitora. Skokovi, spustovi i plivanje kroz uske prolaze, za prave avanturiste.",
     price: "od 130€",
-    priceNote: "radni dan · vikend 140€ / osobi",
+    priceNote: "po osobi",
+    priceOptions: [
+      { label: "Radni dan", price: "130€" },
+      { label: "Vikend", price: "140€" },
+    ],
     unit: 130,
     durationFact: "Cijeli dan",
     stayFact: "bez noćenja",
@@ -91,6 +142,8 @@ const TURE: Record<string, TuraData> = {
       "Ručak",
       "Osiguranje",
     ],
+    cardKicker: "NEVIDIO · cijeli dan",
+    cardCijena: "130€",
     faq: [
       {
         pitanje: "Da li je Nevidio za početnike?",
@@ -130,7 +183,11 @@ const TURE: Record<string, TuraData> = {
     subtitle:
       "Pitomiji kanjon u Nacionalnom parku Sutjeska, kod Tjentišta — idealan za prvi susret sa kanjoningom. Skokovi u bazene i prirodni tobogani.",
     price: "od 120€",
-    priceNote: "radni dan · vikend 130€ / osobi",
+    priceNote: "po osobi",
+    priceOptions: [
+      { label: "Radni dan", price: "120€" },
+      { label: "Vikend", price: "130€" },
+    ],
     unit: 120,
     durationFact: "Pola dana",
     stayFact: "bez noćenja",
@@ -173,6 +230,8 @@ const TURE: Record<string, TuraData> = {
       "Prevoz do kanjona",
       "Osiguranje",
     ],
+    cardKicker: "HRČAVKA · pola dana",
+    cardCijena: "120€",
     faq: [
       {
         pitanje: "Je li Hrčavka dobra za prvi kanjoning?",
@@ -258,6 +317,19 @@ function IconCheck() {
   );
 }
 
+function IconX() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path
+        d="M4 4l8 8M12 4l-8 8"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 function IconClock() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -312,6 +384,28 @@ export default async function KanjoningTuraPage({
   if (!t) notFound();
   setRequestLocale(locale);
 
+  const crumbs = [
+    { label: "Naslovna", href: "/" },
+    { label: "Ponuda", href: "/ponuda" },
+    { label: t.title, href: `/kanjoning/${tura}` },
+  ];
+
+  const otherKanjoning = Object.entries(TURE)
+    .filter(([slug]) => slug !== tura)
+    .map(([slug, data]) => ({
+      href: `/kanjoning/${slug}`,
+      naslov: data.title,
+      opis: data.subtitle,
+      kicker: data.cardKicker,
+      cijena: data.cardCijena,
+      fakti: [{ tekst: data.durationFact }, { tekst: data.stayFact }],
+    }));
+
+  const similar = [
+    ...otherKanjoning,
+    ...RELATED_RAFTING.map((r) => ({ ...r, fakti: undefined as { tekst: string }[] | undefined })),
+  ].slice(0, 3);
+
   const waText = encodeURIComponent(
     `Zdravo! Zanima me ${t.title} (${t.price}). Molim vas slobodne termine i detalje.`,
   );
@@ -340,8 +434,12 @@ export default async function KanjoningTuraPage({
     },
   };
 
+  const crumbsLd = breadcrumbListLd(crumbs, SITE);
+
   return (
     <>
+      <Breadcrumbs items={crumbs} />
+
       <Hero
         variant="b"
         eyebrow={t.badge}
@@ -429,6 +527,20 @@ export default async function KanjoningTuraPage({
                 {t.priceNote}
               </p>
 
+              <ul className="mt-4 flex flex-col gap-2 rounded-input bg-white/8 p-3.5">
+                {t.priceOptions.map((opt) => (
+                  <li
+                    key={opt.label}
+                    className="flex items-baseline justify-between gap-3 font-sans text-sm"
+                  >
+                    <span className="text-on-dark-muted">{opt.label}</span>
+                    <span className="font-display text-base font-bold text-white">
+                      {opt.price}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
               <div className="my-6 h-px bg-white/12" />
 
               <span className="font-sans text-xs font-bold uppercase tracking-[0.16em] text-teal-light">
@@ -444,6 +556,23 @@ export default async function KanjoningTuraPage({
                       <IconCheck />
                     </span>
                     {inc}
+                  </li>
+                ))}
+              </ul>
+
+              <span className="mt-6 block font-sans text-xs font-bold uppercase tracking-[0.16em] text-on-dark-muted">
+                Nije uključeno
+              </span>
+              <ul className="mt-3 flex flex-col gap-2.5">
+                {NOT_INCLUDED.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-2.5 font-sans text-sm text-on-dark-muted"
+                  >
+                    <span className="mt-0.5 opacity-70">
+                      <IconX />
+                    </span>
+                    {item}
                   </li>
                 ))}
               </ul>
@@ -475,6 +604,27 @@ export default async function KanjoningTuraPage({
         </div>
       </section>
 
+      <section className="kon-section pt-0">
+        <div className="kon-container">
+          <div className="rounded-card-lg border border-line bg-surface p-6 sm:p-8">
+            <h2 className="font-display text-xl font-extrabold text-pine sm:text-2xl">
+              Napomene
+            </h2>
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+              {NOTES.map((note) => (
+                <li
+                  key={note}
+                  className="flex items-start gap-2.5 font-sans text-[15px] leading-relaxed text-body"
+                >
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-teal" aria-hidden="true" />
+                  {note}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <section className="kon-section bg-sand">
         <div className="kon-container">
           <SectionHeader
@@ -496,6 +646,31 @@ export default async function KanjoningTuraPage({
       </section>
 
       <section className="kon-section">
+        <div className="kon-container">
+          <SectionHeader
+            eyebrow="Istraži dalje"
+            naslov="Slične ponude"
+            link={{ href: "/ponuda", label: "Sva ponuda" }}
+          />
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
+            {similar.map((card) => (
+              <TourCard
+                key={card.href}
+                href={card.href}
+                naslov={card.naslov}
+                opis={card.opis}
+                kicker={card.kicker}
+                cijena={card.cijena}
+                cijenaLabel="od"
+                slika={"slika" in card ? card.slika : undefined}
+                fakti={card.fakti}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="kon-section bg-sand">
         <div className="kon-container" style={{ maxWidth: "var(--container-narrow)" }}>
           <SectionHeader
             eyebrow="Česta pitanja"
@@ -511,6 +686,10 @@ export default async function KanjoningTuraPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(tripLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbsLd) }}
       />
     </>
   );

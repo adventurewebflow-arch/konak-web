@@ -113,7 +113,7 @@ const RAFTING_TURE = [
     href: "/rafting/jednodnevni",
     kicker: "1 DAN",
     naslov: "Jednodnevni rafting",
-    fakti: [{ tekst: "1 dan" }, { tekst: "Ručak" }, { tekst: "Oprema" }],
+    fakti: [{ tekst: "1 dan" }, { tekst: "18 km" }, { tekst: "od 50€" }],
     cijena: "50€",
     cijenaLabel: "od",
     slika: {
@@ -125,7 +125,7 @@ const RAFTING_TURE = [
     href: "/rafting/dvodnevni",
     kicker: "2 DANA",
     naslov: "Dvodnevni aranžman",
-    fakti: [{ tekst: "2 dana" }, { tekst: "1 noćenje" }, { tekst: "Pun pansion" }],
+    fakti: [{ tekst: "2 dana" }, { tekst: "1 noćenje" }, { tekst: "3 obroka" }],
     cijena: "100€",
     cijenaLabel: "od",
     slika: {

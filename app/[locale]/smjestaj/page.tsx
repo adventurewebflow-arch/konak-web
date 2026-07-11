@@ -30,6 +30,7 @@ export const metadata: Metadata = {
 
 const SITE = "https://www.raftingkampkonak.com";
 const IMG = "/images/smjestaj-konak";
+const AUTO = "/images/autokamp";
 
 const GALERIJA = [
   {
@@ -59,6 +60,10 @@ const GALERIJA = [
   {
     src: `${IMG}/toalet_kamp_konak.webp`,
     alt: "Kupatilo u bungalovu kampa Konak",
+  },
+  {
+    src: `${AUTO}/auto-konak.jpg`,
+    alt: "Auto kamp Konak — kamperi pod krošnjama",
   },
 ];
 
@@ -249,7 +254,10 @@ export default async function SmjestajPage({
               chips={["Sanitarni čvor", "Struja", "WiFi", "Psi dozvoljeni"]}
               href="/rezervacija"
               linkLabel="Rezerviši parcelu →"
-              gradient="var(--gradient-slot-3)"
+              slika={{
+                src: `${AUTO}/autokapm-konak.jpg`,
+                alt: "Auto kamp na obali Tare — parcele za kampere",
+              }}
             />
           </div>
         </div>

@@ -27,8 +27,18 @@ export const metadata: Metadata = {
 
 const SITE = "https://www.raftingkampkonak.com";
 
-const OFFERS = [
-  { name: "Jednodnevni rafting", price: 50, url: "/rafting/jednodnevni" },
+const OFFERS: {
+  name: string;
+  price: number;
+  url: string;
+  description?: string;
+}[] = [
+  {
+    name: "Jednodnevni rafting",
+    price: 50,
+    url: "/rafting/jednodnevni",
+    description: "50 EUR bez ručka / 65 EUR sa domaćim ručkom",
+  },
   { name: "Dvodnevni aranžman", price: 100, url: "/rafting/dvodnevni" },
   { name: "Trodnevni aranžman", price: 140, url: "/rafting/trodnevni" },
   { name: "Rafting cijelom Tarom", price: 300, url: "/rafting/cijela-tara" },
@@ -40,6 +50,7 @@ const NAPOMENE = [
   "Djeca do 6 god. besplatno",
   "Djeca 6–12 god. pola cijene",
   "Sve cijene su po osobi i okvirne (\"od\")",
+  "Plaćanje isključivo u gotovini",
 ];
 
 export default async function PonudaPage({
@@ -62,6 +73,9 @@ export default async function PonudaPage({
       price: o.price,
       priceCurrency: "EUR",
       url: `${SITE}${o.url}`,
+      ...("description" in o && o.description
+        ? { description: o.description }
+        : {}),
       seller: {
         "@type": "LocalBusiness",
         name: "Rafting kamp Konak",

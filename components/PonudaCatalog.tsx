@@ -46,7 +46,7 @@ const GRUPE: OfferGroup[] = [
         kicker: "1 DAN · 0 NOĆENJA",
         naslov: "Jednodnevni rafting",
         opis:
-          "18 km i 18 bukova, ručak i kompletna oprema. Klasičan spust za sve.",
+          "18 km i 18 bukova. 50 € bez ručka ili 65 € sa domaćim ručkom.",
         cijena: "50€",
         href: "/rafting/jednodnevni",
         gradient: "var(--gradient-slot-1)",
@@ -57,7 +57,7 @@ const GRUPE: OfferGroup[] = [
         kicker: "2 DANA · 1 NOĆENJE",
         naslov: "Dvodnevni aranžman",
         opis:
-          "Doček, noćenje u lux bungalovu i pun pansion, pa rafting drugog dana.",
+          "Jedno veče u kampu i jedan dan na rijeci — od 100 €.",
         cijena: "100€",
         href: "/rafting/dvodnevni",
         gradient: "var(--gradient-slot-2)",
@@ -68,7 +68,7 @@ const GRUPE: OfferGroup[] = [
         kicker: "3 DANA · 2 NOĆENJA",
         naslov: "Trodnevni aranžman",
         opis:
-          "Najtraženiji paket: Brštanovica – Šćepan Polje – Hum, 5 obroka.",
+          "Najtraženiji aranžman: rafting, dvije večeri i dan za Sutjesku ili mir.",
         cijena: "140€",
         href: "/rafting/trodnevni",
         tag: "NAJTRAŽENIJE",
@@ -80,7 +80,7 @@ const GRUPE: OfferGroup[] = [
         kicker: "4 DANA · CIJELI TOK",
         naslov: "Rafting cijelom Tarom",
         opis:
-          "76 km od vrha kanjona do Huma, 8 obroka, 3 noćenja. Najveća avantura.",
+          "76 km — pećine, vodopadi i noć u najdubljoj tački kanjona.",
         cijena: "300€",
         href: "/rafting/cijela-tara",
         gradient: "var(--gradient-slot-1)",

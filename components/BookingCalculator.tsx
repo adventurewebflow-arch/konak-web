@@ -147,10 +147,10 @@ export function BookingCalculator() {
     tour.id === "r1"
       ? weekend
         ? lunch
-          ? 70
+          ? 75
           : 60
         : lunch
-          ? 60
+          ? 65
           : 50
       : weekend
         ? tour.we
@@ -267,7 +267,7 @@ export function BookingCalculator() {
               <span className="font-sans text-sm font-semibold text-ink">
                 Sa ručkom (domaća kuhinja)
                 <span className="ml-2 font-normal text-muted">
-                  +10€ sa ručkom · 50€ → 60€ (vikend 60€ → 70€)
+                  +15€ sa ručkom · 50€ → 65€ (vikend 60€ → 75€)
                 </span>
               </span>
               <input
