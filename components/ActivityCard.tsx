@@ -12,6 +12,7 @@ interface ActivityCardProps {
   cijena: string;
   href: string;
   ctaLabel?: string;
+  slika?: { src: string; alt: string };
   gradient?: string;
 }
 
@@ -63,6 +64,7 @@ export function ActivityCard({
   cijena,
   href,
   ctaLabel = "Pitaj →",
+  slika,
   gradient = "var(--gradient-slot-1)",
 }: ActivityCardProps) {
   return (
@@ -71,6 +73,8 @@ export function ActivityCard({
       className={`group flex h-full flex-col overflow-hidden rounded-card border border-line bg-surface ${LIFT}`}
     >
       <ImageSlot
+        src={slika?.src}
+        alt={slika?.alt}
         className="aspect-[16/10] w-full"
         imageClassName={ZOOM}
         gradient={gradient}

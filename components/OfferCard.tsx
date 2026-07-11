@@ -9,6 +9,7 @@ interface OfferCardProps {
   cijenaLabel?: string;
   href: string;
   tag?: string;
+  slika?: { src: string; alt: string };
   gradient?: string;
 }
 
@@ -45,6 +46,7 @@ export function OfferCard({
   cijenaLabel = "od",
   href,
   tag,
+  slika,
   gradient = "var(--gradient-slot-1)",
 }: OfferCardProps) {
   const highlighted = Boolean(tag);
@@ -59,6 +61,8 @@ export function OfferCard({
       }`}
     >
       <ImageSlot
+        src={slika?.src}
+        alt={slika?.alt}
         className="aspect-[5/4] w-full"
         imageClassName={ZOOM}
         gradient={gradient}

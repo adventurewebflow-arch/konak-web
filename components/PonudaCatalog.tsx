@@ -15,7 +15,7 @@ interface OfferItem {
   cijenaLabel?: string;
   href: string;
   tag?: string;
-  gradient?: string;
+  slika: { src: string; alt: string };
 }
 
 interface OfferGroup {
@@ -33,6 +33,10 @@ const FILTERI: { id: Filter; label: string }[] = [
   { id: "izleti", label: "Izleti" },
 ];
 
+const HERO = "/images/hero-slike-konak";
+const BLOG = "/images/blog-konak";
+const GAL = "/images/galerija";
+
 const GRUPE: OfferGroup[] = [
   {
     id: "rafting",
@@ -49,7 +53,10 @@ const GRUPE: OfferGroup[] = [
           "18 km i 18 bukova. 50 € bez ručka ili 65 € sa domaćim ručkom.",
         cijena: "50€",
         href: "/rafting/jednodnevni",
-        gradient: "var(--gradient-slot-1)",
+        slika: {
+          src: `${HERO}/raftingtarom-jednodnevni.jpg`,
+          alt: "Jednodnevni rafting na Tari — spust kroz kanjon",
+        },
       },
       {
         id: "r2",
@@ -60,7 +67,10 @@ const GRUPE: OfferGroup[] = [
           "Jedno veče u kampu i jedan dan na rijeci — od 100 €.",
         cijena: "100€",
         href: "/rafting/dvodnevni",
-        gradient: "var(--gradient-slot-2)",
+        slika: {
+          src: `${HERO}/raftingtarom-dvodnevni.jpg`,
+          alt: "Dvodnevni rafting aranžman na Tari",
+        },
       },
       {
         id: "r3",
@@ -72,7 +82,10 @@ const GRUPE: OfferGroup[] = [
         cijena: "140€",
         href: "/rafting/trodnevni",
         tag: "NAJTRAŽENIJE",
-        gradient: "var(--gradient-slot-3)",
+        slika: {
+          src: `${HERO}/raftingtarom-trodnevni.jpg`,
+          alt: "Trodnevni rafting aranžman na Tari",
+        },
       },
       {
         id: "r4",
@@ -83,7 +96,10 @@ const GRUPE: OfferGroup[] = [
           "76 km — pećine, vodopadi i noć u najdubljoj tački kanjona.",
         cijena: "300€",
         href: "/rafting/cijela-tara",
-        gradient: "var(--gradient-slot-1)",
+        slika: {
+          src: `${HERO}/raftingtarom-cetverodnevni.jpg`,
+          alt: "Rafting cijelim tokom Tare — 76 kilometara",
+        },
       },
     ],
   },
@@ -102,7 +118,10 @@ const GRUPE: OfferGroup[] = [
           "Najzahtjevniji kanjon Crne Gore — Komarnica ispod Durmitora. Sezona jun–okt.",
         cijena: "130€",
         href: "/kanjoning/nevidio",
-        gradient: "var(--gradient-slot-2)",
+        slika: {
+          src: `${HERO}/kanjoning-pocetna.jpg`,
+          alt: "Kanjoning Nevidio — spust niz vodopad u kanjonu",
+        },
       },
       {
         id: "k2",
@@ -113,7 +132,10 @@ const GRUPE: OfferGroup[] = [
           "Pitomiji kanjon u NP Sutjeska, kod Tjentišta. Idealan za prvi kanjoning.",
         cijena: "120€",
         href: "/kanjoning/hrcavka",
-        gradient: "var(--gradient-slot-3)",
+        slika: {
+          src: `${GAL}/galerija15.jpg`,
+          alt: "Kanjoning Hrčavka — učesnici ispred vodopada u kanjonu",
+        },
       },
     ],
   },
@@ -133,7 +155,10 @@ const GRUPE: OfferGroup[] = [
         cijena: "na upit",
         cijenaLabel: "",
         href: "/izleti",
-        gradient: "var(--gradient-slot-1)",
+        slika: {
+          src: `${HERO}/kanjoning-pocetna.jpg`,
+          alt: "Kombinacija raftinga i kanjoninga",
+        },
       },
       {
         id: "i2",
@@ -145,7 +170,10 @@ const GRUPE: OfferGroup[] = [
         cijena: "na upit",
         cijenaLabel: "",
         href: "/izleti",
-        gradient: "var(--gradient-slot-2)",
+        slika: {
+          src: `${BLOG}/blog-np-sutjeska-konak.jpg`,
+          alt: "Rafting i izlet u Nacionalni park Sutjeska",
+        },
       },
       {
         id: "i3",
@@ -157,7 +185,10 @@ const GRUPE: OfferGroup[] = [
         cijena: "na upit",
         cijenaLabel: "",
         href: "/izleti",
-        gradient: "var(--gradient-slot-3)",
+        slika: {
+          src: `${HERO}/izleti-konak.png`,
+          alt: "Planinski izleti — Durmitor, Zelengora i Piva",
+        },
       },
     ],
   },

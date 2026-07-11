@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
 const SITE = "https://www.raftingkampkonak.com";
 
-// Hub kartice — rafting/kanjoning sa cijenama na svojim stranicama; izleti „na upit".
+// Samo aktivnosti — smještaj, hrana, kamp i teambuilding imaju svoje stranice.
 const AKTIVNOSTI = [
   {
     kategorija: "Glavna ponuda · od 50€",
@@ -38,7 +38,10 @@ const AKTIVNOSTI = [
       "Jednodnevni i višednevni aranžmani niz najdublji kanjon Evrope — od brzog spusta do četvorodnevne ekspedicije cijelim tokom Tare.",
     href: "/rafting",
     linkLabel: "Sve rafting ture →",
-    gradient: "var(--gradient-slot-1)",
+    slika: {
+      src: "/images/hero-slike-konak/raftingtarom-jednodnevni.jpg",
+      alt: "Rafting na Tari — spust kroz kanjon",
+    },
   },
   {
     kategorija: "Kanjoning · od 120€",
@@ -47,34 +50,22 @@ const AKTIVNOSTI = [
       "Skokovi, tobogani i prolazi kroz dva najljepša kanjona u okolini — za početnike (Hrčavka) i iskusne avanturiste (Nevidio).",
     href: "/kanjoning",
     linkLabel: "Pogledaj kanjoning →",
-    gradient: "var(--gradient-slot-2)",
+    slika: {
+      src: "/images/hero-slike-konak/kanjoning-pocetna.jpg",
+      alt: "Kanjoning — prolaz kroz kanjon",
+    },
   },
   {
-    kategorija: "Kombinacije",
-    naslov: "Izleti i kombinacije",
+    kategorija: "Izleti · na upit",
+    naslov: "NP Sutjeska, Durmitor i planine",
     opis:
-      "Spojite rafting sa NP Sutjeskom, kanjoningom ili Durmitorom — najtraženiji paketi za višednevni boravak u kampu.",
+      "Perućica, Trnovačko jezero, Durmitor, Zelengora i Piva — planinski izleti i kombinacije uz rafting boravak.",
     href: "/izleti",
-    linkLabel: "Omiljene kombinacije →",
-    gradient: "var(--gradient-slot-3)",
-  },
-  {
-    kategorija: "NP Sutjeska · na upit",
-    naslov: "Perućica i Trnovačko jezero",
-    opis:
-      "Cjelodnevni izlet u najstariji nacionalni park — prašuma Perućica i srcoliko jezero ispod Maglića. Cijena na upit.",
-    href: "/izleti",
-    linkLabel: "Vidi izlete →",
-    gradient: "var(--gradient-slot-2)",
-  },
-  {
-    kategorija: "Planina · na upit",
-    naslov: "Durmitor i Crno jezero",
-    opis:
-      "Kratki izlet do Crnog jezera i vidikovaca Durmitora — uz rafting boravak. Cijena na upit.",
-    href: "/kontakt",
-    linkLabel: "Pošalji upit →",
-    gradient: "var(--gradient-slot-1)",
+    linkLabel: "Pogledaj izlete →",
+    slika: {
+      src: "/images/blog-konak/blog-np-sutjeska-konak.jpg",
+      alt: "Nacionalni park Sutjeska — planinski izlet iz kampa",
+    },
   },
   {
     kategorija: "Avantura · na upit",
@@ -83,7 +74,10 @@ const AKTIVNOSTI = [
       "Staza do vidikovca sa pogledom na kanjon Tare — i za početnike. Cijena na upit.",
     href: "/kontakt",
     linkLabel: "Pošalji upit →",
-    gradient: "var(--gradient-slot-3)",
+    slika: {
+      src: "/images/galerija/galerija11.jpg",
+      alt: "Priroda oko kampa Konak — staza za jahanje uz kanjon Tare",
+    },
   },
 ];
 
@@ -126,6 +120,14 @@ export default async function AktivnostiPage({
             eyebrow="Pregled ponude"
             naslov="Sve aktivnosti na jednom mjestu."
           />
+          <p
+            className="mt-5 max-w-2xl font-sans text-body text-text-secondary"
+            style={{ fontSize: "clamp(16px, 1.35vw, 18px)", lineHeight: 1.65 }}
+          >
+            Iz kampa organizujemo rafting na Tari, kanjoning kroz Nevidio i
+            Hrčavku, planinske izlete (NP Sutjeska, Durmitor, Zelengora, Piva) i
+            jahanje. Spojite više avantura u jedan boravak — sve polazi odavde.
+          </p>
           <div className="kon-acts mt-10">
             {AKTIVNOSTI.map((a) => (
               <BlogCard
@@ -135,7 +137,7 @@ export default async function AktivnostiPage({
                 opis={a.opis}
                 href={a.href}
                 linkLabel={a.linkLabel}
-                gradient={a.gradient}
+                slika={a.slika}
               />
             ))}
           </div>
@@ -161,12 +163,12 @@ export default async function AktivnostiPage({
             className="mt-5 max-w-xl font-sans text-body"
             style={{ fontSize: "clamp(16px, 1.4vw, 19px)", lineHeight: 1.65 }}
           >
-            U kalkulatoru možete dodati NP Sutjeska i druge aktivnosti uz svoju
+            U rezervaciji možete dodati NP Sutjeska i druge aktivnosti uz svoju
             rafting turu — javite nam šta vas zanima.
           </p>
           <div className="mt-8">
             <CtaButton href="/rezervacija" arrow>
-              Otvori kalkulator
+              Pošalji upit
             </CtaButton>
           </div>
         </div>

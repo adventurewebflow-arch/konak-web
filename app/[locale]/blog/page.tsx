@@ -88,12 +88,25 @@ export default async function BlogPage({
             opis="Kompletna lista — šta dobijate od nas, a šta nosite sami: odjeća, obuća, zaštita od sunca i sitnice koje prave razliku na rijeci."
             href={`/blog/${featured.slug}`}
             linkLabel="Pročitaj"
-            gradient={featured.gradient}
+            slika={{
+              src: "/images/rafting/rafting-galerija8.jpg",
+              alt: "Rafting oprema — kacige, prsluci i neopren na Tari",
+            }}
           />
 
           <div className="kon-posts">
-            {GRID_SLUGS.map((slug, i) => {
+            {GRID_SLUGS.map((slug) => {
               const post = BLOG_POSTS[slug];
+              const slika =
+                slug === "np-sutjeska-vodic"
+                  ? {
+                      src: "/images/blog-konak/blog-np-sutjeska-konak.jpg",
+                      alt: "Nacionalni park Sutjeska — vodič i pejzaž",
+                    }
+                  : {
+                      src: "/images/hero-slike-konak/izleti-konak.png",
+                      alt: "Aktivnosti i izleti oko Tare",
+                    };
               return (
                 <BlogCard
                   key={slug}
@@ -101,11 +114,7 @@ export default async function BlogPage({
                   naslov={post.title}
                   opis={post.excerpt}
                   href={`/blog/${post.slug}`}
-                  gradient={
-                    i === 0
-                      ? "var(--gradient-slot-2)"
-                      : "var(--gradient-slot-3)"
-                  }
+                  slika={slika}
                 />
               );
             })}

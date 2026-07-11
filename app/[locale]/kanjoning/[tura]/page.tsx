@@ -42,6 +42,9 @@ interface TuraData {
   included: string[];
   cardKicker: string;
   cardCijena: string;
+  hero: { src: string; alt: string };
+  cardSlika: { src: string; alt: string };
+  gallery: { src: string; alt: string }[];
   faq: { pitanje: string; odgovor: string }[];
   metaTitle: string;
   metaDescription: string;
@@ -144,6 +147,28 @@ const TURE: Record<string, TuraData> = {
     ],
     cardKicker: "NEVIDIO · cijeli dan",
     cardCijena: "130€",
+    hero: {
+      src: "/images/hero-slike-konak/kanjoning-pocetna.jpg",
+      alt: "Kanjoning Nevidio — spust niz vodopad u kanjonu",
+    },
+    cardSlika: {
+      src: "/images/hero-slike-konak/kanjoning-pocetna.jpg",
+      alt: "Kanjoning Nevidio — spust niz vodopad u kanjonu",
+    },
+    gallery: [
+      {
+        src: "/images/galerija/galerija13.jpg",
+        alt: "Pauza uz tirkiznu rijeku u kanjonu",
+      },
+      {
+        src: "/images/galerija/galerija14.jpg",
+        alt: "Kupanje i avantura u kristalnoj vodi kanjona",
+      },
+      {
+        src: "/images/rafting/rafting-galerija5.jpg",
+        alt: "Stijene i zelenilo kanjona oko rijeke",
+      },
+    ],
     faq: [
       {
         pitanje: "Da li je Nevidio za početnike?",
@@ -232,6 +257,28 @@ const TURE: Record<string, TuraData> = {
     ],
     cardKicker: "HRČAVKA · pola dana",
     cardCijena: "120€",
+    hero: {
+      src: "/images/galerija/galerija15.jpg",
+      alt: "Kanjoning Hrčavka — učesnici ispred vodopada u kanjonu",
+    },
+    cardSlika: {
+      src: "/images/galerija/galerija15.jpg",
+      alt: "Kanjoning Hrčavka — učesnici ispred vodopada u kanjonu",
+    },
+    gallery: [
+      {
+        src: "/images/galerija/galerija13.jpg",
+        alt: "Kupanje i pauza u tirkiznoj vodi kanjona",
+      },
+      {
+        src: "/images/galerija/galerija14.jpg",
+        alt: "Porodična avantura u kristalnoj vodi uz opremu",
+      },
+      {
+        src: "/images/rafting/rafting-galerija2.jpg",
+        alt: "Stijene i zelenilo oko rijeke u kanjonu",
+      },
+    ],
     faq: [
       {
         pitanje: "Je li Hrčavka dobra za prvi kanjoning?",
@@ -266,12 +313,6 @@ const TURE: Record<string, TuraData> = {
     galleryTitle: "Trenuci iz Hrčavke",
   },
 };
-
-const SLOT_GRADIENTS = [
-  "var(--gradient-slot-1)",
-  "var(--gradient-slot-2)",
-  "var(--gradient-slot-3)",
-];
 
 export function generateStaticParams() {
   return Object.keys(TURE).map((tura) => ({ tura }));
@@ -398,6 +439,7 @@ export default async function KanjoningTuraPage({
       opis: data.subtitle,
       kicker: data.cardKicker,
       cijena: data.cardCijena,
+      slika: data.cardSlika,
       fakti: [{ tekst: data.durationFact }, { tekst: data.stayFact }],
     }));
 
@@ -446,6 +488,7 @@ export default async function KanjoningTuraPage({
         naslov={t.title}
         lead={t.subtitle}
         nazadLink={{ href: "/kanjoning", label: "Svi kanjoning izleti" }}
+        slika={t.hero}
       />
 
       <section className="kon-section">
@@ -633,11 +676,12 @@ export default async function KanjoningTuraPage({
             link={{ href: "/galerija", label: "Cijela galerija" }}
           />
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {SLOT_GRADIENTS.map((g, i) => (
+            {t.gallery.map((img) => (
               <ImageSlot
-                key={i}
+                key={img.src}
+                src={img.src}
+                alt={img.alt}
                 className="aspect-[4/3] rounded-card"
-                gradient={g}
                 sizes="(max-width: 640px) 100vw, 400px"
               />
             ))}

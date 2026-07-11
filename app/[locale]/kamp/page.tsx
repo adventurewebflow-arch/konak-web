@@ -30,9 +30,27 @@ export const metadata: Metadata = {
 const SITE = "https://www.raftingkampkonak.com";
 
 const ATMOSFERA = [
-  { label: "Kamp uz rijeku", gradient: "var(--gradient-slot-1)" },
-  { label: "Veče u kampu", gradient: "var(--gradient-slot-2)" },
-  { label: "Priroda oko kampa", gradient: "var(--gradient-slot-3)" },
+  {
+    label: "Kamp uz rijeku",
+    slika: {
+      src: "/images/smjestaj-konak/kamp_konak.webp",
+      alt: "Rafting kamp Konak uz rijeku",
+    },
+  },
+  {
+    label: "Veče u kampu",
+    slika: {
+      src: "/images/smjestaj-konak/kamp_konak1.webp",
+      alt: "Atmosfera uveče u kampu Konak",
+    },
+  },
+  {
+    label: "Priroda oko kampa",
+    slika: {
+      src: "/images/hero-slike-konak/smjestaj-konak-pocetna.jpg",
+      alt: "Priroda i pejzaž oko kampa Konak",
+    },
+  },
 ];
 
 const POGODNOSTI: { naslov: string; opis: string; ikona: ReactNode }[] = [
@@ -188,7 +206,8 @@ export default async function KampPage({
           <div className="kon-split-media">
             <ImageSlot
               className="aspect-[4/5] w-full rounded-card-lg shadow-soft"
-              gradient="var(--gradient-slot-2)"
+              src="/images/smjestaj-konak/konak_ispred.webp"
+              alt="Ulaz u rafting kamp Konak — kamen i drvo ispred planine"
               sizes="(max-width: 960px) 100vw, 520px"
             />
           </div>
@@ -204,7 +223,8 @@ export default async function KampPage({
               <ImageSlot
                 key={item.label}
                 className={`rounded-card ${i === 0 ? "aspect-[16/10] min-h-[220px]" : "aspect-[4/3]"}`}
-                gradient={item.gradient}
+                src={item.slika.src}
+                alt={item.slika.alt}
                 sizes="(max-width: 920px) 50vw, 400px"
               >
                 <span className="absolute bottom-4 left-4 rounded-pill bg-pine/85 px-3 py-1 font-sans text-xs font-bold text-white backdrop-blur-sm">
@@ -233,7 +253,10 @@ export default async function KampPage({
               }
               chips={["Sopstveno kupatilo", "Posteljina i peškiri", "Terasa uz rijeku"]}
               href="/smjestaj"
-              gradient="var(--gradient-slot-1)"
+              slika={{
+                src: "/images/smjestaj-konak/smjestaj_kamp_konak.webp",
+                alt: "Lux bungalovi kampa Konak na obali",
+              }}
             />
             <StayCard
               naslov="Auto kamp"
@@ -241,7 +264,10 @@ export default async function KampPage({
               opis="Prostrane parcele za kampere i šatore na samoj obali. Sve što treba na jednom mjestu, uz pristup restoranu."
               chips={["Struja", "Toalet i tuš", "Psi dozvoljeni", "Parking"]}
               href="/smjestaj"
-              gradient="var(--gradient-slot-3)"
+              slika={{
+                src: "/images/autokamp/autokapm-konak.jpg",
+                alt: "Auto kamp Konak — parcele uz rijeku",
+              }}
             />
           </div>
         </div>

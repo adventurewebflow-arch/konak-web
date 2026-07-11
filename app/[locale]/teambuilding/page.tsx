@@ -39,7 +39,10 @@ const AKTIVNOSTI = [
       "Spust niz Taru u istom čamcu — koordinacija, povjerenje i adrenalin koji tim spaja bolje nego bilo koja sala.",
     cijena: "na upit",
     href: "/rafting",
-    gradient: "var(--gradient-slot-1)",
+    slika: {
+      src: "/images/hero-slike-konak/raftingtarom-jednodnevni.jpg",
+      alt: "Rafting za timove na Tari",
+    },
   },
   {
     kategorija: "Adrenalin",
@@ -50,7 +53,10 @@ const AKTIVNOSTI = [
       "Nevidio ili Hrčavka — izlazak iz zone komfora zajedno, uz iskusne vodiče i opremu po najvišim standardima.",
     cijena: "na upit",
     href: "/kanjoning",
-    gradient: "var(--gradient-slot-2)",
+    slika: {
+      src: "/images/hero-slike-konak/kanjoning-pocetna.jpg",
+      alt: "Kanjoning za grupe — spust kroz kanjon",
+    },
   },
   {
     kategorija: "Priroda",
@@ -61,7 +67,10 @@ const AKTIVNOSTI = [
       "Prašuma Perućica, Trnovačko jezero ili Maglić — dan u prirodi kao predah od vode i prilika za timsku povezanost.",
     cijena: "na upit",
     href: "/izleti",
-    gradient: "var(--gradient-slot-3)",
+    slika: {
+      src: "/images/blog-konak/blog-np-sutjeska-konak.jpg",
+      alt: "Izlet u Nacionalni park Sutjeska za timove",
+    },
   },
 ];
 
@@ -201,7 +210,10 @@ export default async function TeambuildingPage({
               "Parking za autobus",
             ]}
             imageBadge="Grupe 4+"
-            imageGradient="var(--gradient-slot-1)"
+            slika={{
+              src: "/images/galerija/galerija40.jpg",
+              alt: "Grupni gosti u opremi ispred kampa Konak",
+            }}
           />
         </div>
       </section>

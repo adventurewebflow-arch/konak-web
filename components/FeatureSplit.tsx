@@ -13,6 +13,7 @@ interface FeatureSplitProps {
   /** Slika lijevo na desktopu (default: desno). */
   imageLeft?: boolean;
   imageBadge?: string;
+  slika?: { src: string; alt: string };
   imageGradient?: string;
   cta?: { label: string; href: string; variant?: "primary" | "secondary" };
 }
@@ -25,11 +26,14 @@ export function FeatureSplit({
   cols = "1fr 1fr",
   imageLeft = false,
   imageBadge,
+  slika,
   imageGradient = "var(--gradient-slot-2)",
   cta,
 }: FeatureSplitProps) {
   const image = (
     <ImageSlot
+      src={slika?.src}
+      alt={slika?.alt}
       className="aspect-[4/3] w-full rounded-card-lg shadow-soft"
       gradient={imageGradient}
       sizes="(max-width: 960px) 100vw, 520px"

@@ -36,6 +36,10 @@ const TURE = [
     cijena: "130€",
     cijenaLabel: "od",
     obrnuto: false,
+    slika: {
+      src: "/images/hero-slike-konak/kanjoning-pocetna.jpg",
+      alt: "Kanjoning Nevidio — spust niz vodopad u kanjonu",
+    },
   },
   {
     href: "/kanjoning/hrcavka",
@@ -46,6 +50,10 @@ const TURE = [
     cijena: "120€",
     cijenaLabel: "od",
     obrnuto: true,
+    slika: {
+      src: "/images/galerija/galerija15.jpg",
+      alt: "Kanjoning Hrčavka — učesnici ispred vodopada u kanjonu",
+    },
   },
 ];
 
@@ -95,6 +103,7 @@ export default async function KanjoningPage({
               cijena={t.cijena}
               cijenaLabel={t.cijenaLabel}
               obrnuto={t.obrnuto}
+              slika={t.slika}
             />
           ))}
         </div>

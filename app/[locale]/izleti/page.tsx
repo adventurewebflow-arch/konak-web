@@ -37,7 +37,10 @@ const KOMBINACIJE = [
       "Dan na vodi i dan u prašumi Perućici i kod Trnovačkog jezera — voda i planina u balansu. Cijena na upit.",
     href: "/kontakt",
     linkLabel: "Pošalji upit →",
-    gradient: "var(--gradient-slot-1)",
+    slika: {
+      src: "/images/blog-konak/blog-np-sutjeska-konak.jpg",
+      alt: "Rafting i izlet u Nacionalni park Sutjeska",
+    },
   },
   {
     kategorija: "Za avanturiste · od 120€",
@@ -46,7 +49,10 @@ const KOMBINACIJE = [
       "Dupla doza adrenalina — spust niz Taru i probijanje kroz Nevidio ili Hrčavku. Za one koji ne staju.",
     href: "/kanjoning",
     linkLabel: "Pogledaj kanjoning →",
-    gradient: "var(--gradient-slot-2)",
+    slika: {
+      src: "/images/hero-slike-konak/kanjoning-pocetna.jpg",
+      alt: "Kombinacija raftinga i kanjoninga",
+    },
   },
   {
     kategorija: "Opušteno · na upit",
@@ -55,15 +61,50 @@ const KOMBINACIJE = [
       "Adrenalin na rijeci, pa miran dan na Durmitoru i kod Crnog jezera. Cijena na upit.",
     href: "/kontakt",
     linkLabel: "Pošalji upit →",
-    gradient: "var(--gradient-slot-3)",
+    slika: {
+      src: "/images/hero-slike-konak/izleti-konak.png",
+      alt: "Planinski izlet na Durmitor uz rafting boravak",
+    },
   },
 ];
 
 const PLANINSKI = [
-  { naslov: "Prašuma Perućica", meta: "NP Sutjeska · na upit" },
-  { naslov: "Trnovačko jezero", meta: "Hiking · na upit" },
-  { naslov: "Zelengora", meta: "Gorska jezera · na upit" },
-  { naslov: "Pivsko jezero", meta: "Izlet · na upit" },
+  {
+    naslov: "Prašuma Perućica",
+    meta: "NP Sutjeska · na upit",
+    opis: "Najveća prašuma u Evropi — cjelodnevni izlet iz kampa, na upit.",
+    slika: {
+      src: "/images/hero-slike-konak/izleti-konak.png",
+      alt: "Planinski izlet — prašuma Perućica",
+    },
+  },
+  {
+    naslov: "Trnovačko jezero",
+    meta: "Hiking · na upit",
+    opis: "Hiking do srcolikog jezera ispod Maglića — uz rafting boravak.",
+    slika: {
+      src: "/images/blog-konak/blog-np-sutjeska-konak.jpg",
+      alt: "Izlet do Trnovačkog jezera",
+    },
+  },
+  {
+    naslov: "Zelengora",
+    meta: "Gorska jezera · na upit",
+    opis: "Gorska jezera i pejzaži Zelengore — organizujemo iz kampa.",
+    slika: {
+      src: "/images/hero-slike-konak/izleti-konak.png",
+      alt: "Planinski izlet na Zelengoru",
+    },
+  },
+  {
+    naslov: "Pivsko jezero",
+    meta: "Izlet · na upit",
+    opis: "Kratki izlet do Pivskog jezera — mirna pauza uz vodu.",
+    slika: {
+      src: "/images/hero-slike-konak/izleti-konak.png",
+      alt: "Izlet do Pivskog jezera",
+    },
+  },
 ];
 
 export default async function IzletiPage({
@@ -117,7 +158,7 @@ export default async function IzletiPage({
                 opis={k.opis}
                 href={k.href}
                 linkLabel={k.linkLabel}
-                gradient={k.gradient}
+                slika={k.slika}
               />
             ))}
           </div>
@@ -138,21 +179,17 @@ export default async function IzletiPage({
               </>
             }
           />
-          <div className="kon-mtn mt-8">
+          <div className="kon-combos mt-8">
             {PLANINSKI.map((p) => (
-              <Link
+              <BlogCard
                 key={p.naslov}
+                kategorija={p.meta}
+                naslov={p.naslov}
+                opis={p.opis}
                 href="/kontakt"
-                className="rounded-card border border-line bg-surface px-5 py-4 transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-soft"
-              >
-                <h3 className="font-display text-base font-semibold text-ink">
-                  {p.naslov}
-                </h3>
-                <p className="mt-1 font-sans text-sm text-muted">{p.meta}</p>
-                <span className="mt-2 inline-block font-sans text-xs font-bold text-terracotta">
-                  Pošalji upit →
-                </span>
-              </Link>
+                linkLabel="Pošalji upit →"
+                slika={p.slika}
+              />
             ))}
           </div>
           <p className="mt-6 font-sans text-sm text-text-secondary">
