@@ -8,7 +8,7 @@ import { ImageSlot } from "@/components/ImageSlot";
 export const metadata: Metadata = {
   title: "Oprema i sigurnost — certifikovani skiperi i kompletna oprema | Konak",
   description:
-    "Kako brinemo o vašoj sigurnosti na Tari: certifikovani skiperi i vodiči, kompletna oprema (neopren, čizme, prsluk, kaciga, veslo), sigurnosni brifing i procjena vremenskih uslova prije svake ture.",
+    "Kako brinemo o vašoj sigurnosti na Tari: certifikovani skiperi i vodiči, nova oprema po savremenim standardima, sigurnosni brifing i procjena vremenskih uslova prije svake ture.",
   keywords: [
     "rafting sigurnost",
     "rafting oprema",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Oprema i sigurnost — Rafting kamp Konak",
     description:
-      "Certifikovani skiperi, kompletna oprema i jasna pravila na svakoj turi.",
+      "Certifikovani skiperi, nova oprema i jasna pravila na svakoj turi.",
     type: "article",
   },
 };
@@ -144,6 +144,11 @@ export default async function OpremaPage({
     },
   };
 
+  const bodyStyle = {
+    fontSize: "clamp(16px, 1.4vw, 19px)",
+    lineHeight: 1.65,
+  } as const;
+
   return (
     <>
       <Hero
@@ -166,32 +171,33 @@ export default async function OpremaPage({
           className="kon-container space-y-4 font-sans text-body"
           style={{
             maxWidth: "880px",
-            fontSize: "clamp(16px, 1.4vw, 19px)",
-            lineHeight: 1.65,
+            ...bodyStyle,
           }}
         >
           <p className="font-display text-xl font-semibold text-ink sm:text-2xl">
             Avantura i sigurnost nisu suprotnosti — kod nas idu zajedno.
           </p>
-          <p>
+          <p className="text-text-secondary">
             Sa preko 20 godina na Tari, naši skiperi su rijeku upoznali u svakom
-            raspoloženju. Tu vrstu iskustva ne može da zamijeni nijedan papir — ali
-            uz to dolaze i certifikati, provjerena oprema i jasna pravila kojih se
-            držimo na svakoj turi.
+            raspoloženju — i kad je mirna kao jezero, i kad nosi. Tu vrstu iskustva
+            ne može da zamijeni nijedan papir. Ali uz to dolaze i certifikati,
+            provjerena oprema i jasna pravila kojih se držimo na svakoj turi, bez
+            izuzetka.
           </p>
         </div>
       </section>
 
       {/* Vodiči split */}
-      <section className="kon-section">
+      <section className="kon-section bg-sand">
         <div
           className="kon-container kon-split kon-split-stack"
           style={{ ["--split-cols" as string]: "1fr 1fr" }}
         >
           <div className="kon-split-media">
             <ImageSlot
+              src="/images/rafting/rafting-galerija8.jpg"
+              alt="Certifikovani skiper i grupa u opremi na Tari"
               className="aspect-[4/3] w-full rounded-card-lg shadow-soft"
-              gradient="var(--gradient-slot-2)"
               sizes="(max-width: 960px) 100vw, 520px"
             />
           </div>
@@ -201,13 +207,56 @@ export default async function OpremaPage({
               naslov="Certifikovani skiperi u svakom čamcu"
             />
             <p
-              className="mt-6 max-w-xl font-sans text-body"
-              style={{ fontSize: "clamp(16px, 1.4vw, 19px)", lineHeight: 1.65 }}
+              className="mt-6 max-w-xl font-sans text-body text-text-secondary"
+              style={bodyStyle}
             >
-              Svaku turu vodi certifikovani skiper koji rijeku poznaje napamet — svaki
-              buk, svaku struju i svako sigurno mjesto za pauzu. On bira liniju, daje
-              komande i prilagođava tempo grupi. Vi samo slušate i uživate.
+              Svaku turu vodi certifikovani skiper koji rijeku poznaje napamet —
+              svaki buk, svaku struju i svako sigurno mjesto za pauzu. On bira
+              liniju, daje komande i prilagođava tempo grupi. Vi samo slušate i
+              uživate.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Ulaganje u opremu */}
+      <section className="kon-section">
+        <div className="kon-container">
+          <div
+            className="mx-auto max-w-3xl overflow-hidden rounded-card-lg border border-mint-border bg-mint-surface px-6 py-8 sm:px-10 sm:py-10"
+          >
+            <span className="font-sans text-xs font-bold uppercase tracking-[0.14em] text-teal">
+              Naša oprema
+            </span>
+            <h2
+              className="mt-3 font-display font-extrabold text-pine"
+              style={{
+                fontSize: "clamp(26px, 3.5vw, 40px)",
+                lineHeight: 1.08,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Nova oprema, po savremenim standardima
+            </h2>
+            <div className="mt-5 space-y-4 font-sans text-body text-text-secondary" style={bodyStyle}>
+              <p>
+                Oprema je jedino mjesto gdje ne štedimo. Naša oprema je nova i
+                usklađena sa savremenim standardima — čamci, prsluci, kacige,
+                neopren, vesla. Ništa od toga nije naslijeđeno, iznajmljeno ni „dobro
+                još malo".
+              </p>
+              <p>
+                U opremu ulažemo kontinuirano, svake sezone. To je značajan trošak i
+                mnogi kampovi tu prave uštedu — mi ne pravimo. Prosto: čovjek koji
+                vam sjedi u čamcu je nečiji otac, nečije dijete, i to je jedina
+                računica koja nas zanima.
+              </p>
+              <p>
+                Oprema se redovno održava i kontroliše. Prije svake sezone i tokom
+                nje pregledamo sve — svaki prsluk, svaku kacigu, svaki čamac. Ono
+                što pokaže i najmanji znak istrošenosti ne ide više na vodu.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -250,7 +299,8 @@ export default async function OpremaPage({
             <p className="mt-4 font-sans text-[15px] leading-relaxed text-text-secondary">
               Prije svake ture skiper objasni komande veslanja, kako se ponašati u
               brzaku i šta raditi ako neko upadne u vodu. Kratko, jasno i bez
-              preskakanja — tek kad su svi spremni, krećemo.
+              preskakanja — tek kad su svi spremni, krećemo. Ni jedna tura nije
+              krenula bez brifinga, i nikad neće.
             </p>
           </article>
           <article className="rounded-card-lg border border-line bg-surface p-7">
@@ -260,7 +310,21 @@ export default async function OpremaPage({
             <p className="mt-4 font-sans text-[15px] leading-relaxed text-text-secondary">
               Rijeka i vrijeme se mijenjaju, a sigurnost gostiju nam je uvijek na
               prvom mjestu. Zadržavamo pravo da, ako uslovi nisu povoljni, pomjerimo
-              ili prilagodimo turu. Bolje ikad nego nikad — ali samo kad je bezbjedno.
+              ili prilagodimo turu. Radije ćemo vas razočarati jednim danom nego
+              rizikovati — i to nam još niko nije zamjerio.
+            </p>
+          </article>
+        </div>
+
+        <div className="kon-container mt-5">
+          <article className="rounded-card-lg border border-mint-border bg-mint-surface p-6 sm:p-7">
+            <h2 className="font-display text-lg font-bold text-pine sm:text-xl">
+              Iskustvo nije potrebno
+            </h2>
+            <p className="mt-3 font-sans text-[15px] leading-relaxed text-text-secondary">
+              Osnovna fizička spremnost i želja za avanturom su dovoljni — sve
+              ostalo naučićete na licu mjesta, a skiper je sve vrijeme sa vama u
+              čamcu.
             </p>
           </article>
         </div>

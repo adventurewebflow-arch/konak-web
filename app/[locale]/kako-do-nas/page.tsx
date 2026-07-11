@@ -39,7 +39,7 @@ const INFO = [
   },
   {
     label: "Udaljenost",
-    value: "~20 km od Foče",
+    value: "~20 km od Foče · ~2 km od sastava rijeka",
   },
   {
     label: "Parking",
@@ -50,7 +50,7 @@ const INFO = [
 const RUTE = [
   {
     naslov: "Iz Sarajeva",
-    opis: "Sarajevo → Trnovo → Foča → Hum.",
+    opis: "Preko Trnova i Foče do Huma.",
     meta: "90 km",
   },
   {
@@ -67,6 +67,44 @@ const RUTE = [
     naslov: "Iz Beograda",
     opis: "Preko Užica i Foče do Huma.",
     meta: "350 km",
+  },
+];
+
+const SAVJETI = [
+  {
+    naslov: "Ponesite gotovinu",
+    tekst:
+      "Plaćanje u kampu je isključivo u gotovini — kartice ne primamo. Foča je posljednje mjesto na putu gdje ima banaka i bankomata, pa podignite novac tamo. Poslije Foče, do kampa nema gdje.",
+  },
+  {
+    naslov: "Natočite gorivo u Foči",
+    tekst:
+      "Foča je posljednje veće mjesto prije kanjona. Tu su pumpe, prodavnice i apoteka. Kroz kanjon do kampa nema ničega — samo rijeka i stijene.",
+  },
+  {
+    naslov: "Put kroz kanjon je vijugav",
+    tekst:
+      "Posljednjih dvadesetak kilometara vozite uz rijeku, kroz kanjon. Put je uzak i krivudav, i nije za žurbu — ali je i sam po sebi lijep. Računajte malo više vremena nego što vam navigacija kaže.",
+  },
+  {
+    naslov: "Signal slabi u kanjonu",
+    tekst:
+      "U kanjonu mobilni signal zna da nestane. Ako se izgubite ili kasnite, javite nam prije nego uđete u kanjon. Preuzmite mapu offline za svaki slučaj.",
+  },
+  {
+    naslov: "Dolazak nije vezan za sat",
+    tekst:
+      "Nemamo fiksni sat prijave. Dođite kad vam odgovara — dočekaćemo vas.",
+  },
+  {
+    naslov: "Parking",
+    tekst:
+      "Besplatan, pod video nadzorom, ima mjesta i za autobus.",
+  },
+  {
+    naslov: "Dokumenti",
+    tekst:
+      "Ponesite ličnu kartu ili pasoš — rijeka na dijelu toka prolazi kroz dvije države, a i granični prelaz Šćepan Polje je odmah tu.",
   },
 ];
 
@@ -106,7 +144,7 @@ export default async function KakoDoNasPage({
         visina="50vh"
         eyebrow="Kako do nas"
         naslov="Tamo gdje nastaje Drina"
-        lead="Kamp Konak nalazi se u Humu kod Foče — na samom sastavu Tare i Pive, gdje se dvije rijeke spajaju u Drinu."
+        lead="Kamp Konak nalazi se u Humu kod Foče — na samom sastavu Tare i Pive, gdje se dvije rijeke spajaju u Drinu. Oko 20 km od Foče i svega 2 km od mjesta gdje se rijeke sastaju."
       />
 
       {/* Lokacija split */}
@@ -174,7 +212,32 @@ export default async function KakoDoNasPage({
               </article>
             ))}
           </div>
-          <div className="mt-10 text-center">
+        </div>
+      </section>
+
+      {/* Korisni savjeti */}
+      <section className="kon-section">
+        <div className="kon-container">
+          <SectionHeader
+            eyebrow="Prije nego krenete"
+            naslov="Nekoliko stvari koje je dobro znati"
+          />
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {SAVJETI.map((s) => (
+              <article
+                key={s.naslov}
+                className="rounded-card border border-line bg-surface p-6"
+              >
+                <h3 className="font-display text-lg font-semibold text-ink">
+                  {s.naslov}
+                </h3>
+                <p className="mt-2 font-sans text-sm leading-relaxed text-text-secondary">
+                  {s.tekst}
+                </p>
+              </article>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
             <CtaButton href={MAPS_URL} arrow>
               Otvori navigaciju u Google Maps
             </CtaButton>
