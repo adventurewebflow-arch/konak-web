@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useTranslations } from "next-intl";
 import { CtaButton } from "./CtaButton";
 import {
   CAMP_EMAIL,
   EMPTY_UTM,
-  FORM_ERROR_MSG,
-  FORM_SUCCESS_MSG,
   readUtmFromWindow,
   submitToFormspree,
   type UtmFields,
@@ -14,16 +13,8 @@ import {
 
 const WHATSAPP_NUM = "38765848110";
 
-const TURE = [
-  "Jednodnevni rafting",
-  "Dvodnevni aranžman",
-  "Trodnevni aranžman",
-  "Cijela Tara",
-  "Kanjoning Hrčavka",
-  "Kanjoning Nevidio",
-  "Teambuilding / grupa",
-  "Nešto drugo",
-] as const;
+const TOUR_KEYS = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8"] as const;
+type TourKey = (typeof TOUR_KEYS)[number];
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -33,12 +24,16 @@ function Stepper({
   max,
   onChange,
   label,
+  lessAria,
+  moreAria,
 }: {
   value: number;
   min: number;
   max: number;
   onChange: (v: number) => void;
   label: string;
+  lessAria: string;
+  moreAria: string;
 }) {
   const btn =
     "flex h-11 w-11 items-center justify-center rounded-input border border-line bg-surface text-xl font-bold text-pine transition-colors hover:bg-mint-surface disabled:opacity-40";
@@ -53,7 +48,7 @@ function Stepper({
           className={btn}
           onClick={() => onChange(Math.max(min, value - 1))}
           disabled={value <= min}
-          aria-label={`${label} manje`}
+          aria-label={lessAria}
         >
           −
         </button>
@@ -65,7 +60,7 @@ function Stepper({
           className={btn}
           onClick={() => onChange(Math.min(max, value + 1))}
           disabled={value >= max}
-          aria-label={`${label} više`}
+          aria-label={moreAria}
         >
           +
         </button>
@@ -75,7 +70,10 @@ function Stepper({
 }
 
 export function ReservationForm() {
-  const [tura, setTura] = useState<string>(TURE[0]);
+  const t = useTranslations("Forms");
+  const tr = useTranslations("Rezervacija");
+  const tours = TOUR_KEYS.map((k) => ({ id: k, label: tr(`form.tours.${k}`) }));
+  const [turaKey, setTuraKey] = useState<TourKey>("t1");
   const [datum, setDatum] = useState("");
   const [osobe, setOsobe] = useState(2);
   const [ime, setIme] = useState("");
@@ -92,9 +90,10 @@ export function ReservationForm() {
   }, []);
 
   const tekst = useMemo(() => {
+    const turaLabel = tr(`form.tours.${turaKey}`);
     const l: string[] = [];
     l.push("Upit — Rafting kamp Konak");
-    l.push(`Tura / interesovanje: ${tura}`);
+    l.push(`Tura / interesovanje: ${turaLabel}`);
     l.push(`Datum: ${datum || "nije izabran"}`);
     l.push(`Broj osoba: ${osobe}`);
     l.push(`Ime: ${ime || "—"}`);
@@ -116,7 +115,9 @@ export function ReservationForm() {
       l.push(...tail);
     }
     return l.join("\n");
-  }, [tura, datum, osobe, ime, telefon, email, poruka, utm]);
+  // tr is stable; turaKey drives the label lookup
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [turaKey, datum, osobe, ime, telefon, email, poruka, utm]);
 
   const waHref = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(tekst)}`;
 
@@ -126,7 +127,7 @@ export function ReservationForm() {
     "mb-2 block font-sans text-[11px] font-bold uppercase tracking-[0.16em] text-muted";
 
   const canSend = Boolean(
-    tura && datum && osobe >= 1 && ime.trim() && telefon.trim() && email.trim(),
+    turaKey && datum && osobe >= 1 && ime.trim() && telefon.trim() && email.trim(),
   );
 
   async function onSubmit(e: FormEvent) {
@@ -134,14 +135,15 @@ export function ReservationForm() {
     if (!canSend || status === "loading") return;
 
     setStatus("loading");
+    const turaLabel = tr(`form.tours.${turaKey}`);
     const result = await submitToFormspree({
       tip: "Rezervacija",
-      _subject: `KONAK — Rezervacija: ${tura}`,
+      _subject: `KONAK — Rezervacija: ${turaLabel}`,
       _gotcha: gotcha,
       email: email.trim(),
       ime: ime.trim(),
       telefon: telefon.trim(),
-      tura,
+      tura: turaLabel,
       datum,
       osobe,
       poruka: poruka.trim() || "—",
@@ -150,6 +152,8 @@ export function ReservationForm() {
 
     setStatus(result.ok ? "success" : "error");
   }
+
+  const peopleLabel = t("people");
 
   return (
     <form
@@ -161,7 +165,7 @@ export function ReservationForm() {
         className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
         aria-hidden="true"
       >
-        <label htmlFor="rez-gotcha">Ne popunjavajte</label>
+        <label htmlFor="rez-gotcha">{t("honeypot")}</label>
         <input
           id="rez-gotcha"
           type="text"
@@ -174,27 +178,26 @@ export function ReservationForm() {
       </div>
 
       <p className="font-sans text-[15px] leading-relaxed text-body sm:text-base">
-        Cijene su okvirne. Nakon upita javljamo se u najkraćem roku sa tačnom
-        ponudom — za grupe imamo dobar popust.
+        {tr("form.intro")}
       </p>
 
       <div className="mt-8">
-        <span className={labelCls}>Šta vas zanima</span>
+        <span className={labelCls}>{tr("form.interestLabel")}</span>
         <div className="flex flex-wrap gap-2">
-          {TURE.map((t) => {
-            const active = t === tura;
+          {tours.map(({ id, label }) => {
+            const active = id === turaKey;
             return (
               <button
-                key={t}
+                key={id}
                 type="button"
-                onClick={() => setTura(t)}
+                onClick={() => setTuraKey(id)}
                 className={`rounded-pill border px-4 py-2 font-sans text-sm font-semibold transition-colors ${
                   active
                     ? "border-teal bg-mint-surface text-teal"
                     : "border-line bg-surface text-body hover:border-line-strong hover:text-teal"
                 }`}
               >
-                {t}
+                {label}
               </button>
             );
           })}
@@ -204,7 +207,7 @@ export function ReservationForm() {
       <div className="mt-6 grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="rez-datum" className={labelCls}>
-            Datum dolaska
+            {t("date")}
           </label>
           <input
             id="rez-datum"
@@ -223,12 +226,14 @@ export function ReservationForm() {
             min={1}
             max={60}
             onChange={setOsobe}
-            label="Broj osoba"
+            label={peopleLabel}
+            lessAria={t("stepperLess", { label: peopleLabel })}
+            moreAria={t("stepperMore", { label: peopleLabel })}
           />
         </div>
         <div>
           <label htmlFor="rez-ime" className={labelCls}>
-            Ime i prezime
+            {t("fullName")}
           </label>
           <input
             id="rez-ime"
@@ -241,7 +246,7 @@ export function ReservationForm() {
         </div>
         <div>
           <label htmlFor="rez-telefon" className={labelCls}>
-            Telefon
+            {t("phone")}
           </label>
           <input
             id="rez-telefon"
@@ -254,7 +259,7 @@ export function ReservationForm() {
         </div>
         <div className="sm:col-span-2">
           <label htmlFor="rez-email" className={labelCls}>
-            E-mail
+            {t("email")}
           </label>
           <input
             id="rez-email"
@@ -267,14 +272,14 @@ export function ReservationForm() {
         </div>
         <div className="sm:col-span-2">
           <label htmlFor="rez-poruka" className={labelCls}>
-            Poruka
+            {t("message")}
           </label>
           <textarea
             id="rez-poruka"
             value={poruka}
             onChange={(e) => setPoruka(e.target.value)}
             rows={4}
-            placeholder="Dodatne želje, posebna ishrana, pitanja…"
+            placeholder={t("placeholderReservation")}
             className={`${inputCls} resize-y`}
           />
         </div>
@@ -285,7 +290,7 @@ export function ReservationForm() {
           role="status"
           className="mt-5 rounded-input border border-mint-border bg-mint-surface px-4 py-3 font-sans text-sm font-semibold text-pine"
         >
-          {FORM_SUCCESS_MSG}
+          {t("success")}
         </p>
       )}
       {status === "error" && (
@@ -293,7 +298,7 @@ export function ReservationForm() {
           role="alert"
           className="mt-5 rounded-input border border-terracotta/40 bg-terracotta/10 px-4 py-3 font-sans text-sm font-semibold text-ink"
         >
-          {FORM_ERROR_MSG}
+          {t("error")}
         </p>
       )}
 
@@ -304,11 +309,11 @@ export function ReservationForm() {
           className="w-full sm:flex-1"
           disabled={!canSend || status === "loading"}
         >
-          {status === "loading" ? "Šalje se…" : "Pošalji upit"}
+          {status === "loading" ? t("submitting") : t("submit")}
         </CtaButton>
         {canSend ? (
           <CtaButton href={waHref} variant="secondary" className="w-full sm:flex-1">
-            Ili pošalji na WhatsApp
+            {t("whatsapp")}
           </CtaButton>
         ) : (
           <CtaButton
@@ -316,19 +321,19 @@ export function ReservationForm() {
             className="w-full cursor-not-allowed opacity-50 sm:flex-1"
             aria-disabled
           >
-            Ili pošalji na WhatsApp
+            {t("whatsapp")}
           </CtaButton>
         )}
       </div>
 
       {!canSend && (
         <p className="mt-3 font-sans text-xs text-muted">
-          Popunite turu, datum, broj osoba, ime, telefon i e-mail.
+          {t("reservationHint")}
         </p>
       )}
 
       <p className="mt-4 font-sans text-xs text-muted">
-        Ili nam pišite na{" "}
+        {t("orEmail")}{" "}
         <span className="font-semibold text-body">{CAMP_EMAIL}</span>
       </p>
     </form>

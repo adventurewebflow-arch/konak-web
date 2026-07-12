@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+
 interface ReviewCardProps {
   tekst: string;
   ime: string;
@@ -28,12 +32,13 @@ function Star({ filled }: { filled: boolean }) {
 }
 
 export function ReviewCard({ tekst, ime, grad, ocjena = 5 }: ReviewCardProps) {
+  const t = useTranslations("Common");
   const avatar = AVATAR_BG[(ime.charCodeAt(0) || 0) % AVATAR_BG.length];
   const inicijal = ime.trim().charAt(0).toUpperCase();
 
   return (
     <article className="rounded-card border border-line bg-surface p-[26px]">
-      <div className="flex gap-1" aria-label={`Ocjena ${ocjena} od 5`}>
+      <div className="flex gap-1" aria-label={t("ratingAria", { rating: ocjena })}>
         {Array.from({ length: 5 }).map((_, i) => (
           <Star key={i} filled={i < ocjena} />
         ))}

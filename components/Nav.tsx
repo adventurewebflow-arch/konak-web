@@ -2,33 +2,34 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { CtaButton } from "./CtaButton";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
-type NavChild = { href: string; label: string };
+type NavChild = { href: string; labelKey: string };
 type NavItem =
-  | { type: "link"; href: string; label: string }
-  | { type: "group"; label: string; href: string; children: NavChild[] };
+  | { type: "link"; href: string; labelKey: string }
+  | { type: "group"; labelKey: string; href: string; children: NavChild[] };
 
 const NAV_ITEMS: NavItem[] = [
-  { type: "link", href: "/", label: "Početna" },
-  { type: "link", href: "/ponuda", label: "Ponuda" },
-  { type: "link", href: "/rafting", label: "Rafting" },
-  { type: "link", href: "/aktivnosti", label: "Aktivnosti" },
+  { type: "link", href: "/", labelKey: "home" },
+  { type: "link", href: "/ponuda", labelKey: "offer" },
+  { type: "link", href: "/rafting", labelKey: "rafting" },
+  { type: "link", href: "/aktivnosti", labelKey: "activities" },
   {
     type: "group",
-    label: "Kamp",
+    labelKey: "camp",
     href: "/kamp",
     children: [
-      { href: "/kamp", label: "O kampu" },
-      { href: "/smjestaj", label: "Smještaj" },
-      { href: "/hrana", label: "Hrana" },
+      { href: "/kamp", labelKey: "aboutCamp" },
+      { href: "/smjestaj", labelKey: "accommodation" },
+      { href: "/hrana", labelKey: "food" },
     ],
   },
-  { type: "link", href: "/galerija", label: "Galerija" },
-  { type: "link", href: "/blog", label: "Blog" },
-  { type: "link", href: "/kontakt", label: "Kontakt" },
+  { type: "link", href: "/galerija", labelKey: "gallery" },
+  { type: "link", href: "/blog", labelKey: "blog" },
+  { type: "link", href: "/kontakt", labelKey: "contact" },
 ];
 
 const MOBILE_MQ = "(max-width: 959px)";
@@ -79,6 +80,8 @@ function groupActive(pathname: string, children: NavChild[]) {
 }
 
 export function Nav() {
+  const t = useTranslations("Nav");
+  const tc = useTranslations("Common");
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [navHidden, setNavHidden] = useState(false);
@@ -189,11 +192,11 @@ export function Nav() {
           <Link
             href="/"
             className="flex shrink-0 items-center"
-            aria-label="Rafting kamp Konak — početna"
+            aria-label={t("brandHomeAria")}
           >
             <Image
               src="/logo_konak.png"
-              alt="Konak Rafting Kamp"
+              alt={tc("logoAlt")}
               width={200}
               height={80}
               className="h-[72px] w-auto object-contain sm:h-20"
@@ -203,7 +206,7 @@ export function Nav() {
 
           <nav
             className="hidden items-center gap-6 min-[960px]:flex xl:gap-7"
-            aria-label="Glavna navigacija"
+            aria-label={t("mainNavAria")}
           >
             {NAV_ITEMS.map((item) => {
               if (item.type === "link") {
@@ -215,7 +218,7 @@ export function Nav() {
                     aria-current={active ? "page" : undefined}
                     className={linkCls(active)}
                   >
-                    {item.label}
+                    {t(item.labelKey)}
                   </Link>
                 );
               }
@@ -223,7 +226,7 @@ export function Nav() {
               const active = groupActive(pathname, item.children);
               return (
                 <div
-                  key={item.label}
+                  key={item.labelKey}
                   ref={kampRef}
                   className="relative"
                   onMouseEnter={() => setDesktopKampOpen(true)}
@@ -236,7 +239,7 @@ export function Nav() {
                     onClick={() => setDesktopKampOpen((v) => !v)}
                     className={`inline-flex items-center gap-1 ${linkCls(active)}`}
                   >
-                    {item.label}
+                    {t(item.labelKey)}
                     <Chevron open={desktopKampOpen} />
                   </button>
                   {desktopKampOpen && (
@@ -259,7 +262,7 @@ export function Nav() {
                                   : "font-semibold text-body hover:bg-sand hover:text-teal"
                               }`}
                             >
-                              {child.label}
+                              {t(child.labelKey)}
                             </Link>
                           );
                         })}
@@ -279,14 +282,14 @@ export function Nav() {
               href="/rezervacija"
               className="hidden min-[960px]:inline-flex"
             >
-              Rezerviši
+              {tc("bookNow")}
             </CtaButton>
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
               aria-controls="mobilni-meni"
-              aria-label={open ? "Zatvori meni" : "Otvori meni"}
+              aria-label={open ? t("closeMenu") : t("openMenu")}
               className="flex h-[42px] w-[42px] items-center justify-center rounded-md border border-line-nav text-ink min-[960px]:hidden"
             >
               <HamburgerIcon open={open} />
@@ -302,7 +305,7 @@ export function Nav() {
             <nav
               className="mx-auto flex flex-col"
               style={{ maxWidth: "var(--container)", padding: "6px var(--px-section) 16px" }}
-              aria-label="Mobilna navigacija"
+              aria-label={t("mobileNavAria")}
             >
               {NAV_ITEMS.map((item) => {
                 if (item.type === "link") {
@@ -316,14 +319,14 @@ export function Nav() {
                         active ? "font-bold text-teal" : "font-semibold text-body hover:text-teal"
                       }`}
                     >
-                      {item.label}
+                      {t(item.labelKey)}
                     </Link>
                   );
                 }
 
                 const active = groupActive(pathname, item.children);
                 return (
-                  <div key={item.label} className="border-b border-line">
+                  <div key={item.labelKey} className="border-b border-line">
                     <button
                       type="button"
                       aria-expanded={kampOpen}
@@ -332,7 +335,7 @@ export function Nav() {
                         active ? "font-bold text-teal" : "font-semibold text-body"
                       }`}
                     >
-                      {item.label}
+                      {t(item.labelKey)}
                       <Chevron open={kampOpen} />
                     </button>
                     {kampOpen && (
@@ -350,7 +353,7 @@ export function Nav() {
                                   : "font-semibold text-text-secondary hover:text-teal"
                               }`}
                             >
-                              {child.label}
+                              {t(child.labelKey)}
                             </Link>
                           );
                         })}
@@ -375,7 +378,7 @@ export function Nav() {
         <Link
           href="/"
           tabIndex={showFloat ? 0 : -1}
-          aria-label="Rafting kamp Konak — početna"
+          aria-label={t("brandHomeAria")}
           className={`pointer-events-auto flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-line-nav bg-paper shadow-nav ${
             showFloat ? "" : "pointer-events-none"
           }`}
@@ -394,7 +397,7 @@ export function Nav() {
           onClick={() => setOpen(true)}
           aria-expanded={open}
           aria-controls="mobilni-meni"
-          aria-label="Otvori meni"
+          aria-label={t("openMenu")}
           className={`pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border border-line-nav bg-paper text-ink shadow-nav ${
             showFloat ? "" : "pointer-events-none"
           }`}

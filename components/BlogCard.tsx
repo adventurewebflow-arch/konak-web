@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ImageSlot } from "./ImageSlot";
 
@@ -8,7 +11,7 @@ interface BlogCardProps {
   opis: string;
   href: string;
   featured?: boolean;
-  /** Tekst linka (default: „Pročitaj"). */
+  /** Tekst linka (default: Common.readMore). */
   linkLabel?: string;
   gradient?: string;
 }
@@ -39,9 +42,12 @@ export function BlogCard({
   opis,
   href,
   featured = false,
-  linkLabel = "Pročitaj",
+  linkLabel,
   gradient = "var(--gradient-slot-2)",
 }: BlogCardProps) {
+  const t = useTranslations("Common");
+  const cta = linkLabel ?? t("readMore");
+
   if (featured) {
     return (
       <Link
@@ -63,7 +69,7 @@ export function BlogCard({
           <h3 className="font-display text-2xl font-semibold text-white md:text-3xl">{naslov}</h3>
           <p className="font-sans text-[15px] leading-relaxed text-on-dark-muted">{opis}</p>
           <span className="mt-1 inline-flex items-center gap-1 font-sans text-sm font-bold text-amber-light">
-            {linkLabel}
+            {cta}
             <Arrow />
           </span>
         </div>
@@ -90,7 +96,7 @@ export function BlogCard({
         <h3 className="mt-2 font-display text-xl font-semibold text-ink">{naslov}</h3>
         <p className="mt-2 font-sans text-sm leading-relaxed text-text-secondary">{opis}</p>
         <span className="mt-4 inline-flex items-center gap-1 font-sans text-sm font-bold text-terracotta">
-          {linkLabel}
+          {cta}
           <Arrow />
         </span>
       </div>

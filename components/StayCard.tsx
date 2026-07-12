@@ -1,4 +1,7 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ImageSlot } from "./ImageSlot";
 
@@ -48,8 +51,11 @@ export function StayCard({
   href,
   slika,
   gradient = "var(--gradient-slot-2)",
-  linkLabel = "Detaljnije →",
+  linkLabel,
 }: StayCardProps) {
+  const t = useTranslations("Common");
+  const cta = linkLabel ?? t("seeDetailsArrow");
+
   return (
     <Link
       href={href}
@@ -88,7 +94,7 @@ export function StayCard({
           ))}
         </ul>
         <span className="mt-auto inline-flex items-center gap-1 font-sans text-sm font-bold text-terracotta">
-          {linkLabel}
+          {cta}
           <Arrow />
         </span>
       </div>

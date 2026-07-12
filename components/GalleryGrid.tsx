@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { ImageSlot } from "./ImageSlot";
 
 export type GalleryCat = "rafting" | "kamp" | "hrana";
@@ -17,12 +18,14 @@ export interface GalleryPhoto {
 
 type Filter = "sve" | GalleryCat;
 
-const FILTERI: { id: Filter; label: string }[] = [
-  { id: "sve", label: "Sve" },
-  { id: "rafting", label: "Rafting" },
-  { id: "kamp", label: "Kamp" },
-  { id: "hrana", label: "Hrana" },
-];
+const FILTER_IDS: Filter[] = ["sve", "rafting", "kamp", "hrana"];
+
+const FILTER_KEYS: Record<Filter, "all" | "rafting" | "camp" | "food"> = {
+  sve: "all",
+  rafting: "rafting",
+  kamp: "camp",
+  hrana: "food",
+};
 
 const ASPECT_CLS: Record<GalleryPhoto["aspect"], string> = {
   "3/4": "aspect-[3/4]",
@@ -35,6 +38,7 @@ interface GalleryGridProps {
 }
 
 export function GalleryGrid({ photos }: GalleryGridProps) {
+  const t = useTranslations("Gallery");
   const [filter, setFilter] = useState<Filter>("sve");
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
 
@@ -84,20 +88,20 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
 
   return (
     <>
-      <div className="flex flex-wrap gap-2.5" role="tablist" aria-label="Filter galerije">
-        {FILTERI.map((f) => (
+      <div className="flex flex-wrap gap-2.5" role="tablist" aria-label={t("filterAria")}>
+        {FILTER_IDS.map((id) => (
           <button
-            key={f.id}
+            key={id}
             type="button"
             role="tab"
-            aria-selected={filter === f.id}
+            aria-selected={filter === id}
             onClick={() => {
-              setFilter(f.id);
+              setFilter(id);
               setLightboxIdx(null);
             }}
-            className={`kon-chip ${filter === f.id ? "act" : ""}`}
+            className={`kon-chip ${filter === id ? "act" : ""}`}
           >
-            {f.label}
+            {t(FILTER_KEYS[id])}
           </button>
         ))}
       </div>
@@ -109,7 +113,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
             type="button"
             className="kon-gal-item group w-full overflow-hidden rounded-card text-left"
             onClick={() => setLightboxIdx(i)}
-            aria-label={`Otvori: ${photo.labela}`}
+            aria-label={t("openPhoto", { label: photo.labela })}
           >
             <ImageSlot
               src={photo.src}
@@ -148,7 +152,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
             type="button"
             onClick={closeLightbox}
             className="absolute right-4 top-4 flex h-12 w-12 items-center justify-center rounded-pill border border-white/20 bg-white/10 font-sans text-2xl text-white transition-colors hover:bg-white/20 sm:right-6 sm:top-6"
-            aria-label="Zatvori"
+            aria-label={t("close")}
           >
             ×
           </button>
@@ -160,7 +164,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
               goPrev();
             }}
             className="absolute left-2 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-pill border border-white/20 bg-white/10 font-sans text-2xl text-white transition-colors hover:bg-white/20 sm:left-4"
-            aria-label="Prethodna slika"
+            aria-label={t("prev")}
           >
             ‹
           </button>
@@ -172,7 +176,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
               goNext();
             }}
             className="absolute right-2 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-pill border border-white/20 bg-white/10 font-sans text-2xl text-white transition-colors hover:bg-white/20 sm:right-4"
-            aria-label="Sljedeća slika"
+            aria-label={t("next")}
           >
             ›
           </button>

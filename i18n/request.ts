@@ -8,7 +8,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
     ? requested
     : routing.defaultLocale;
 
-  // Prevod (EN) još nije urađen — sadržaj ostaje srpski; messages/en.json je skelet.
   let messages: Record<string, unknown>;
   try {
     messages = (await import(`../messages/${locale}.json`)).default;

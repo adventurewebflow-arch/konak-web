@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ImageSlot } from "./ImageSlot";
 
@@ -31,8 +32,10 @@ function Chevron({ dir }: { dir: "left" | "right" }) {
   );
 }
 
-export function GallerySlider({ items, label = "Galerija" }: GallerySliderProps) {
+export function GallerySlider({ items, label }: GallerySliderProps) {
+  const t = useTranslations("Gallery");
   const trackRef = useRef<HTMLDivElement>(null);
+  const tileLabel = label ?? t("defaultLabel");
 
   const scroll = (dir: number) => {
     const el = trackRef.current;
@@ -50,7 +53,7 @@ export function GallerySlider({ items, label = "Galerija" }: GallerySliderProps)
           <Link
             key={i}
             href={it.href}
-            aria-label={label}
+            aria-label={tileLabel}
             className="kon-slide group block overflow-hidden rounded-md"
           >
             <ImageSlot
@@ -68,7 +71,7 @@ export function GallerySlider({ items, label = "Galerija" }: GallerySliderProps)
       <button
         type="button"
         onClick={() => scroll(-1)}
-        aria-label="Prethodno"
+        aria-label={t("sliderPrev")}
         className={`${arrowCls} left-2`}
       >
         <Chevron dir="left" />
@@ -76,7 +79,7 @@ export function GallerySlider({ items, label = "Galerija" }: GallerySliderProps)
       <button
         type="button"
         onClick={() => scroll(1)}
-        aria-label="Sljedeće"
+        aria-label={t("sliderNext")}
         className={`${arrowCls} right-2`}
       >
         <Chevron dir="right" />

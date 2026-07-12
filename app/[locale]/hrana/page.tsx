@@ -1,75 +1,35 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Hero } from "@/components/Hero";
 import { MenuCard } from "@/components/MenuCard";
 import { CtaButton } from "@/components/CtaButton";
 
-export const metadata: Metadata = {
-  title: "Hrana i jelovnik — domaća kuhinja ispod sača | Rafting kamp Konak",
-  description:
-    "Domaća kuhinja kampa Konak: jela ispod sača, roštilj sa lokalnih farmi, organsko povrće i kolači po bakinim receptima. Doručak, ručak, večera i rakija dobrodošlice.",
-  keywords: [
-    "hrana rafting kamp",
-    "jela ispod sača Tara",
-    "domaća kuhinja Foča",
-    "restoran Šćepan Polje",
-    "orgska hrana",
-    "rakija dobrodošlice",
-  ],
-  alternates: { canonical: "https://www.raftingkampkonak.com/hrana" },
-  openGraph: {
-    title: "Hrana i jelovnik — domaća kuhinja ispod sača",
-    description:
-      "Kuhinja koja se pamti — domaće namirnice sa farmi Spasojevići i okoline, jela ispod sača i roštilj uz vatru.",
-    type: "website",
-  },
-};
-
 const SITE = "https://www.raftingkampkonak.com";
 const IMG = "/images/hrana";
 
-const JELOVNIK = [
-  {
-    eyebrow: "Doručak",
-    naslov: "Balkanski doručak",
-    opis:
-      "Dan počinje obilno — domaće pite i topli uštipci, suhomesnati proizvodi i vrhunski sirevi sa planine, omleti i kobasice. Taman snaga prije spusta niz Taru.",
-    slika: {
-      src: `${IMG}/dorucak2.jpg`,
-      alt: "Domaći doručak — jaja, pršuta, sir i kajmak",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Hrana" });
+  return {
+    title: { absolute: t("meta.title") },
+    description: t("meta.description"),
+    keywords: t("meta.keywords")
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean),
+    alternates: { canonical: `${SITE}/hrana` },
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "website",
+      locale: locale === "en" ? "en_US" : "sr_BA",
     },
-  },
-  {
-    eyebrow: "Ručak",
-    naslov: "Ispod sača",
-    opis:
-      "Domaća kremasta čorba za početak, a onda glavni adut — sočna teletina od domaćeg teleta ispod sača, sa domaćim hljebom koji se peče na isti način. Strpljivo, pod žarom, kako se jedino i može valjano.",
-    slika: {
-      src: `${IMG}/rucak_konak.jpg`,
-      alt: "Teletina ispod sača sa pečenim krompirom i čorbom",
-    },
-  },
-  {
-    eyebrow: "Večera",
-    naslov: "Uz vatru i čašu vina",
-    opis:
-      "Roštilj od mesa sa lokalnih farmi, uz sveže salate od povrća iz okolnih bašta. Sve se najljepše jede uz vatru, kraj kamina, sa čašom vina i pričom koja se otegne do kasno.",
-    slika: {
-      src: `${IMG}/dorucak3.jpg`,
-      alt: "Obilna večera u kampu — jaja, suhomesnato i sir",
-    },
-  },
-  {
-    eyebrow: "Desert",
-    naslov: "Po bakinim receptima",
-    opis:
-      "Za kraj — domaći kolači rađeni po receptima iz bakine kuhinje. Organski, bez vještačkih dodataka, onako slatki kako treba i taman da zaokruže dan.",
-    slika: {
-      src: `${IMG}/dorucak-dezert-konak.jpg`,
-      alt: "Domaći čokoladni kolač uz ručak u kampu Konak",
-    },
-  },
-];
+  };
+}
 
 export default async function HranaPage({
   params,
@@ -78,6 +38,34 @@ export default async function HranaPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Hrana");
+
+  const JELOVNIK = [
+    {
+      eyebrow: t("menu.item1Eyebrow"),
+      naslov: t("menu.item1Naslov"),
+      opis: t("menu.item1Opis"),
+      slika: { src: `${IMG}/dorucak2.jpg`, alt: t("menu.item1Alt") },
+    },
+    {
+      eyebrow: t("menu.item2Eyebrow"),
+      naslov: t("menu.item2Naslov"),
+      opis: t("menu.item2Opis"),
+      slika: { src: `${IMG}/rucak_konak.jpg`, alt: t("menu.item2Alt") },
+    },
+    {
+      eyebrow: t("menu.item3Eyebrow"),
+      naslov: t("menu.item3Naslov"),
+      opis: t("menu.item3Opis"),
+      slika: { src: `${IMG}/dorucak3.jpg`, alt: t("menu.item3Alt") },
+    },
+    {
+      eyebrow: t("menu.item4Eyebrow"),
+      naslov: t("menu.item4Naslov"),
+      opis: t("menu.item4Opis"),
+      slika: { src: `${IMG}/dorucak-dezert-konak.jpg`, alt: t("menu.item4Alt") },
+    },
+  ];
 
   const schemaLd = {
     "@context": "https://schema.org",
@@ -106,18 +94,18 @@ export default async function HranaPage({
       <Hero
         variant="b"
         visina="58vh"
-        eyebrow="Hrana u kampu"
+        eyebrow={t("hero.eyebrow")}
         naslov={
           <>
-            Kuhinja koja
+            {t("hero.naslovLine1")}
             <br />
-            se pamti
+            {t("hero.naslovLine2")}
           </>
         }
-        lead="Mnogi nam se vrate i zbog rijeke, i zbog onoga što ih čeka kad se vrate s vode. Kuvamo srcem, od domaćih namirnica sa okolnih farmi."
+        lead={t("hero.lead")}
         slika={{
           src: `${IMG}/sac-konak.jpg`,
-          alt: "Teletina ispod sača — pečenje u kaminu kampa Konak",
+          alt: t("hero.imageAlt"),
         }}
       />
 
@@ -132,31 +120,19 @@ export default async function HranaPage({
           }}
         >
           <p className="font-display text-xl font-semibold text-ink sm:text-2xl">
-            Hrana je kod nas dio doživljaja, a ne usputna obaveza.
+            {t("intro.lead")}
           </p>
-          <p>
-            U kuhinji kampa Konak sve počinje od namirnice. Meso dolazi sa porodične
-            farme <strong className="font-semibold text-ink">Spasojevići</strong> sa
-            planine <strong className="font-semibold text-ink">Zavait (1600 m)</strong>,
-            povrće iz okolnih bašti, a sirevi i mliječni proizvodi sa planinskih pašnjaka.
-            Trudimo se da na sto stavimo ono što je zdravo, organsko i odgojeno bez žurbe
-            — onako kako se nekad jelo. Za goste koji ne jedu meso pripremamo vegetarijanska
-            i veganska jela, samo nam javite na vrijeme.
-          </p>
-          <p>
-            A prije svega — svakog gosta dočekamo rakijom dobrodošlice. To je kod nas red.
-          </p>
+          <p>{t("intro.p1")}</p>
+          <p>{t("intro.p2")}</p>
         </div>
       </section>
 
       {/* Kuvar Brane — istaknuti tekstualni blok */}
       <section className="kon-section">
         <div className="kon-container">
-          <div
-            className="mx-auto max-w-3xl overflow-hidden rounded-card-lg border border-mint-border bg-mint-surface px-6 py-8 sm:px-10 sm:py-10"
-          >
+          <div className="mx-auto max-w-3xl overflow-hidden rounded-card-lg border border-mint-border bg-mint-surface px-6 py-8 sm:px-10 sm:py-10">
             <span className="font-sans text-xs font-bold uppercase tracking-[0.14em] text-teal">
-              Naša kuhinja
+              {t("brane.eyebrow")}
             </span>
             <h2
               className="mt-3 font-display font-extrabold text-pine"
@@ -166,21 +142,16 @@ export default async function HranaPage({
                 letterSpacing: "-0.02em",
               }}
             >
-              Kuvar Brane
+              {t("brane.naslov")}
             </h2>
             <p
               className="mt-5 font-sans text-body"
               style={{ fontSize: "clamp(16px, 1.35vw, 18px)", lineHeight: 1.65 }}
             >
-              Brane vodi kuhinju kampa već od prvog dana — sač, roštilj i domaći hljeb
-              peče se po receptima koje je naučio u porodici Spasojević. Zna tačno koje
-              meso sa Zavaita ide ispod sača, koliko treba strpljenja za čorbu i kako da
-              svaki obrok bude ono što gosti pamte kad se vrate kući.
+              {t("brane.p1")}
             </p>
-            <p
-              className="mt-4 font-sans text-sm font-semibold text-text-secondary"
-            >
-              Domaća kuhinja · farme Spasojevići · Zavait 1600 m
+            <p className="mt-4 font-sans text-sm font-semibold text-text-secondary">
+              {t("brane.note")}
             </p>
           </div>
         </div>
@@ -212,21 +183,20 @@ export default async function HranaPage({
                 letterSpacing: "-0.02em",
               }}
             >
-              Gladni poslije rijeke?
+              {t("cta.title")}
             </h2>
             <p
               className="mt-4 max-w-lg font-sans text-on-dark"
               style={{ fontSize: "clamp(16px, 1.4vw, 18px)", lineHeight: 1.65 }}
             >
-              Obroci su uključeni u višednevne aranžmane. Za grupe i posebne želje
-              (vegetarijansko, vegansko) javite nam unaprijed.
+              {t("cta.lead")}
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <CtaButton href="/rezervacija" arrow>
-                Rezerviši boravak
+                {t("cta.ctaBook")}
               </CtaButton>
               <CtaButton href="/kontakt" variant="ghost">
-                Pitaj za grupe
+                {t("cta.ctaGroup")}
               </CtaButton>
             </div>
           </div>

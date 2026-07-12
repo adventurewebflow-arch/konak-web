@@ -1,5 +1,6 @@
-import { Link } from "@/i18n/navigation";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { CtaButton } from "./CtaButton";
 
 const PHONE_DISPLAY = "+387 65 848 110";
@@ -7,39 +8,6 @@ const PHONE_TEL = "+38765848110";
 const PHONE_DIGITS = "38765848110";
 const EMAIL = "konakraftingkamp@gmail.com";
 const MAPS_URL = "https://maps.app.goo.gl/prErkjurQca1w3ccA";
-
-const FOOTER_COLS = [
-  {
-    title: "Avantura",
-    links: [
-      { href: "/rafting", label: "Rafting" },
-      { href: "/kanjoning", label: "Kanjoning" },
-      { href: "/aktivnosti", label: "Aktivnosti" },
-      { href: "/izleti", label: "Izleti" },
-      { href: "/ponuda", label: "Ponuda" },
-    ],
-  },
-  {
-    title: "Kamp",
-    links: [
-      { href: "/kamp", label: "O kampu" },
-      { href: "/smjestaj", label: "Smještaj" },
-      { href: "/hrana", label: "Hrana" },
-      { href: "/teambuilding", label: "Teambuilding" },
-      { href: "/galerija", label: "Galerija" },
-    ],
-  },
-  {
-    title: "Info",
-    links: [
-      { href: "/kako-do-nas", label: "Kako do nas" },
-      { href: "/oprema-i-sigurnost", label: "Oprema i sigurnost" },
-      { href: "/cesta-pitanja", label: "Česta pitanja" },
-      { href: "/blog", label: "Blog" },
-      { href: "/kontakt", label: "Kontakt" },
-    ],
-  },
-] as const;
 
 function Topo() {
   return (
@@ -139,7 +107,44 @@ const SOCIALS = [
   { label: "Facebook", href: "https://facebook.com/RaftingKonak/", Icon: IconFacebook },
 ];
 
-export function Footer() {
+export async function Footer() {
+  const t = await getTranslations("Footer");
+  const tn = await getTranslations("Nav");
+  const tc = await getTranslations("Common");
+
+  const footerCols = [
+    {
+      title: t("colAdventure"),
+      links: [
+        { href: "/rafting", label: tn("rafting") },
+        { href: "/kanjoning", label: t("canyoning") },
+        { href: "/aktivnosti", label: tn("activities") },
+        { href: "/izleti", label: t("excursions") },
+        { href: "/ponuda", label: tn("offer") },
+      ],
+    },
+    {
+      title: t("colCamp"),
+      links: [
+        { href: "/kamp", label: tn("aboutCamp") },
+        { href: "/smjestaj", label: tn("accommodation") },
+        { href: "/hrana", label: tn("food") },
+        { href: "/teambuilding", label: t("teambuilding") },
+        { href: "/galerija", label: tn("gallery") },
+      ],
+    },
+    {
+      title: t("colInfo"),
+      links: [
+        { href: "/kako-do-nas", label: t("howToGetHere") },
+        { href: "/oprema-i-sigurnost", label: t("gearSafety") },
+        { href: "/cesta-pitanja", label: t("faq") },
+        { href: "/blog", label: tn("blog") },
+        { href: "/kontakt", label: tn("contact") },
+      ],
+    },
+  ];
+
   return (
     <footer className="relative mt-auto overflow-hidden bg-pine text-[#cfe0d6]">
       <Topo />
@@ -155,10 +160,10 @@ export function Footer() {
         <div className="grid gap-[clamp(36px,6vw,90px)] min-[861px]:grid-cols-[1.3fr_1fr]">
           {/* Lijevo: poziv na akciju */}
           <div>
-            <Link href="/" className="mb-5 inline-block" aria-label="Rafting kamp Konak">
+            <Link href="/" className="mb-5 inline-block" aria-label={t("brandAria")}>
               <Image
                 src="/logo_konak.png"
-                alt="Konak Rafting Kamp"
+                alt={tc("logoAlt")}
                 width={180}
                 height={72}
                 className="h-16 w-auto object-contain brightness-0 invert sm:h-[72px]"
@@ -166,21 +171,20 @@ export function Footer() {
             </Link>
             <p className="mb-4 inline-flex items-center gap-2.5 font-sans text-xs font-bold uppercase tracking-[0.18em] text-amber-light">
               <span className="h-[1.5px] w-[22px] bg-amber-light" aria-hidden="true" />
-              Spremni za Taru?
+              {t("readyEyebrow")}
             </p>
             <h2
               className="max-w-xl font-display font-bold text-white"
               style={{ fontSize: "clamp(28px, 4vw, 52px)", lineHeight: 1.04, letterSpacing: "-0.02em" }}
             >
-              Rezerviši svoju avanturu na Tari
+              {t("headline")}
             </h2>
             <p className="mt-4 max-w-md font-sans text-base leading-relaxed text-[#cfe0d6]">
-              Javi nam se za slobodne termine i savjet oko izbora ture — od
-              jednodnevnog rafta do cijele Tare, kanjoninga i smještaja u kampu.
+              {t("lead")}
             </p>
             <div className="mt-7">
               <CtaButton variant="primary" href="/rezervacija" arrow>
-                Rezerviši turu
+                {tc("bookTour")}
               </CtaButton>
             </div>
           </div>
@@ -188,7 +192,7 @@ export function Footer() {
           {/* Desno: kontakt + social */}
           <div className="min-[861px]:justify-self-end">
             <p className="mb-4 font-sans text-xs font-bold uppercase tracking-[0.18em] text-amber-light">
-              Kontakt
+              {t("contactEyebrow")}
             </p>
 
             <ul className="flex flex-col gap-3.5">
@@ -241,7 +245,7 @@ export function Footer() {
                   <span className="text-teal-light">
                     <IconPin />
                   </span>
-                  Hum, Foča 73300, BiH
+                  {t("location")}
                 </a>
               </li>
             </ul>
@@ -266,7 +270,7 @@ export function Footer() {
 
         {/* Mapa sajta */}
         <div className="mt-[clamp(40px,6vh,72px)] grid gap-8 border-t border-white/13 pt-10 sm:grid-cols-3">
-          {FOOTER_COLS.map((col) => (
+          {footerCols.map((col) => (
             <nav key={col.title} aria-label={col.title}>
               <p className="mb-3 font-sans text-xs font-bold uppercase tracking-[0.16em] text-amber-light">
                 {col.title}
@@ -289,7 +293,7 @@ export function Footer() {
 
         <div className="mt-8 border-t border-white/13 pt-6">
           <p className="font-sans text-[13px] text-on-dark-muted">
-            © 2026 Rafting kamp Konak · Hum, Foča
+            {t("copyright")}
           </p>
         </div>
       </div>

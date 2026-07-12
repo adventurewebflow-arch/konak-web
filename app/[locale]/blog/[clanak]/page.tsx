@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Hero } from "@/components/Hero";
 import { CtaButton } from "@/components/CtaButton";
 import {
@@ -45,6 +45,7 @@ export default async function BlogClanakPage({
   const post = BLOG_POSTS[clanak];
   if (!post) notFound();
   setRequestLocale(locale);
+  const tc = await getTranslations("Common");
 
   const schemaLd = {
     "@context": "https://schema.org",
@@ -71,7 +72,7 @@ export default async function BlogClanakPage({
         visina="48vh"
         eyebrow={post.cat}
         naslov={post.title}
-        nazadLink={{ href: "/blog", label: "Svi članci" }}
+        nazadLink={{ href: "/blog", label: tc("backAllArticles") }}
       />
 
       <article className="kon-section">

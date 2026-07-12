@@ -1,29 +1,8 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Hero } from "@/components/Hero";
 import { PonudaCatalog } from "@/components/PonudaCatalog";
 import { CtaButton } from "@/components/CtaButton";
-
-export const metadata: Metadata = {
-  title: "Ponuda i cijene 2026 — rafting, kanjoning i izleti | Rafting kamp Konak",
-  description:
-    "Svi aranžmani rafting kampa Konak na jednom mjestu: rafting ture od 1 do 4 dana, kanjoning Nevidio i Hrčavka i izleti — sa cijenama za 2026. Uporedi i rezerviši. Djeca do 6 god. besplatno.",
-  keywords: [
-    "rafting Tara cijene",
-    "rafting aranžmani 2026",
-    "rafting Tara ponuda",
-    "kanjoning cijena",
-    "cijene rafting kamp Konak",
-    "rafting paket Tara",
-  ],
-  alternates: { canonical: "https://www.raftingkampkonak.com/ponuda" },
-  openGraph: {
-    title: "Ponuda i cijene 2026 — rafting, kanjoning i izleti",
-    description:
-      "Uporedite rafting ture, kanjoning i izlete sa cijenama za sezonu 2026.",
-    type: "website",
-  },
-};
 
 const SITE = "https://www.raftingkampkonak.com";
 
@@ -46,12 +25,29 @@ const OFFERS: {
   { name: "Kanjoning Hrčavka", price: 120, url: "/kanjoning/hrcavka" },
 ];
 
-const NAPOMENE = [
-  "Djeca do 6 god. besplatno",
-  "Djeca 6–12 god. pola cijene",
-  "Sve cijene su po osobi i okvirne (\"od\")",
-  "Plaćanje isključivo u gotovini",
-];
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Ponuda" });
+  return {
+    title: { absolute: t("meta.title") },
+    description: t("meta.description"),
+    keywords: t("meta.keywords")
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean),
+    alternates: { canonical: `${SITE}/ponuda` },
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "website",
+      locale: locale === "en" ? "en_US" : "sr_BA",
+    },
+  };
+}
 
 export default async function PonudaPage({
   params,
@@ -60,11 +56,12 @@ export default async function PonudaPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Ponuda");
 
   const schemaLd = {
     "@context": "https://schema.org",
     "@type": "OfferCatalog",
-    name: "Ponuda 2026 — Rafting kamp Konak",
+    name: t("hero.eyebrow") + " — Rafting kamp Konak",
     url: `${SITE}/ponuda`,
     itemListElement: OFFERS.map((o, i) => ({
       "@type": "Offer",
@@ -88,18 +85,18 @@ export default async function PonudaPage({
       <Hero
         variant="b"
         visina="44vh"
-        eyebrow="Ponuda 2026"
+        eyebrow={t("hero.eyebrow")}
         naslov={
           <>
-            Svi aranžmani
+            {t("hero.naslov")}
             <br />
-            na jednom mjestu
+            {t("hero.naslovLine2")}
           </>
         }
-        lead="Uporedite rafting ture, kanjoning i izlete sa cijenama za sezonu 2026, pa izaberite svoj doživljaj."
+        lead={t("hero.lead")}
         slika={{
           src: "/images/galerija/galerija9.jpg",
-          alt: "Rafting i avanture u ponudi kampa Konak",
+          alt: t("hero.imageAlt"),
         }}
       />
 
@@ -113,15 +110,13 @@ export default async function PonudaPage({
       <section className="kon-section bg-sand py-8">
         <div className="kon-container">
           <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-sans text-sm text-text-secondary">
-            {NAPOMENE.map((n) => (
-              <li key={n} className="flex items-center gap-2">
+            {(["n1", "n2", "n3", "n4"] as const).map((key) => (
+              <li key={key} className="flex items-center gap-2">
                 <span className="h-1 w-1 rounded-full bg-teal" aria-hidden="true" />
-                {n}
+                {t(`notes.${key}`)}
               </li>
             ))}
-            <li className="italic text-muted">
-              Vikend cijene i tačan iznos — u kalkulatoru na /rezervacija
-            </li>
+            <li className="italic text-muted">{t("notes.weekend")}</li>
           </ul>
         </div>
       </section>
@@ -140,18 +135,17 @@ export default async function PonudaPage({
               letterSpacing: "-0.025em",
             }}
           >
-            Izračunaj tačnu cijenu
+            {t("cta.title")}
           </h2>
           <p
             className="mt-5 max-w-xl font-sans text-body"
             style={{ fontSize: "clamp(16px, 1.4vw, 19px)", lineHeight: 1.65 }}
           >
-            U kalkulatoru izaberi turu, datum i broj osoba — cijenu računamo odmah
-            i šaljemo upit u dva klika.
+            {t("cta.lead")}
           </p>
           <div className="mt-8">
             <CtaButton href="/rezervacija" arrow>
-              Otvori kalkulator
+              {t("cta.button")}
             </CtaButton>
           </div>
         </div>

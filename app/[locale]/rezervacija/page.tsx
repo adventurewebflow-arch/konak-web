@@ -1,26 +1,7 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Hero } from "@/components/Hero";
 import { ReservationForm } from "@/components/ReservationForm";
-
-export const metadata: Metadata = {
-  title: "Rezervacija — pošalji upit | Rafting kamp Konak",
-  description:
-    "Pošaljite upit za rafting, kanjoning ili teambuilding na Tari. Javljamo se u najkraćem roku sa tačnom ponudom — za grupe imamo dobar popust.",
-  keywords: [
-    "rezervacija rafting Tara",
-    "upit rafting kamp Konak",
-    "rafting rezervacija",
-    "rafting kamp Konak rezervacija",
-  ],
-  alternates: { canonical: "https://www.raftingkampkonak.com/rezervacija" },
-  openGraph: {
-    title: "Rezervacija — Rafting kamp Konak",
-    description:
-      "Pošaljite upit za turu. Cijene su okvirne — javljamo se sa tačnom ponudom.",
-    type: "website",
-  },
-};
 
 const SITE = "https://www.raftingkampkonak.com";
 
@@ -36,6 +17,30 @@ const jsonLd = {
   },
 };
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Rezervacija" });
+  return {
+    title: { absolute: t("meta.title") },
+    description: t("meta.description"),
+    keywords: t("meta.keywords")
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean),
+    alternates: { canonical: `${SITE}/rezervacija` },
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "website",
+      locale: locale === "en" ? "en_US" : "sr_BA",
+    },
+  };
+}
+
 export default async function RezervacijaPage({
   params,
 }: {
@@ -43,6 +48,7 @@ export default async function RezervacijaPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Rezervacija");
 
   return (
     <>
@@ -54,14 +60,14 @@ export default async function RezervacijaPage({
       <Hero
         variant="b"
         visina="48vh"
-        eyebrow="Rezervacija"
+        eyebrow={t("hero.eyebrow")}
         naslov={
           <>
-            Pošalji upit,{" "}
-            <span className="text-teal-light">javljamo se brzo.</span>
+            {t("hero.naslov")}{" "}
+            <span className="text-teal-light">{t("hero.naslovAccent")}</span>
           </>
         }
-        lead="Izaberi turu, datum i broj osoba — ostalo dogovaramo nakon upita. Za grupe imamo dobar popust."
+        lead={t("hero.lead")}
       />
 
       <section className="kon-section">

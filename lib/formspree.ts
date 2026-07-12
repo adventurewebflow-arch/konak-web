@@ -83,5 +83,6 @@ export async function submitToFormspree(
 
 export const FORM_SUCCESS_MSG =
   "Hvala! Upit je poslat. Javljamo se u najkraćem roku.";
+/** @deprecated Use Forms.success / Forms.error via next-intl */
 export const FORM_ERROR_MSG =
   "Nešto nije prošlo. Pokušajte ponovo ili nam pišite na WhatsApp.";

@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useTranslations } from "next-intl";
 import { CtaButton } from "./CtaButton";
 import {
   CAMP_EMAIL,
   EMPTY_UTM,
-  FORM_ERROR_MSG,
-  FORM_SUCCESS_MSG,
   readUtmFromWindow,
   submitToFormspree,
   type UtmFields,
@@ -100,6 +99,8 @@ function Stepper({
 }
 
 export function BookingCalculator() {
+  const t = useTranslations("Forms");
+  const tc = useTranslations("Common");
   const [tourId, setTourId] = useState("r1");
   const [lunch, setLunch] = useState(true);
   const [osobe, setOsobe] = useState(2);
@@ -333,7 +334,7 @@ export function BookingCalculator() {
           <h2 className={stepLabel}>
             <span className={stepNum}>3</span> Dodaj aktivnosti
             <span className="font-sans text-sm font-normal text-muted">
-              opciono · na upit
+              opciono · {tc("onRequest")}
             </span>
           </h2>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -354,7 +355,7 @@ export function BookingCalculator() {
                     {d.naziv}
                   </span>
                   <span className="mt-0.5 block font-sans text-xs text-muted">
-                    {d.sub}
+                    {d.sub === "na upit" ? tc("onRequest") : d.sub}
                   </span>
                 </button>
               );
@@ -371,7 +372,7 @@ export function BookingCalculator() {
             type="text"
             value={ishrana}
             onChange={(e) => setIshrana(e.target.value)}
-            placeholder="npr. vegetarijanac, bez glutena…"
+            placeholder={t("placeholderDiet")}
             className={inputCls}
           />
         </div>
@@ -388,7 +389,7 @@ export function BookingCalculator() {
             className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
             aria-hidden="true"
           >
-            <label htmlFor="rez-gotcha">Ne popunjavajte</label>
+            <label htmlFor="rez-gotcha">{t("honeypot")}</label>
             <input
               id="rez-gotcha"
               type="text"
@@ -440,7 +441,7 @@ export function BookingCalculator() {
               <li key={d.id} className="flex items-start justify-between gap-3">
                 <span className="text-on-dark-muted">{d.naziv}</span>
                 <span className="shrink-0 font-semibold text-amber-light">
-                  na upit
+                  {tc("onRequest")}
                 </span>
               </li>
             ))}
@@ -462,7 +463,7 @@ export function BookingCalculator() {
               type="text"
               value={ime}
               onChange={(e) => setIme(e.target.value)}
-              placeholder="Ime i prezime"
+              placeholder={t("fullName")}
               required
               className="w-full rounded-input border border-white/15 bg-white/5 px-4 py-3 font-sans text-[15px] text-white placeholder:text-on-dark-muted outline-none focus:border-teal-light"
             />
@@ -470,7 +471,7 @@ export function BookingCalculator() {
               type="tel"
               value={telefon}
               onChange={(e) => setTelefon(e.target.value)}
-              placeholder="Telefon / WhatsApp"
+              placeholder={t("phoneWhatsapp")}
               required
               className="w-full rounded-input border border-white/15 bg-white/5 px-4 py-3 font-sans text-[15px] text-white placeholder:text-on-dark-muted outline-none focus:border-teal-light"
             />
@@ -478,7 +479,7 @@ export function BookingCalculator() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="E-mail"
+              placeholder={t("email")}
               required
               className="w-full rounded-input border border-white/15 bg-white/5 px-4 py-3 font-sans text-[15px] text-white placeholder:text-on-dark-muted outline-none focus:border-teal-light"
             />
@@ -489,7 +490,7 @@ export function BookingCalculator() {
               role="status"
               className="mt-4 rounded-input border border-teal/40 bg-teal/15 px-4 py-3 font-sans text-sm font-semibold text-teal-light"
             >
-              {FORM_SUCCESS_MSG}
+              {t("success")}
             </p>
           )}
           {status === "error" && (
@@ -497,7 +498,7 @@ export function BookingCalculator() {
               role="alert"
               className="mt-4 rounded-input border border-terracotta/50 bg-terracotta/20 px-4 py-3 font-sans text-sm font-semibold text-white"
             >
-              {FORM_ERROR_MSG}
+              {t("error")}
             </p>
           )}
 
@@ -508,16 +509,16 @@ export function BookingCalculator() {
               className="w-full"
               disabled={!canSubmit || status === "loading"}
             >
-              {status === "loading" ? "Šalje se…" : "Pošalji upit"}
+              {status === "loading" ? t("submitting") : t("submit")}
             </CtaButton>
             <CtaButton href={waHref} variant="ghost" className="w-full">
-              Ili pošalji na WhatsApp
+              {t("whatsapp")}
             </CtaButton>
           </div>
 
           {!canSubmit && (
             <p className="mt-3 font-sans text-xs text-on-dark-muted">
-              Unesite datum, ime, telefon i e-mail da pošaljete upit.
+              {t("bookingHint")}
             </p>
           )}
 

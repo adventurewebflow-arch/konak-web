@@ -1,87 +1,24 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Hero } from "@/components/Hero";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ImageSlot } from "@/components/ImageSlot";
 import { CtaButton } from "@/components/CtaButton";
-
-export const metadata: Metadata = {
-  title: "Smještaj — lux bungalovi i auto kamp na Tari | Rafting kamp Konak",
-  description:
-    "13 lux bungalova sa sopstvenim kupatilom i auto kamp na sastavu Tare i Pive. Mir rijeke, topla voda i domaća kuhinja — smještaj uz rafting aranžmane. Hum, Foča.",
-  keywords: [
-    "bungalovi Tara",
-    "smještaj Šćepan Polje",
-    "lux bungalovi Foča",
-    "rafting smještaj",
-    "auto kamp Tara",
-    "kamp Konak smještaj",
-  ],
-  alternates: { canonical: "https://www.raftingkampkonak.com/smjestaj" },
-  openGraph: {
-    title: "Smještaj — bungalovi i auto kamp | Rafting kamp Konak",
-    description:
-      "13 lux bungalova i auto kamp na obali Tare — sopstvena kupatila, topla voda i domaća kuhinja.",
-    type: "website",
-  },
-};
 
 const SITE = "https://www.raftingkampkonak.com";
 const IMG = "/images/smjestaj-konak";
 const AUTO = "/images/autokamp";
 
 const GALERIJA = [
-  {
-    src: `${IMG}/kamp_konak.webp`,
-    alt: "Lux bungalovi kampa Konak uz rijeku",
-  },
-  {
-    src: `${IMG}/kamp_konak1.webp`,
-    alt: "Smještaj kampa Konak — bungalovi na obali",
-  },
-  {
-    src: `${IMG}/konak_ispred.webp`,
-    alt: "Ulaz i dvorište rafting kampa Konak",
-  },
-  {
-    src: `${IMG}/smjestaj_konak.webp`,
-    alt: "Unutrašnjost lux bungalova kampa Konak",
-  },
-  {
-    src: `${IMG}/smjestaj_konak2.webp`,
-    alt: "Lux bungalov kampa Konak — soba",
-  },
-  {
-    src: `${IMG}/smjestaj_konak3.webp`,
-    alt: "Lux bungalov kampa Konak — odmor uz Taru",
-  },
-  {
-    src: `${IMG}/toalet_kamp_konak.webp`,
-    alt: "Kupatilo u bungalovu kampa Konak",
-  },
-  {
-    src: `${AUTO}/auto-konak.jpg`,
-    alt: "Auto kamp Konak — kamperi pod krošnjama",
-  },
-];
-
-const UKLJUCENO: { naslov: string; opis: string; ikona: ReactNode }[] = [
-  {
-    naslov: "Sopstveno kupatilo",
-    opis: "Privatno kupatilo i topla voda u svakom bungalovu",
-    ikona: <IconBath />,
-  },
-  {
-    naslov: "Na obali rijeke",
-    opis: "Mir vode i pogled na sastav Tare i Pive",
-    ikona: <IconWaves />,
-  },
-  {
-    naslov: "WiFi i struja",
-    opis: "Veza i struja kad trebaju — bez gužve u kampu",
-    ikona: <IconWifi />,
-  },
+  { src: `${IMG}/kamp_konak.webp`, alt: "Lux bungalovi kampa Konak uz rijeku" },
+  { src: `${IMG}/kamp_konak1.webp`, alt: "Smještaj kampa Konak — bungalovi na obali" },
+  { src: `${IMG}/konak_ispred.webp`, alt: "Ulaz i dvorište rafting kampa Konak" },
+  { src: `${IMG}/smjestaj_konak.webp`, alt: "Unutrašnjost lux bungalova kampa Konak" },
+  { src: `${IMG}/smjestaj_konak2.webp`, alt: "Lux bungalov kampa Konak — soba" },
+  { src: `${IMG}/smjestaj_konak3.webp`, alt: "Lux bungalov kampa Konak — odmor uz Taru" },
+  { src: `${IMG}/toalet_kamp_konak.webp`, alt: "Kupatilo u bungalovu kampa Konak" },
+  { src: `${AUTO}/auto-konak.jpg`, alt: "Auto kamp Konak — kamperi pod krošnjama" },
 ];
 
 function IconBath() {
@@ -125,6 +62,30 @@ function IconWifi() {
   );
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Smjestaj" });
+  return {
+    title: { absolute: t("meta.title") },
+    description: t("meta.description"),
+    keywords: t("meta.keywords")
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean),
+    alternates: { canonical: `${SITE}/smjestaj` },
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "website",
+      locale: locale === "en" ? "en_US" : "sr_BA",
+    },
+  };
+}
+
 export default async function SmjestajPage({
   params,
 }: {
@@ -132,13 +93,31 @@ export default async function SmjestajPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Smjestaj");
+
+  const UKLJUCENO: { naslov: string; opis: string; ikona: ReactNode }[] = [
+    {
+      naslov: t("included.i1Naslov"),
+      opis: t("included.i1Opis"),
+      ikona: <IconBath />,
+    },
+    {
+      naslov: t("included.i2Naslov"),
+      opis: t("included.i2Opis"),
+      ikona: <IconWaves />,
+    },
+    {
+      naslov: t("included.i3Naslov"),
+      opis: t("included.i3Opis"),
+      ikona: <IconWifi />,
+    },
+  ];
 
   const lodgingLd = {
     "@context": "https://schema.org",
     "@type": "LodgingBusiness",
     name: "Rafting kamp Konak — lux bungalovi",
-    description:
-      "13 lux bungalova sa sopstvenim kupatilom i auto kamp na obali Tare u Humu kod Foče.",
+    description: t("meta.description"),
     url: `${SITE}/smjestaj`,
     telephone: "+38765848110",
     numberOfRooms: 13,
@@ -154,8 +133,7 @@ export default async function SmjestajPage({
     ],
   };
 
-  const bodyCls =
-    "font-sans text-body text-text-secondary";
+  const bodyCls = "font-sans text-body text-text-secondary";
   const bodyStyle = {
     fontSize: "clamp(16px, 1.4vw, 19px)",
     lineHeight: 1.65,
@@ -166,17 +144,17 @@ export default async function SmjestajPage({
       <Hero
         variant="b"
         visina="58vh"
-        eyebrow="Smještaj · bungalovi i auto kamp"
+        eyebrow={t("hero.eyebrow")}
         naslov={
           <>
-            San na obali{" "}
-            <span className="text-teal-light">tri rijeke.</span>
+            {t("hero.naslov")}{" "}
+            <span className="text-teal-light">{t("hero.naslovAccent")}</span>
           </>
         }
-        lead="Naši lux bungalovi i auto kamp smješteni su tamo gdje se Tara i Piva spajaju u Drinu. Mir vode, planinski vazduh i topla domaća kuhinja na korak od kreveta."
+        lead={t("hero.lead")}
         slika={{
           src: `${IMG}/smjestaj_hero.webp.webp`,
-          alt: "Lux bungalovi kampa Konak na obali Tare",
+          alt: t("hero.imageAlt"),
         }}
       />
 
@@ -190,18 +168,13 @@ export default async function SmjestajPage({
             className="font-display text-xl font-semibold text-ink sm:text-2xl"
             style={{ lineHeight: 1.35 }}
           >
-            Kod nas se ne dolazi da se sjedi u sobi.
+            {t("intro.lead")}
           </p>
           <p className={bodyCls} style={bodyStyle}>
-            Dan na Tari vas isprazni onako kako vas grad nikad ne isprazni — vesla,
-            voda, sunce, adrenalin. Kad se uveče vratite, ne treba vam luksuz. Treba
-            vam topla voda, čist krevet i tišina. To je tačno ono što smo napravili.
+            {t("intro.p1")}
           </p>
           <p className={bodyCls} style={bodyStyle}>
-            Kamp leži na samoj obali, na sastavu Tare i Pive, tamo gdje nastaje
-            Drina. Nema saobraćaja, nema gradske buke — samo rijeka koja radi svoje
-            cijelu noć. Gosti nam često kažu da su tu spavali najbolje u životu, i
-            mi se tome više ni ne čudimo.
+            {t("intro.p2")}
           </p>
         </div>
       </section>
@@ -214,44 +187,31 @@ export default async function SmjestajPage({
         >
           <div className="kon-split-body">
             <SectionHeader
-              eyebrow="Lux bungalovi"
-              naslov="Trinaest bungalova, svaki sa svojim kupatilom"
+              eyebrow={t("bungalovi.eyebrow")}
+              naslov={t("bungalovi.naslov")}
             />
             <div className="mt-6 max-w-xl space-y-4">
               <p className={bodyCls} style={bodyStyle}>
-                Kamp ima{" "}
-                <strong className="font-semibold text-ink">
-                  13 bungalova sa ukupno 55 ležajeva, i svaki bungalov ima sopstveno
-                  kupatilo i toplu vodu
-                </strong>
-                . To zvuči kao sitnica dok ne provedete dan u kanjonu — a onda
-                shvatite da je to sve što vam treba.
+                {t("bungalovi.p1")}
               </p>
               <p className={bodyCls} style={bodyStyle}>
-                Bungalovi su od drveta, i to se osjeti. Miriše na drvo, hladi ljeti,
-                drži toplotu kad zahladi. Za produženu sezonu imamo grijalice, pa je
-                i septembarska noć prijatna.
+                {t("bungalovi.p2")}
               </p>
               <p className={bodyCls} style={bodyStyle}>
-                Namjerno su jednostavni. Čist, udoban krevet, vaše kupatilo, i to je
-                to. Bez televizora, bez frke, bez razloga da ostanete unutra. Kod
-                nas se dan provodi na vodi, veče uz vatru i večeru, a bungalov je tu
-                za ono jedino što poslije toga stvarno treba — miran san uz zvuk
-                rijeke.
+                {t("bungalovi.p3")}
               </p>
               <p className={bodyCls} style={bodyStyle}>
-                Ako vas dvoje rezerviše bungalov, on ostaje samo za vas. Ne gura se
-                ekipa u sobu da se popuni.
+                {t("bungalovi.p4")}
               </p>
               <p className="font-sans text-sm font-semibold text-muted">
-                Bungalovi idu uz rafting aranžmane — ne kao samostalno noćenje.
+                {t("bungalovi.note")}
               </p>
             </div>
           </div>
           <div className="kon-split-media">
             <ImageSlot
               src={`${IMG}/smjestaj_kamp_konak.webp`}
-              alt="Lux bungalov kampa Konak na obali"
+              alt={t("bungalovi.imageAlt")}
               className="aspect-[4/5] w-full rounded-card-lg shadow-soft"
               sizes="(max-width: 960px) 100vw, 520px"
             />
@@ -268,31 +228,25 @@ export default async function SmjestajPage({
           <div className="kon-split-media">
             <ImageSlot
               src={`${IMG}/kamp_konak1.webp`}
-              alt="Veče u kampu Konak — atmosfera uz rijeku"
+              alt={t("evening.imageAlt")}
               className="aspect-[4/3] w-full rounded-card-lg shadow-soft"
               sizes="(max-width: 960px) 100vw, 520px"
             />
           </div>
           <div className="kon-split-body">
             <SectionHeader
-              eyebrow="Veče u kampu"
-              naslov="Ono što se ne planira, a najviše se pamti"
+              eyebrow={t("evening.eyebrow")}
+              naslov={t("evening.naslov")}
             />
             <div className="mt-6 max-w-xl space-y-4">
               <p className={bodyCls} style={bodyStyle}>
-                Najbolje na Tari se ne dešava na rijeci. Dešava se uveče, kad se svi
-                vrate, istuširaju, i sjednu za sto. Vatra, večera iz Branove kuhinje,
-                čaša vina, i priča koja krene o bukovima a završi se negdje sasvim
-                drugdje.
+                {t("evening.p1")}
               </p>
               <p className={bodyCls} style={bodyStyle}>
-                Ljudi koji su se ujutru upoznali u čamcu, uveče se ponašaju kao da se
-                znaju godinama. To nije nešto što mi organizujemo — to rijeka uradi
-                za nas.
+                {t("evening.p2")}
               </p>
               <p className={bodyCls} style={bodyStyle}>
-                Psi su dobrodošli. Parking je besplatan i pod video nadzorom. Rijeka
-                je na dva koraka i ne pita ništa.
+                {t("evening.p3")}
               </p>
             </div>
           </div>
@@ -306,23 +260,24 @@ export default async function SmjestajPage({
           style={{ ["--split-cols" as string]: "1.05fr 0.95fr" }}
         >
           <div className="kon-split-body">
-            <SectionHeader eyebrow="Auto kamp" naslov="Dođi svojim kamperom" />
+            <SectionHeader
+              eyebrow={t("autoKamp.eyebrow")}
+              naslov={t("autoKamp.naslov")}
+            />
             <div className="mt-6 max-w-xl space-y-4">
               <p className={bodyCls} style={bodyStyle}>
-                Za one koji putuju svojim kamperom ili šatorom, naš auto kamp prima
-                do 15 vozila — dovoljno prostora da svako ima svoj mir, a ne da vam
-                komšija bude u prozoru. Uz kamp idu sanitarni čvor, struja i WiFi, a
-                domaća kuhinja i rijeka su na par koraka.
+                {t("autoKamp.p1")}
               </p>
               <p className={bodyCls} style={bodyStyle}>
-                Cijena je{" "}
-                <strong className="font-semibold text-ink">20 € po noći</strong>.
-                Jednostavno, pošteno, i tačno onako kako kampovanje na Tari treba da
-                izgleda.
+                <strong className="font-semibold text-ink">
+                  {t("autoKamp.p2Strong")}
+                </strong>
+                {". "}
+                {t("autoKamp.p2Text")}
               </p>
               <div className="pt-2">
                 <CtaButton href="/rezervacija" variant="secondary" arrow>
-                  Rezerviši parcelu
+                  {t("autoKamp.ctaButton")}
                 </CtaButton>
               </div>
             </div>
@@ -330,7 +285,7 @@ export default async function SmjestajPage({
           <div className="kon-split-media">
             <ImageSlot
               src={`${AUTO}/autokapm-konak.jpg`}
-              alt="Auto kamp Konak — parcele za kampere uz rijeku"
+              alt={t("autoKamp.imageAlt")}
               className="aspect-[4/3] w-full rounded-card-lg shadow-soft"
               sizes="(max-width: 960px) 100vw, 520px"
             />
@@ -341,7 +296,10 @@ export default async function SmjestajPage({
       {/* Galerija */}
       <section className="kon-section">
         <div className="kon-container">
-          <SectionHeader eyebrow="Galerija" naslov="Pogledaj bungalove" />
+          <SectionHeader
+            eyebrow={t("gallery.eyebrow")}
+            naslov={t("gallery.naslov")}
+          />
           <div className="kon-bgal mt-10">
             {GALERIJA.map((g) => (
               <ImageSlot
@@ -359,7 +317,10 @@ export default async function SmjestajPage({
       {/* Šta dobijate */}
       <section className="kon-section bg-sand">
         <div className="kon-container">
-          <SectionHeader eyebrow="Uz smještaj" naslov="Šta dobijate" />
+          <SectionHeader
+            eyebrow={t("included.eyebrow")}
+            naslov={t("included.naslov")}
+          />
           <div className="kon-bgal mt-10">
             {UKLJUCENO.map((u) => (
               <div
@@ -395,18 +356,17 @@ export default async function SmjestajPage({
               letterSpacing: "-0.025em",
             }}
           >
-            Rezerviši svoj kutak
+            {t("cta.title")}
           </h2>
           <p className={`mt-5 max-w-xl ${bodyCls}`} style={bodyStyle}>
-            Smještaj ide uz naše rafting aranžmane. Javite se sa datumom i brojem
-            osoba — sklopićemo ostalo.
+            {t("cta.lead")}
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <CtaButton href="/ponuda" arrow>
-              Pogledaj ponudu
+              {t("cta.ctaOffer")}
             </CtaButton>
             <CtaButton href="/rezervacija" variant="secondary">
-              Pošalji upit
+              {t("cta.ctaBook")}
             </CtaButton>
           </div>
         </div>

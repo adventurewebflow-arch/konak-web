@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Hero } from "@/components/Hero";
 import { TourCard } from "@/components/TourCard";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -8,176 +8,9 @@ import { CtaButton } from "@/components/CtaButton";
 import { GallerySlider } from "@/components/GallerySlider";
 import { FaqAccordion } from "@/components/FaqAccordion";
 
-export const metadata: Metadata = {
-  title: "Rafting na Tari — ture od 1 do 4 dana | Rafting kamp Konak",
-  description:
-    "Rafting Tarom iz kampa Konak: jednodnevni (od 50€), dvodnevni (od 100€), trodnevni (od 140€) i četvorodnevni rafting cijelim tokom Tare (od 300€). 18 bukova, najdublji kanjon Evrope, sve uključeno.",
-  keywords: [
-    "rafting Tara",
-    "rafting na Tari",
-    "rafting cijena",
-    "jednodnevni rafting",
-    "višednevni rafting",
-    "rafting Foča",
-    "rafting kamp Konak",
-  ],
-  alternates: { canonical: "https://www.raftingkampkonak.com/rafting" },
-  openGraph: {
-    title: "Rafting na Tari — ture od 1 do 4 dana",
-    description:
-      "Vođene rafting ture niz najdublji kanjon Evrope. Oprema, vodič, obroci i prevoz — sve uključeno.",
-    type: "website",
-  },
-};
-
 const SITE = "https://www.raftingkampkonak.com";
 const HERO_IMG = "/images/hero-slike-konak";
 const RAFTING_IMG = "/images/rafting";
-
-// 4.3 — Lista tura (red-kartice), doslovno iz page-rafting.md
-const TURE = [
-  {
-    href: "/rafting/jednodnevni",
-    kicker: "1 DAN · bez noćenja",
-    naslov: "Jednodnevni rafting",
-    opis:
-      "Osamnaest kilometara i osamnaest bukova kroz najljepši dio kanjona Tare. Bez noćenja — 50 € bez ručka ili 65 € sa domaćim ručkom.",
-    cijena: "50€",
-    cijenaLabel: "od",
-    obrnuto: false,
-    slika: {
-      src: `${HERO_IMG}/raftingtarom-jednodnevni.jpg`,
-      alt: "Jednodnevni rafting na Tari",
-    },
-  },
-  {
-    href: "/rafting/dvodnevni",
-    kicker: "2 DANA · 1 noćenje · pun pansion",
-    naslov: "Dvodnevni aranžman",
-    opis:
-      "Jedno veče u kampu i jedan dan na rijeci — večera kraj vatre, pa spust 18 km.",
-    cijena: "100€",
-    cijenaLabel: "od",
-    obrnuto: true,
-    slika: {
-      src: `${HERO_IMG}/raftingtarom-dvodnevni.jpg`,
-      alt: "Dvodnevni rafting na Tari",
-    },
-  },
-  {
-    href: "/rafting/trodnevni",
-    kicker: "3 DANA · 2 noćenja · 5 obroka",
-    naslov: "Trodnevni aranžman",
-    opis:
-      "Aranžman koji gosti najčešće biraju — rafting, dvije večeri u kampu i dan za Sutjesku ili mir.",
-    cijena: "140€",
-    cijenaLabel: "od",
-    tag: "Najtraženije",
-    obrnuto: false,
-    slika: {
-      src: `${HERO_IMG}/raftingtarom-trodnevni.jpg`,
-      alt: "Trodnevni rafting na Tari",
-    },
-  },
-  {
-    href: "/rafting/cijela-tara",
-    kicker: "4 DANA · 76 km · cijeli tok",
-    naslov: "Rafting cijelim tokom Tare",
-    opis:
-      "Cijeli plovni tok — 76 km od Đurđevića mosta do Huma, pećine, vodopadi i noć u kanjonu.",
-    cijena: "300€",
-    cijenaLabel: "od",
-    tamna: true,
-    obrnuto: true,
-    slika: {
-      src: `${HERO_IMG}/raftingtarom-cetverodnevni.jpg`,
-      alt: "Rafting cijelim tokom Tare",
-    },
-  },
-];
-
-// 4.4 — U cijenu ulazi
-const UKLJUCENO: { naslov: string; opis: string; ikona: ReactNode }[] = [
-  {
-    naslov: "Kompletna oprema",
-    opis: "Neopren, čizme, jakna, prsluk, kaciga i veslo",
-    ikona: <IconGear />,
-  },
-  {
-    naslov: "Licencirani vodič",
-    opis: "Sertifikovan skiper u svakom čamcu",
-    ikona: <IconGuide />,
-  },
-  {
-    naslov: "Obroci i prevoz",
-    opis: "Domaća kuhinja i prevoz do startne tačke",
-    ikona: <IconMeal />,
-  },
-  {
-    naslov: "Takse i osiguranje",
-    opis: "Boravišna i rafting taksa, osiguranje od nezgode",
-    ikona: <IconShield />,
-  },
-];
-
-const UKLJUCENO_TRAKA = [
-  "Djeca do 6 god. besplatno",
-  "Djeca 6–12 god. 50%",
-  "Piće dobrodošlice (domaća rakija)",
-  "Besplatan parking sa nadzorom",
-];
-
-// 4.7 — FAQ (5 pitanja), doslovno
-const FAQ = [
-  {
-    pitanje: "Koja tura je najbolja za prvi put?",
-    odgovor:
-      "Jednodnevni rafting je idealan za prvi susret sa Tarom — dovoljno uzbuđenja, a bez obaveze noćenja. Ako želite cijeli doživljaj, najtraženiji je trodnevni aranžman.",
-  },
-  {
-    pitanje: "Da li treba znati plivati?",
-    odgovor:
-      "Nije neophodno. Svi nose prsluk i kacigu, a skiper vodi čamac. Dovoljno je da se ne plašite vode i slušate uputstva vodiča.",
-  },
-  {
-    pitanje: "Šta je uključeno u cijenu?",
-    odgovor:
-      "Oprema, licencirani vodič, prevoz do startne tačke, obrok(i), osiguranje i takse. Kod višednevnih tura i noćenje i pun pansion.",
-  },
-  {
-    pitanje: "Kako se računa vikend cijena?",
-    odgovor:
-      "Subota i nedjelja su vikend za sve ture; petak je vikend samo za višednevne aranžmane. Cijena se automatski prilagodi datumu u rezervaciji.",
-  },
-  {
-    pitanje: "Mogu li djeca na rafting?",
-    odgovor:
-      "Da. Djeca do 6 godina ne plaćaju, a od 6 do 12 imaju 50% popusta. Za najmlađe biramo mirnije dionice.",
-  },
-];
-
-const GALERIJA_TEASER = [
-  {
-    href: "/galerija",
-    src: `${RAFTING_IMG}/rafting-galerija1.jpg`,
-    alt: "Rafting na Tari — čamac u kanjonu",
-  },
-  {
-    href: "/galerija",
-    src: `${RAFTING_IMG}/rafting-galerija7.jpg`,
-    alt: "Rafting na Tari — grupa na spustu",
-  },
-  {
-    href: "/galerija",
-    src: `${RAFTING_IMG}/rafting-galerija12.jpg`,
-    alt: "Rafting na Tari — bukovi i kanjon",
-  },
-  {
-    href: "/galerija",
-    src: `${RAFTING_IMG}/rafting-galerija16.jpg`,
-    alt: "Rafting na Tari — dolazak u Hum",
-  },
-];
 
 function IconGear() {
   return (
@@ -255,6 +88,30 @@ function IconDot() {
   );
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const tr = await getTranslations({ locale, namespace: "Rafting" });
+
+  return {
+    title: { absolute: tr("meta.title") },
+    description: tr("meta.description"),
+    keywords: tr("meta.keywords")
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean),
+    alternates: { canonical: `${SITE}/rafting` },
+    openGraph: {
+      title: tr("meta.ogTitle"),
+      description: tr("meta.ogDescription"),
+      type: "website",
+    },
+  };
+}
+
 export default async function RaftingPage({
   params,
 }: {
@@ -262,6 +119,127 @@ export default async function RaftingPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+
+  const tr = await getTranslations("Rafting");
+  const tc = await getTranslations("Common");
+
+  const TURE = [
+    {
+      href: "/rafting/jednodnevni",
+      kicker: tr("cards.jednodnevni.kicker"),
+      naslov: tr("cards.jednodnevni.title"),
+      opis: tr("cards.jednodnevni.description"),
+      cijena: "50€",
+      cijenaLabel: tc("from"),
+      obrnuto: false,
+      slika: {
+        src: `${HERO_IMG}/raftingtarom-jednodnevni.jpg`,
+        alt: tr("cards.jednodnevni.imageAlt"),
+      },
+    },
+    {
+      href: "/rafting/dvodnevni",
+      kicker: tr("cards.dvodnevni.kicker"),
+      naslov: tr("cards.dvodnevni.title"),
+      opis: tr("cards.dvodnevni.description"),
+      cijena: "100€",
+      cijenaLabel: tc("from"),
+      obrnuto: true,
+      slika: {
+        src: `${HERO_IMG}/raftingtarom-dvodnevni.jpg`,
+        alt: tr("cards.dvodnevni.imageAlt"),
+      },
+    },
+    {
+      href: "/rafting/trodnevni",
+      kicker: tr("cards.trodnevni.kicker"),
+      naslov: tr("cards.trodnevni.title"),
+      opis: tr("cards.trodnevni.description"),
+      cijena: "140€",
+      cijenaLabel: tc("from"),
+      tag: tr("cards.trodnevni.tag"),
+      obrnuto: false,
+      slika: {
+        src: `${HERO_IMG}/raftingtarom-trodnevni.jpg`,
+        alt: tr("cards.trodnevni.imageAlt"),
+      },
+    },
+    {
+      href: "/rafting/cijela-tara",
+      kicker: tr("cards.cijelaTara.kicker"),
+      naslov: tr("cards.cijelaTara.title"),
+      opis: tr("cards.cijelaTara.description"),
+      cijena: "300€",
+      cijenaLabel: tc("from"),
+      tamna: true,
+      obrnuto: true,
+      slika: {
+        src: `${HERO_IMG}/raftingtarom-cetverodnevni.jpg`,
+        alt: tr("cards.cijelaTara.imageAlt"),
+      },
+    },
+  ];
+
+  const UKLJUCENO: { naslov: string; opis: string; ikona: ReactNode }[] = [
+    {
+      naslov: tr("included.gearTitle"),
+      opis: tr("included.gearDesc"),
+      ikona: <IconGear />,
+    },
+    {
+      naslov: tr("included.guideTitle"),
+      opis: tr("included.guideDesc"),
+      ikona: <IconGuide />,
+    },
+    {
+      naslov: tr("included.mealsTitle"),
+      opis: tr("included.mealsDesc"),
+      ikona: <IconMeal />,
+    },
+    {
+      naslov: tr("included.feesTitle"),
+      opis: tr("included.feesDesc"),
+      ikona: <IconShield />,
+    },
+  ];
+
+  const UKLJUCENO_TRAKA = [
+    tr("included.strip1"),
+    tr("included.strip2"),
+    tr("included.strip3"),
+    tr("included.strip4"),
+  ];
+
+  const FAQ = [
+    { pitanje: tr("faq.q1"), odgovor: tr("faq.a1") },
+    { pitanje: tr("faq.q2"), odgovor: tr("faq.a2") },
+    { pitanje: tr("faq.q3"), odgovor: tr("faq.a3") },
+    { pitanje: tr("faq.q4"), odgovor: tr("faq.a4") },
+    { pitanje: tr("faq.q5"), odgovor: tr("faq.a5") },
+  ];
+
+  const GALERIJA_TEASER = [
+    {
+      href: "/galerija",
+      src: `${RAFTING_IMG}/rafting-galerija1.jpg`,
+      alt: tr("gallery.alt1"),
+    },
+    {
+      href: "/galerija",
+      src: `${RAFTING_IMG}/rafting-galerija7.jpg`,
+      alt: tr("gallery.alt2"),
+    },
+    {
+      href: "/galerija",
+      src: `${RAFTING_IMG}/rafting-galerija12.jpg`,
+      alt: tr("gallery.alt3"),
+    },
+    {
+      href: "/galerija",
+      src: `${RAFTING_IMG}/rafting-galerija16.jpg`,
+      alt: tr("gallery.alt4"),
+    },
+  ];
 
   const itemListLd = {
     "@context": "https://schema.org",
@@ -276,20 +254,20 @@ export default async function RaftingPage({
 
   return (
     <>
-      {/* 4.2 — HERO (podstranica) */}
+      {/* Hero */}
       <Hero
         variant="b"
         visina="60vh"
-        eyebrow="Rafting turom"
-        naslov="Rafting na Tari"
-        lead="18 bukova na najuzbudljivijem dijelu rijeke — od jutarnjeg spusta do četvorodnevne ekspedicije cijelim tokom Tare."
+        eyebrow={tr("hero.eyebrow")}
+        naslov={tr("hero.title")}
+        lead={tr("hero.lead")}
         slika={{
           src: `${RAFTING_IMG}/rafting-hero.jpg`,
-          alt: "Rafting na Tari — čamac u kanjonu",
+          alt: tr("hero.imageAlt"),
         }}
       />
 
-      {/* 4.3 — LISTA TURA (red-kartice) */}
+      {/* Tour cards */}
       <section className="kon-section">
         <div className="kon-container flex flex-col gap-6">
           {TURE.map((t) => (
@@ -311,12 +289,12 @@ export default async function RaftingPage({
         </div>
       </section>
 
-      {/* 4.4 — U CIJENU ULAZI (sand) */}
+      {/* What's included */}
       <section className="kon-section bg-sand">
         <div className="kon-container">
           <SectionHeader
-            eyebrow="U cijenu ulazi"
-            naslov="Sve je uključeno — bez skrivenih troškova."
+            eyebrow={tr("included.eyebrow")}
+            naslov={tr("included.title")}
           />
 
           <div className="kon-incl mt-10">
@@ -354,7 +332,7 @@ export default async function RaftingPage({
         </div>
       </section>
 
-      {/* 4.5 — CTA (centrirano) */}
+      {/* CTA */}
       <section className="kon-section">
         <div
           className="kon-container flex flex-col items-center text-center"
@@ -368,50 +346,49 @@ export default async function RaftingPage({
               letterSpacing: "-0.025em",
             }}
           >
-            Sastavi termin i vidi cijenu.
+            {tr("cta.title")}
           </h2>
           <p
             className="mt-5 max-w-xl font-sans text-body"
             style={{ fontSize: "clamp(16px, 1.4vw, 19px)", lineHeight: 1.65 }}
           >
-            Izaberi turu, datum i broj osoba u kalkulatoru — cijenu računamo odmah i
-            šaljemo upit na WhatsApp ili mejl.
+            {tr("cta.body")}
           </p>
           <div className="mt-8">
             <CtaButton href="/rezervacija" arrow>
-              Otvori kalkulator
+              {tr("cta.button")}
             </CtaButton>
           </div>
         </div>
       </section>
 
-      {/* 4.6 — GALERIJA teaser */}
+      {/* Gallery teaser */}
       <section className="kon-section bg-sand">
         <div className="kon-container">
           <SectionHeader
-            eyebrow="Sa rijeke"
-            naslov="Trenuci sa Tare"
-            link={{ href: "/galerija", label: "Cijela galerija" }}
+            eyebrow={tr("gallery.eyebrow")}
+            naslov={tr("gallery.title")}
+            link={{ href: "/galerija", label: tr("gallery.link") }}
           />
 
           <div className="mt-10">
             <GallerySlider
-              label="Galerija sa Tare"
+              label={tr("gallery.sliderLabel")}
               items={GALERIJA_TEASER}
             />
           </div>
         </div>
       </section>
 
-      {/* 4.7 — FAQ (5 pitanja) */}
+      {/* FAQ */}
       <section className="kon-section">
         <div
           className="kon-container"
           style={{ maxWidth: "var(--container-narrow)" }}
         >
           <SectionHeader
-            eyebrow="Česta pitanja o raftingu"
-            naslov="Sve što vas zanima."
+            eyebrow={tr("faq.eyebrow")}
+            naslov={tr("faq.title")}
             className="items-center text-center"
           />
           <div className="mt-8">

@@ -1,9 +1,10 @@
-import { Link } from "@/i18n/navigation";
+"use client";
 
-export type Crumb = {
-  label: string;
-  href?: string;
-};
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import type { Crumb } from "@/lib/breadcrumb-ld";
+
+export type { Crumb };
 
 type BreadcrumbsProps = {
   items: Crumb[];
@@ -11,11 +12,12 @@ type BreadcrumbsProps = {
 };
 
 export function Breadcrumbs({ items, className = "" }: BreadcrumbsProps) {
+  const t = useTranslations("Breadcrumbs");
   if (items.length === 0) return null;
 
   return (
     <nav
-      aria-label="Putokaz"
+      aria-label={t("aria")}
       className={`border-b border-line-nav bg-sand/80 ${className}`}
     >
       <ol
@@ -51,19 +53,4 @@ export function Breadcrumbs({ items, className = "" }: BreadcrumbsProps) {
       </ol>
     </nav>
   );
-}
-
-export function breadcrumbListLd(items: Crumb[], site: string) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: items.map((item, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name: item.label,
-      ...(item.href
-        ? { item: item.href.startsWith("http") ? item.href : `${site}${item.href === "/" ? "" : item.href}` }
-        : {}),
-    })),
-  };
 }

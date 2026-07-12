@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useTranslations } from "next-intl";
 import { CtaButton } from "./CtaButton";
 import {
   CAMP_EMAIL,
   EMPTY_UTM,
-  FORM_ERROR_MSG,
-  FORM_SUCCESS_MSG,
   readUtmFromWindow,
   submitToFormspree,
   type UtmFields,
@@ -25,6 +24,7 @@ const TEME = [
 type Status = "idle" | "loading" | "success" | "error";
 
 export function ContactForm() {
+  const t = useTranslations("Forms");
   const [ime, setIme] = useState("");
   const [telefon, setTelefon] = useState("");
   const [email, setEmail] = useState("");
@@ -99,9 +99,9 @@ export function ContactForm() {
       className="rounded-card-lg border border-line bg-surface p-6 sm:p-8"
       noValidate
     >
-      <h2 className="font-display text-2xl font-bold text-ink">Pošaljite upit</h2>
+      <h2 className="font-display text-2xl font-bold text-ink">{t("contactTitle")}</h2>
       <p className="mt-2 font-sans text-sm text-text-secondary">
-        Popunite formu — šaljemo upit direktno u kamp. Možete i preko WhatsApp-a.
+        {t("contactLead")}
       </p>
 
       {/* Honeypot */}
@@ -109,7 +109,7 @@ export function ContactForm() {
         className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
         aria-hidden="true"
       >
-        <label htmlFor="kontakt-gotcha">Ne popunjavajte</label>
+        <label htmlFor="kontakt-gotcha">{t("honeypot")}</label>
         <input
           id="kontakt-gotcha"
           type="text"
@@ -124,7 +124,7 @@ export function ContactForm() {
       <div className="mt-6 grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="kontakt-ime" className={labelCls}>
-            Ime i prezime
+            {t("fullName")}
           </label>
           <input
             id="kontakt-ime"
@@ -137,7 +137,7 @@ export function ContactForm() {
         </div>
         <div>
           <label htmlFor="kontakt-telefon" className={labelCls}>
-            Telefon
+            {t("phone")}
           </label>
           <input
             id="kontakt-telefon"
@@ -150,7 +150,7 @@ export function ContactForm() {
         </div>
         <div className="sm:col-span-2">
           <label htmlFor="kontakt-email" className={labelCls}>
-            E-mail
+            {t("email")}
           </label>
           <input
             id="kontakt-email"
@@ -163,7 +163,7 @@ export function ContactForm() {
         </div>
         <div className="sm:col-span-2">
           <label htmlFor="kontakt-tema" className={labelCls}>
-            Tema
+            {t("topic")}
           </label>
           <select
             id="kontakt-tema"
@@ -180,14 +180,14 @@ export function ContactForm() {
         </div>
         <div className="sm:col-span-2">
           <label htmlFor="kontakt-poruka" className={labelCls}>
-            Poruka
+            {t("message")}
           </label>
           <textarea
             id="kontakt-poruka"
             value={poruka}
             onChange={(e) => setPoruka(e.target.value)}
             rows={5}
-            placeholder="Vaša poruka — broj osoba, željeni termin, pitanja..."
+            placeholder={t("placeholderContact")}
             className={`${inputCls} resize-y`}
           />
         </div>
@@ -198,7 +198,7 @@ export function ContactForm() {
           role="status"
           className="mt-5 rounded-input border border-mint-border bg-mint-surface px-4 py-3 font-sans text-sm font-semibold text-pine"
         >
-          {FORM_SUCCESS_MSG}
+          {t("success")}
         </p>
       )}
       {status === "error" && (
@@ -206,7 +206,7 @@ export function ContactForm() {
           role="alert"
           className="mt-5 rounded-input border border-terracotta/40 bg-terracotta/10 px-4 py-3 font-sans text-sm font-semibold text-ink"
         >
-          {FORM_ERROR_MSG}
+          {t("error")}
         </p>
       )}
 
@@ -218,11 +218,11 @@ export function ContactForm() {
           arrow={status !== "loading"}
           disabled={!canSend || status === "loading"}
         >
-          {status === "loading" ? "Šalje se…" : "Pošalji upit"}
+          {status === "loading" ? t("submitting") : t("submit")}
         </CtaButton>
         {canSend ? (
           <CtaButton href={waHref} variant="secondary" className="w-full">
-            Ili pošalji na WhatsApp
+            {t("whatsapp")}
           </CtaButton>
         ) : (
           <CtaButton
@@ -230,19 +230,19 @@ export function ContactForm() {
             className="w-full cursor-not-allowed opacity-50"
             aria-disabled
           >
-            Ili pošalji na WhatsApp
+            {t("whatsapp")}
           </CtaButton>
         )}
       </div>
 
       {!canSend && (
         <p className="mt-3 font-sans text-xs text-muted">
-          Popunite ime, telefon, e-mail i temu upita.
+          {t("contactHint")}
         </p>
       )}
 
       <p className="mt-4 font-sans text-xs text-muted">
-        Ili nam pišite na{" "}
+        {t("orEmail")}{" "}
         <span className="font-semibold text-body">{CAMP_EMAIL}</span>
       </p>
     </form>

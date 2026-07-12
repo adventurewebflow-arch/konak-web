@@ -1,5 +1,11 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ImageSlot } from "./ImageSlot";
+
+/** Sentinel u podacima — prikaz ide preko Common.onRequest. */
+export const ON_REQUEST_PRICE = "na upit";
 
 interface OfferCardProps {
   kicker: string;
@@ -43,13 +49,16 @@ export function OfferCard({
   naslov,
   opis,
   cijena,
-  cijenaLabel = "od",
+  cijenaLabel,
   href,
   tag,
   slika,
   gradient = "var(--gradient-slot-1)",
 }: OfferCardProps) {
+  const t = useTranslations("Common");
+  const fromLabel = cijenaLabel ?? t("from");
   const highlighted = Boolean(tag);
+  const isOnRequest = cijena === ON_REQUEST_PRICE;
 
   return (
     <Link
@@ -86,18 +95,18 @@ export function OfferCard({
         <div className="my-4 h-px bg-line" />
         <div className="flex items-end justify-between gap-3">
           <div>
-            {cijena !== "na upit" && (
-              <span className="block font-sans text-[11px] text-faint">po osobi</span>
+            {!isOnRequest && (
+              <span className="block font-sans text-[11px] text-faint">{t("perPerson")}</span>
             )}
             <span className="font-display text-2xl font-bold text-pine">
-              {cijena === "na upit" ? (
+              {isOnRequest ? (
                 <span className="font-sans text-lg font-semibold italic text-text-secondary">
-                  na upit
+                  {t("onRequest")}
                 </span>
               ) : (
                 <>
                   <span className="mr-1 font-sans text-xs font-semibold text-faint">
-                    {cijenaLabel}
+                    {fromLabel}
                   </span>
                   {cijena}
                 </>
@@ -105,7 +114,7 @@ export function OfferCard({
             </span>
           </div>
           <span className="inline-flex shrink-0 items-center gap-1 font-sans text-sm font-bold text-terracotta">
-            Detaljnije
+            {t("seeDetails")}
             <Arrow />
           </span>
         </div>

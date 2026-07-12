@@ -1,4 +1,7 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ImageSlot } from "./ImageSlot";
 
@@ -103,13 +106,15 @@ export function TourCard({
   opis,
   fakti,
   cijena,
-  cijenaLabel = "od",
+  cijenaLabel,
   href,
   tag,
   varijanta = "grid",
   obrnuto = false,
   tamna = false,
 }: TourCardProps) {
+  const t = useTranslations("Common");
+  const fromLabel = cijenaLabel ?? t("from");
   const highlighted = Boolean(tag);
 
   // ---- RED varijanta (horizontalna) ----
@@ -162,10 +167,10 @@ export function TourCard({
           <div className="mt-1">
             <Cijena
               cijena={cijena}
-              cijenaLabel={cijenaLabel}
+              cijenaLabel={fromLabel}
               labelCls={redLabel}
               priceCls={redPrice}
-              detaljnijeLabel="Pogledaj program"
+              detaljnijeLabel={t("viewProgram")}
             />
           </div>
         </div>
@@ -222,10 +227,10 @@ export function TourCard({
         <div className={`my-4 h-px ${sepCls}`} />
         <Cijena
           cijena={cijena}
-          cijenaLabel={cijenaLabel}
+          cijenaLabel={fromLabel}
           labelCls={labelCls}
           priceCls={priceCls}
-          detaljnijeLabel="Detaljnije"
+          detaljnijeLabel={t("seeDetails")}
         />
       </div>
     </Link>

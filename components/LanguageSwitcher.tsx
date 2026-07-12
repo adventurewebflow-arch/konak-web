@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useTransition } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
@@ -11,6 +11,7 @@ const LABELS: Record<string, string> = {
 };
 
 export function LanguageSwitcher({ className = "" }: { className?: string }) {
+  const t = useTranslations("LanguageSwitcher");
   const activeLocale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
@@ -27,7 +28,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
     <div
       className={`flex items-center gap-1 ${className}`}
       role="group"
-      aria-label="Izbor jezika"
+      aria-label={t("aria")}
     >
       {routing.locales.map((locale) => {
         const isActive = locale === activeLocale;

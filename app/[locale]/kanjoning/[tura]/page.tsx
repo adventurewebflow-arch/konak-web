@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Hero } from "@/components/Hero";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -8,11 +8,67 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { CtaButton } from "@/components/CtaButton";
 import { ImageSlot } from "@/components/ImageSlot";
 import { TourCard } from "@/components/TourCard";
-import { Breadcrumbs, breadcrumbListLd } from "@/components/Breadcrumbs";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { breadcrumbListLd } from "@/lib/breadcrumb-ld";
 
 const SITE = "https://www.raftingkampkonak.com";
 const WHATSAPP_NUM = "38765848110";
 const EMAIL = "konakraftingkamp@gmail.com";
+
+const VALID_SLUGS = ["nevidio", "hrcavka"] as const;
+type CanyonSlug = (typeof VALID_SLUGS)[number];
+
+const CANYON_UNITS: Record<CanyonSlug, number> = {
+  nevidio: 130,
+  hrcavka: 120,
+};
+
+const CANYON_CARD_STATIC: Record<CanyonSlug, { kicker: string; cijena: string }> = {
+  nevidio: { kicker: "NEVIDIO · cijeli dan", cijena: "130€" },
+  hrcavka: { kicker: "HRČAVKA · pola dana", cijena: "120€" },
+};
+
+const RELATED_RAFTING_STATIC = [
+  {
+    href: "/rafting/jednodnevni",
+    kicker: "1 DAN · bez noćenja",
+    cijena: "50€",
+    slika: { src: "/images/hero-slike-konak/raftingtarom-jednodnevni.jpg", alt: "Jednodnevni rafting na Tari" },
+  },
+  {
+    href: "/rafting/trodnevni",
+    kicker: "3 DANA · 2 noćenja",
+    cijena: "140€",
+    slika: { src: "/images/hero-slike-konak/raftingtarom-trodnevni.jpg", alt: "Trodnevni rafting na Tari" },
+  },
+];
+
+interface CanyonImages {
+  hero: { src: string; alt: string };
+  cardSlika: { src: string; alt: string };
+  gallery: { src: string; alt: string }[];
+}
+
+const CANYON_IMAGES: Record<CanyonSlug, CanyonImages> = {
+  nevidio: {
+    hero: { src: "/images/hero-slike-konak/kanjoning-pocetna.jpg", alt: "Kanjoning Nevidio — spust niz vodopad u kanjonu" },
+    cardSlika: { src: "/images/hero-slike-konak/kanjoning-pocetna.jpg", alt: "Kanjoning Nevidio" },
+    gallery: [
+      { src: "/images/galerija/galerija13.jpg", alt: "Pauza uz tirkiznu rijeku u kanjonu" },
+      { src: "/images/galerija/galerija14.jpg", alt: "Kupanje i avantura u kristalnoj vodi kanjona" },
+      { src: "/images/rafting/rafting-galerija5.jpg", alt: "Stijene i zelenilo kanjona oko rijeke" },
+    ],
+  },
+  hrcavka: {
+    hero: { src: "/images/galerija/galerija15.jpg", alt: "Kanjoning Hrčavka — učesnici ispred vodopada u kanjonu" },
+    cardSlika: { src: "/images/galerija/galerija15.jpg", alt: "Kanjoning Hrčavka" },
+    gallery: [
+      { src: "/images/galerija/galerija13.jpg", alt: "Kupanje i pauza u tirkiznoj vodi kanjona" },
+      { src: "/images/galerija/galerija14.jpg", alt: "Porodična avantura u kristalnoj vodi uz opremu" },
+      { src: "/images/rafting/rafting-galerija2.jpg", alt: "Stijene i zelenilo oko rijeke u kanjonu" },
+    ],
+  },
+};
 
 interface ProgramItem {
   broj: number;
@@ -26,296 +82,68 @@ interface PriceOption {
   price: string;
 }
 
-interface TuraData {
-  badge: string;
-  title: string;
-  subtitle: string;
-  price: string;
-  priceNote: string;
-  priceOptions: PriceOption[];
-  unit: number;
-  durationFact: string;
-  stayFact: string;
-  mealsFact: string;
-  intro: string;
-  program: ProgramItem[];
-  included: string[];
-  cardKicker: string;
-  cardCijena: string;
-  hero: { src: string; alt: string };
-  cardSlika: { src: string; alt: string };
-  gallery: { src: string; alt: string }[];
-  faq: { pitanje: string; odgovor: string }[];
-  metaTitle: string;
-  metaDescription: string;
-  galleryEyebrow: string;
-  galleryTitle: string;
+function buildCanyonTour(
+  tura: CanyonSlug,
+  tTD: Awaited<ReturnType<typeof getTranslations>>,
+) {
+  const raw = tTD.raw(`canyon.${tura}`) as Record<string, string>;
+
+  const program: ProgramItem[] = [];
+  for (let i = 1; i <= 6; i++) {
+    if (!raw[`p${i}Title`]) break;
+    program.push({
+      broj: i,
+      label: raw[`p${i}Label`] || undefined,
+      naslov: raw[`p${i}Title`],
+      tekst: raw[`p${i}Text`],
+    });
+  }
+
+  const priceOptions: PriceOption[] = [];
+  for (let i = 1; i <= 4; i++) {
+    if (!raw[`priceOpt${i}`]) break;
+    priceOptions.push({
+      label: raw[`priceOpt${i}Label`],
+      price: raw[`priceOpt${i}`],
+    });
+  }
+
+  const included: string[] = [];
+  for (let i = 1; i <= 10; i++) {
+    if (!raw[`i${i}`]) break;
+    included.push(raw[`i${i}`]);
+  }
+
+  const faq: { pitanje: string; odgovor: string }[] = [];
+  for (let i = 1; i <= 6; i++) {
+    if (!raw[`faq_q${i}`]) break;
+    faq.push({ pitanje: raw[`faq_q${i}`], odgovor: raw[`faq_a${i}`] });
+  }
+
+  return {
+    badge: raw["badge"],
+    title: raw["title"],
+    subtitle: raw["subtitle"],
+    price: raw["price"],
+    priceNote: raw["priceNote"],
+    priceOptions,
+    unit: CANYON_UNITS[tura],
+    durationFact: raw["durationFact"],
+    stayFact: raw["stayFact"],
+    mealsFact: raw["mealsFact"],
+    intro: raw["intro"],
+    program,
+    included,
+    faq,
+    galleryEyebrow: raw["galleryEyebrow"],
+    galleryTitle: raw["galleryTitle"],
+    metaTitle: raw["metaTitle"],
+    metaDescription: raw["metaDescription"],
+  };
 }
 
-/** Generički tekst — Petar ubacuje finalni. */
-const NOT_INCLUDED = ["Piće u restoranu", "Lični troškovi"];
-
-const NOTES = [
-  "Nema minimalnog broja učesnika — vodimo i parove i pojedince. Možete se priključiti postojećoj grupi.",
-  "Uzrast: pogodno za većinu uzrasta; djeca uz pratnju odraslih.",
-  "Prethodno iskustvo nije potrebno — obuka je uključena prije spusta.",
-  "Plaćanje: avans pri rezervaciji, ostatak u kampu (gotovina ili kartica).",
-  "Dokumenti: lična karta ili pasoš (obavezno za sve učesnike).",
-  "Zadržavamo pravo procjene vremenskih uslova i prilagođavanja programa radi bezbjednosti.",
-];
-
-const RELATED_RAFTING = [
-  {
-    href: "/rafting/jednodnevni",
-    naslov: "Jednodnevni rafting",
-    opis: "Spust uz ručak i stajanja za kupanje u srcu kanjona.",
-    kicker: "1 DAN · bez noćenja",
-    cijena: "50€",
-    slika: {
-      src: "/images/hero-slike-konak/raftingtarom-jednodnevni.jpg",
-      alt: "Jednodnevni rafting na Tari",
-    },
-  },
-  {
-    href: "/rafting/trodnevni",
-    naslov: "Trodnevni aranžman",
-    opis: "Najpopularniji aranžman: rafting, relax i dvije večeri u kampu.",
-    kicker: "3 DANA · 2 noćenja",
-    cijena: "140€",
-    slika: {
-      src: "/images/hero-slike-konak/raftingtarom-trodnevni.jpg",
-      alt: "Trodnevni rafting na Tari",
-    },
-  },
-];
-
-// Podaci iz page-kanjoning.md + page-aktivnosti.md; cijene potvrđene u Task 12/13.
-const TURE: Record<string, TuraData> = {
-  nevidio: {
-    badge: "NEVIDIO · CRNA GORA · zahtjevno · jun–okt",
-    title: "Kanjoning Nevidio",
-    subtitle:
-      "Najzahtjevniji kanjon Crne Gore — rijeka Komarnica ispod Durmitora. Skokovi, spustovi i plivanje kroz uske prolaze, za prave avanturiste.",
-    price: "od 130€",
-    priceNote: "po osobi",
-    priceOptions: [
-      { label: "Radni dan", price: "130€" },
-      { label: "Vikend", price: "140€" },
-    ],
-    unit: 130,
-    durationFact: "Cijeli dan",
-    stayFact: "bez noćenja",
-    mealsFact: "1 (ručak)",
-    intro:
-      "Najljepši i najzahtjevniji kanjon u okolini — skokovi, spuštanje uz vodu i plivanje kroz uske prolaze rijeke Komarnice ispod Durmitora. Organizujemo cjelodnevni izlet sa iskusnim vodičem, kompletnom opremom i prevozom iz kampa. Sezona jun–okt.",
-    program: [
-      {
-        broj: 1,
-        label: "JUTRO",
-        naslov: "Doček i oprema",
-        tekst:
-          "Dočekujemo vas u kampu i podešavamo kompletnu opremu: neopren, prsluk, kacigu i karabinjere. Prije polaska svi prolaze kratku sigurnosnu obuku sa licenciranim vodičem.",
-      },
-      {
-        broj: 2,
-        label: "POLAZAK",
-        naslov: "Prevoz do kanjona Komarnice",
-        tekst:
-          "Organizovanim prevozom krećemo prema kanjonu Nevidio u Crnoj Gori, ispod masiva Durmitora. Vožnja kroz planinske predele uvodi vas u atmosferu avanture.",
-      },
-      {
-        broj: 3,
-        label: "KANJON",
-        naslov: "Skokovi, spustovi i prolaz",
-        tekst:
-          "S vodičem ulazite u kanjon i prolazite kroz uske dionice sa skokovima, prirodnim toboganima i plivanjem u smaragdnoj vodi. Tempo je prilagođen grupi, ali kanjon zahtijeva dobru kondiciju.",
-      },
-      {
-        broj: 4,
-        label: "POVRATAK",
-        naslov: "Ručak i povratak u kamp",
-        tekst:
-          "Po izlasku iz kanjona slijedi ručak i predah prije povratka u kamp Konak. Veče provodite uz rijeku sa uspomenama sa najzahtjevnijeg kanjona u okolini.",
-      },
-    ],
-    included: [
-      "Kompletna oprema",
-      "Licencirani vodič",
-      "Prevoz do kanjona",
-      "Ručak",
-      "Osiguranje",
-    ],
-    cardKicker: "NEVIDIO · cijeli dan",
-    cardCijena: "130€",
-    hero: {
-      src: "/images/hero-slike-konak/kanjoning-pocetna.jpg",
-      alt: "Kanjoning Nevidio — spust niz vodopad u kanjonu",
-    },
-    cardSlika: {
-      src: "/images/hero-slike-konak/kanjoning-pocetna.jpg",
-      alt: "Kanjoning Nevidio — spust niz vodopad u kanjonu",
-    },
-    gallery: [
-      {
-        src: "/images/galerija/galerija13.jpg",
-        alt: "Pauza uz tirkiznu rijeku u kanjonu",
-      },
-      {
-        src: "/images/galerija/galerija14.jpg",
-        alt: "Kupanje i avantura u kristalnoj vodi kanjona",
-      },
-      {
-        src: "/images/rafting/rafting-galerija5.jpg",
-        alt: "Stijene i zelenilo kanjona oko rijeke",
-      },
-    ],
-    faq: [
-      {
-        pitanje: "Da li je Nevidio za početnike?",
-        odgovor:
-          "Nevidio je najzahtjevniji kanjon u okolini i namijenjen iskusnijim avanturistima. Za prvi kanjoning preporučujemo Hrčavku — pitomiji kanjon u NP Sutjeska.",
-      },
-      {
-        pitanje: "Šta je uključeno u cijenu?",
-        odgovor:
-          "Kompletna oprema, licencirani vodič, prevoz do kanjona, ručak i osiguranje. Sve je organizovano iz kampa — bez skrivenih troškova.",
-      },
-      {
-        pitanje: "Kako se primjenjuje vikend cijena?",
-        odgovor:
-          "Vikend cijena važi za subotu i nedjelju. Cijena se automatski prilagodi datumu koji izaberete u rezervaciji.",
-      },
-      {
-        pitanje: "Da li treba znati plivati?",
-        odgovor:
-          "Plivanje nije neophodno, ali preporučljivo je osnovno znanje plivanja i dobra fizička kondicija zbog zahtjevnosti kanjona i dužine ture.",
-      },
-      {
-        pitanje: "Kada je sezona za kanjoning Nevidio?",
-        odgovor:
-          "Kanjoning Nevidio organizujemo od juna do oktobra, kada su uvjeti u kanjonu najpovoljniji i sigurni za vođenje grupa.",
-      },
-    ],
-    metaTitle: "Kanjoning Nevidio — od 130€ | Rafting kamp Konak",
-    metaDescription:
-      "Kanjoning Nevidio (kanjon Komarnice, Durmitor): najzahtjevniji kanjon Crne Gore. Skokovi, spustovi i plivanje uz licenciranog vodiča. Radni dan od 130€, vikend 140€.",
-    galleryEyebrow: "Iz kanjona",
-    galleryTitle: "Trenuci iz Nevidia",
-  },
-  hrcavka: {
-    badge: "HRČAVKA · NP SUTJESKA · pristupačno · jun–okt",
-    title: "Kanjoning Hrčavka",
-    subtitle:
-      "Pitomiji kanjon u Nacionalnom parku Sutjeska, kod Tjentišta — idealan za prvi susret sa kanjoningom. Skokovi u bazene i prirodni tobogani.",
-    price: "od 120€",
-    priceNote: "po osobi",
-    priceOptions: [
-      { label: "Radni dan", price: "120€" },
-      { label: "Vikend", price: "130€" },
-    ],
-    unit: 120,
-    durationFact: "Pola dana",
-    stayFact: "bez noćenja",
-    mealsFact: "nije uključeno",
-    intro:
-      "Pitomiji kanjon nadomak kampa, idealan za prvi susret sa kanjoningom. U Nacionalnom parku Sutjeska, kod Tjentišta, čekaju vas skokovi u smaragdne bazene i prirodni tobogani uz iskusnog vodiča. Sezona jun–okt.",
-    program: [
-      {
-        broj: 1,
-        label: "JUTRO",
-        naslov: "Doček i oprema",
-        tekst:
-          "Dočekujemo vas u kampu i podešavamo opremu: neopren, prsluk, kacigu i karabinjere. Vodič objašnjava tehniku kretanja kroz kanjon i sigurnosna pravila.",
-      },
-      {
-        broj: 2,
-        label: "POLAZAK",
-        naslov: "Vožnja do NP Sutjeska",
-        tekst:
-          "Kratkim prevozom stižemo do kanjona Hrčavka kod Tjentišta, u srcu Nacionalnog parka Sutjeska. Usput uživate u planinskim pejzažima prije ulaska u kanjon.",
-      },
-      {
-        broj: 3,
-        label: "KANJON",
-        naslov: "Skokovi i prirodni tobogani",
-        tekst:
-          "Uz vodiča prolazite kroz kanjon sa skokovima u smaragdne bazene i prirodnim toboganima. Tempo je prilagođen grupi — idealno i za one koji prvi put ulaze u kanjon.",
-      },
-      {
-        broj: 4,
-        label: "POVRATAK",
-        naslov: "Izlazak i povratak u kamp",
-        tekst:
-          "Po završetku avanture vraćamo se u kamp Konak. Ostatak dana možete posvetiti opuštanju uz rijeku ili kombinovati sa drugim aktivnostima.",
-      },
-    ],
-    included: [
-      "Kompletna oprema",
-      "Licencirani vodič",
-      "Prevoz do kanjona",
-      "Osiguranje",
-    ],
-    cardKicker: "HRČAVKA · pola dana",
-    cardCijena: "120€",
-    hero: {
-      src: "/images/galerija/galerija15.jpg",
-      alt: "Kanjoning Hrčavka — učesnici ispred vodopada u kanjonu",
-    },
-    cardSlika: {
-      src: "/images/galerija/galerija15.jpg",
-      alt: "Kanjoning Hrčavka — učesnici ispred vodopada u kanjonu",
-    },
-    gallery: [
-      {
-        src: "/images/galerija/galerija13.jpg",
-        alt: "Kupanje i pauza u tirkiznoj vodi kanjona",
-      },
-      {
-        src: "/images/galerija/galerija14.jpg",
-        alt: "Porodična avantura u kristalnoj vodi uz opremu",
-      },
-      {
-        src: "/images/rafting/rafting-galerija2.jpg",
-        alt: "Stijene i zelenilo oko rijeke u kanjonu",
-      },
-    ],
-    faq: [
-      {
-        pitanje: "Je li Hrčavka dobra za prvi kanjoning?",
-        odgovor:
-          "Da — Hrčavka je pitomiji kanjon u NP Sutjeska i jedan od najboljih izbora za prvi susret sa kanjoningom. Skokovi i tobogani su prilagođeni i početnicima.",
-      },
-      {
-        pitanje: "Šta je uključeno u cijenu?",
-        odgovor:
-          "Kompletna oprema, licencirani vodič, prevoz do kanjona i osiguranje. Obrok nije uključen — možete ga dodati uz boravak u kampu.",
-      },
-      {
-        pitanje: "Kako se primjenjuje vikend cijena?",
-        odgovor:
-          "Vikend cijena važi za subotu i nedjelju. Cijena se automatski prilagodi datumu koji izaberete u rezervaciji.",
-      },
-      {
-        pitanje: "Da li treba znati plivati?",
-        odgovor:
-          "Nije neophodno. Svi nose prsluk i kacigu, a vodič vodi grupu kroz kanjon. Dovoljno je da se ne plašite vode i slušate uputstva.",
-      },
-      {
-        pitanje: "Kada je sezona za kanjoning Hrčavka?",
-        odgovor:
-          "Kanjoning Hrčavka organizujemo od juna do oktobra, u periodu kada je nivo vode u kanjonu idealan za siguran i ugodan spust.",
-      },
-    ],
-    metaTitle: "Kanjoning Hrčavka — od 120€ | Rafting kamp Konak",
-    metaDescription:
-      "Kanjoning Hrčavka u NP Sutjeska (Tjentište): pitomiji kanjon idealan za početnike. Skokovi u bazene i prirodni tobogani. Radni dan od 120€, vikend 130€.",
-    galleryEyebrow: "Iz kanjona",
-    galleryTitle: "Trenuci iz Hrčavke",
-  },
-};
-
 export function generateStaticParams() {
-  return Object.keys(TURE).map((tura) => ({ tura }));
+  return VALID_SLUGS.map((tura) => ({ tura }));
 }
 
 export async function generateMetadata({
@@ -323,22 +151,18 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string; tura: string }>;
 }): Promise<Metadata> {
-  const { tura } = await params;
-  const t = TURE[tura];
-  if (!t) return {};
+  const { locale, tura } = await params;
+  if (!VALID_SLUGS.includes(tura as CanyonSlug)) return {};
+  const tTD = await getTranslations({ locale, namespace: "TuraDetalj" });
+  const raw = tTD.raw(`canyon.${tura}`) as Record<string, string>;
   return {
-    title: t.metaTitle,
-    description: t.metaDescription,
-    keywords: [
-      "kanjoning",
-      t.title.toLowerCase(),
-      "kanjoning Tara",
-      "kanjoning kamp Konak",
-    ],
+    title: { absolute: raw["metaTitle"] },
+    description: raw["metaDescription"],
+    keywords: ["kanjoning", raw["title"]?.toLowerCase(), "kanjoning Tara", "kanjoning kamp Konak"].filter(Boolean) as string[],
     alternates: { canonical: `${SITE}/kanjoning/${tura}` },
     openGraph: {
-      title: t.title,
-      description: t.subtitle,
+      title: raw["title"],
+      description: raw["subtitle"],
       type: "website",
     },
   };
@@ -421,46 +245,80 @@ export default async function KanjoningTuraPage({
   params: Promise<{ locale: string; tura: string }>;
 }) {
   const { locale, tura } = await params;
-  const t = TURE[tura];
-  if (!t) notFound();
+  if (!VALID_SLUGS.includes(tura as CanyonSlug)) notFound();
   setRequestLocale(locale);
 
-  const crumbs = [
-    { label: "Naslovna", href: "/" },
-    { label: "Ponuda", href: "/ponuda" },
-    { label: t.title, href: `/kanjoning/${tura}` },
+  const tTD = await getTranslations("TuraDetalj");
+  const tc = await getTranslations("Common");
+  const tf = await getTranslations("Forms");
+  const tn = await getTranslations("Nav");
+  const tr = await getTranslations("Rafting");
+
+  const tour = buildCanyonTour(tura as CanyonSlug, tTD);
+  const images = CANYON_IMAGES[tura as CanyonSlug];
+
+  const notIncluded: string[] = [
+    tTD("notIncludedCanyon.n1"),
+    tTD("notIncludedCanyon.n2"),
   ];
 
-  const otherKanjoning = Object.entries(TURE)
-    .filter(([slug]) => slug !== tura)
-    .map(([slug, data]) => ({
-      href: `/kanjoning/${slug}`,
-      naslov: data.title,
-      opis: data.subtitle,
-      kicker: data.cardKicker,
-      cijena: data.cardCijena,
-      slika: data.cardSlika,
-      fakti: [{ tekst: data.durationFact }, { tekst: data.stayFact }],
-    }));
+  const notesRaw = tTD.raw("notesCanyon") as Record<string, string>;
+  const NOTES = Object.values(notesRaw);
+
+  const crumbs = [
+    { label: tc("homeCrumb"), href: "/" },
+    { label: tn("offer"), href: "/ponuda" },
+    { label: tour.title, href: `/kanjoning/${tura}` },
+  ];
+
+  const otherSlug = (tura === "nevidio" ? "hrcavka" : "nevidio") as CanyonSlug;
+  const otherRaw = tTD.raw(`canyon.${otherSlug}`) as Record<string, string>;
+  const raftingJRaw = tTD.raw("tours.jednodnevni") as Record<string, string>;
+  const raftingTRaw = tTD.raw("tours.trodnevni") as Record<string, string>;
 
   const similar = [
-    ...otherKanjoning,
-    ...RELATED_RAFTING.map((r) => ({ ...r, fakti: undefined as { tekst: string }[] | undefined })),
-  ].slice(0, 3);
+    {
+      href: `/kanjoning/${otherSlug}`,
+      naslov: otherRaw["title"],
+      opis: otherRaw["subtitle"],
+      kicker: CANYON_CARD_STATIC[otherSlug].kicker,
+      cijena: CANYON_CARD_STATIC[otherSlug].cijena,
+      slika: CANYON_IMAGES[otherSlug].cardSlika,
+      fakti: [{ tekst: otherRaw["durationFact"] }, { tekst: otherRaw["stayFact"] }] as { tekst: string }[],
+    },
+    {
+      href: RELATED_RAFTING_STATIC[0].href,
+      naslov: raftingJRaw["title"],
+      opis: tr("cards.jednodnevni.description"),
+      kicker: RELATED_RAFTING_STATIC[0].kicker,
+      cijena: RELATED_RAFTING_STATIC[0].cijena,
+      slika: RELATED_RAFTING_STATIC[0].slika,
+      fakti: undefined as { tekst: string }[] | undefined,
+    },
+    {
+      href: RELATED_RAFTING_STATIC[1].href,
+      naslov: raftingTRaw["title"],
+      opis: tr("cards.trodnevni.description"),
+      kicker: RELATED_RAFTING_STATIC[1].kicker,
+      cijena: RELATED_RAFTING_STATIC[1].cijena,
+      slika: RELATED_RAFTING_STATIC[1].slika,
+      fakti: undefined as { tekst: string }[] | undefined,
+    },
+  ];
 
   const waText = encodeURIComponent(
-    `Zdravo! Zanima me ${t.title} (${t.price}). Molim vas slobodne termine i detalje.`,
+    tTD("ui.waTemplate", { title: tour.title, price: tour.price }),
   );
   const waHref = `https://wa.me/${WHATSAPP_NUM}?text=${waText}`;
   const mailHref = `mailto:${EMAIL}?subject=${encodeURIComponent(
-    `Upit: ${t.title}`,
+    `Upit: ${tour.title}`,
   )}`;
 
   const tripLd = {
     "@context": "https://schema.org",
     "@type": "TouristTrip",
-    name: t.title,
-    description: t.subtitle,
+    name: tour.title,
+    description: tour.subtitle,
     touristType: "Adventure tourism",
     provider: {
       "@type": "TouristInformationCenter",
@@ -469,7 +327,7 @@ export default async function KanjoningTuraPage({
     },
     offers: {
       "@type": "Offer",
-      price: t.unit,
+      price: tour.unit,
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
       url: `${SITE}/kanjoning/${tura}`,
@@ -484,11 +342,11 @@ export default async function KanjoningTuraPage({
 
       <Hero
         variant="b"
-        eyebrow={t.badge}
-        naslov={t.title}
-        lead={t.subtitle}
-        nazadLink={{ href: "/kanjoning", label: "Svi kanjoning izleti" }}
-        slika={t.hero}
+        eyebrow={tour.badge}
+        naslov={tour.title}
+        lead={tour.subtitle}
+        nazadLink={{ href: "/kanjoning", label: tc("backAllCanyoning") }}
+        slika={images.hero}
       />
 
       <section className="kon-section">
@@ -496,9 +354,9 @@ export default async function KanjoningTuraPage({
           <div>
             <div className="kon-td-facts">
               {[
-                { label: "TRAJANJE", value: t.durationFact, icon: <IconClock /> },
-                { label: "SMEŠTAJ", value: t.stayFact, icon: <IconBed /> },
-                { label: "OBROCI", value: t.mealsFact, icon: <IconMeal /> },
+                { label: tc("duration"), value: tour.durationFact, icon: <IconClock /> },
+                { label: tc("stay"), value: tour.stayFact, icon: <IconBed /> },
+                { label: tc("meals"), value: tour.mealsFact, icon: <IconMeal /> },
               ].map((f) => (
                 <div
                   key={f.label}
@@ -521,24 +379,24 @@ export default async function KanjoningTuraPage({
               className="mt-8 font-sans text-body"
               style={{ fontSize: "clamp(16px, 1.4vw, 19px)", lineHeight: 1.7 }}
             >
-              {t.intro}
+              {tour.intro}
             </p>
 
             <h2 className="mt-10 font-display text-2xl font-extrabold text-pine">
-              Program ture
+              {tTD("ui.scheduleCanyon")}
             </h2>
             <ol className="mt-6">
-              {t.program.map((p, i) => (
+              {tour.program.map((p, i) => (
                 <li key={i} className="flex gap-4">
                   <div className="flex flex-col items-center">
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-pine font-display text-base font-bold text-white">
                       {p.broj}
                     </span>
-                    {i < t.program.length - 1 && (
+                    {i < tour.program.length - 1 && (
                       <span className="mt-1 w-px flex-1 bg-line" aria-hidden="true" />
                     )}
                   </div>
-                  <div className={i < t.program.length - 1 ? "pb-7" : ""}>
+                  <div className={i < tour.program.length - 1 ? "pb-7" : ""}>
                     {p.label && (
                       <span className="font-sans text-xs font-bold uppercase tracking-[0.16em] text-teal">
                         {p.label}
@@ -559,19 +417,19 @@ export default async function KanjoningTuraPage({
           <aside className="kon-td-side">
             <div className="rounded-card-lg bg-pine p-7 text-on-dark">
               <span className="font-sans text-xs font-bold uppercase tracking-[0.16em] text-teal-light">
-                Cijena / osobi
+                {tc("pricePerPerson")}
               </span>
               <div className="mt-1 flex items-baseline gap-2">
                 <span className="font-display text-4xl font-extrabold text-white">
-                  {t.price}
+                  {tour.price}
                 </span>
               </div>
               <p className="mt-1 font-sans text-sm text-on-dark-muted">
-                {t.priceNote}
+                {tour.priceNote}
               </p>
 
               <ul className="mt-4 flex flex-col gap-2 rounded-input bg-white/8 p-3.5">
-                {t.priceOptions.map((opt) => (
+                {tour.priceOptions.map((opt) => (
                   <li
                     key={opt.label}
                     className="flex items-baseline justify-between gap-3 font-sans text-sm"
@@ -587,10 +445,10 @@ export default async function KanjoningTuraPage({
               <div className="my-6 h-px bg-white/12" />
 
               <span className="font-sans text-xs font-bold uppercase tracking-[0.16em] text-teal-light">
-                U cijenu uključeno
+                {tTD("ui.included")}
               </span>
               <ul className="mt-3 flex flex-col gap-2.5">
-                {t.included.map((inc) => (
+                {tour.included.map((inc) => (
                   <li
                     key={inc}
                     className="flex items-start gap-2.5 font-sans text-sm text-on-dark"
@@ -604,10 +462,10 @@ export default async function KanjoningTuraPage({
               </ul>
 
               <span className="mt-6 block font-sans text-xs font-bold uppercase tracking-[0.16em] text-on-dark-muted">
-                Nije uključeno
+                {tTD("ui.notIncluded")}
               </span>
               <ul className="mt-3 flex flex-col gap-2.5">
-                {NOT_INCLUDED.map((item) => (
+                {notIncluded.map((item) => (
                   <li
                     key={item}
                     className="flex items-start gap-2.5 font-sans text-sm text-on-dark-muted"
@@ -622,16 +480,15 @@ export default async function KanjoningTuraPage({
 
               <div className="mt-6 flex flex-col gap-2.5">
                 <CtaButton href={waHref} variant="primary" className="w-full">
-                  Pošalji upit na WhatsApp
+                  {tf("whatsappCta")}
                 </CtaButton>
                 <CtaButton href={mailHref} variant="ghost" className="w-full">
-                  Ili pošalji e-mailom
+                  {tTD("ui.emailCta")}
                 </CtaButton>
               </div>
 
               <p className="mt-4 font-sans text-xs leading-relaxed text-on-dark-muted">
-                Okvirna cijena za radne dane. Tačan termin i ponudu potvrđujemo
-                nakon upita.
+                {tTD("ui.cashDisclaimerCanyon")}
               </p>
 
               <div className="mt-4 text-center">
@@ -639,7 +496,7 @@ export default async function KanjoningTuraPage({
                   href="/rezervacija"
                   className="font-sans text-sm font-bold text-amber-light transition-colors hover:text-white"
                 >
-                  Rezerviši online →
+                  {tTD("ui.reserveOnline")}
                 </Link>
               </div>
             </div>
@@ -651,7 +508,7 @@ export default async function KanjoningTuraPage({
         <div className="kon-container">
           <div className="rounded-card-lg border border-line bg-surface p-6 sm:p-8">
             <h2 className="font-display text-xl font-extrabold text-pine sm:text-2xl">
-              Napomene
+              {tTD("ui.notes")}
             </h2>
             <ul className="mt-5 grid gap-3 sm:grid-cols-2">
               {NOTES.map((note) => (
@@ -671,12 +528,12 @@ export default async function KanjoningTuraPage({
       <section className="kon-section bg-sand">
         <div className="kon-container">
           <SectionHeader
-            eyebrow={t.galleryEyebrow}
-            naslov={t.galleryTitle}
-            link={{ href: "/galerija", label: "Cijela galerija" }}
+            eyebrow={tour.galleryEyebrow}
+            naslov={tour.galleryTitle}
+            link={{ href: "/galerija", label: tTD("ui.galleryFull") }}
           />
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {t.gallery.map((img) => (
+            {images.gallery.map((img) => (
               <ImageSlot
                 key={img.src}
                 src={img.src}
@@ -692,9 +549,9 @@ export default async function KanjoningTuraPage({
       <section className="kon-section">
         <div className="kon-container">
           <SectionHeader
-            eyebrow="Istraži dalje"
-            naslov="Slične ponude"
-            link={{ href: "/ponuda", label: "Sva ponuda" }}
+            eyebrow={tTD("ui.similarEyebrow")}
+            naslov={tTD("ui.similarTitle")}
+            link={{ href: "/ponuda", label: tTD("ui.similarAllOffer") }}
           />
           <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
             {similar.map((card) => (
@@ -705,7 +562,7 @@ export default async function KanjoningTuraPage({
                 opis={card.opis}
                 kicker={card.kicker}
                 cijena={card.cijena}
-                cijenaLabel="od"
+                cijenaLabel={tc("from")}
                 slika={"slika" in card ? card.slika : undefined}
                 fakti={card.fakti}
               />
@@ -717,12 +574,12 @@ export default async function KanjoningTuraPage({
       <section className="kon-section bg-sand">
         <div className="kon-container" style={{ maxWidth: "var(--container-narrow)" }}>
           <SectionHeader
-            eyebrow="Česta pitanja"
-            naslov="Sve što vas zanima."
+            eyebrow={tTD("ui.faqEyebrow")}
+            naslov={tTD("ui.faqTitle")}
             className="items-center text-center"
           />
           <div className="mt-8">
-            <FaqAccordion items={t.faq} />
+            <FaqAccordion items={tour.faq} />
           </div>
         </div>
       </section>

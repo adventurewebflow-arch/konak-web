@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
 const TEL = "+38765848110";
@@ -24,7 +25,10 @@ function IconWhatsApp() {
   );
 }
 
-export function MobileCtaBar() {
+export async function MobileCtaBar() {
+  const t = await getTranslations("MobileCtaBar");
+  const tc = await getTranslations("Common");
+
   return (
     <div
       className="kon-mobilecta fixed inset-x-0 bottom-0 items-center gap-2.5 border-t border-line-nav bg-paper/95 px-4 py-3 shadow-mobile-cta backdrop-blur-md"
@@ -32,14 +36,14 @@ export function MobileCtaBar() {
     >
       <a
         href={`tel:${TEL}`}
-        aria-label="Pozovi telefonom"
+        aria-label={t("callAria")}
         className="flex h-[54px] w-[54px] shrink-0 items-center justify-center rounded-input bg-pine text-white transition-colors hover:bg-pine-hover"
       >
         <IconPhone />
       </a>
       <a
         href={WHATSAPP}
-        aria-label="Piši nam na WhatsApp"
+        aria-label={t("whatsappAria")}
         target="_blank"
         rel="noopener noreferrer"
         className="flex h-[54px] w-[54px] shrink-0 items-center justify-center rounded-input border border-line-nav bg-surface text-pine transition-colors hover:bg-surface-warm"
@@ -50,7 +54,7 @@ export function MobileCtaBar() {
         href="/rezervacija"
         className="flex h-[54px] flex-1 items-center justify-center rounded-input bg-terracotta font-sans text-base font-bold text-white shadow-cta-sm transition-colors hover:bg-terracotta-hover"
       >
-        Rezerviši turu
+        {tc("bookTour")}
       </Link>
     </div>
   );

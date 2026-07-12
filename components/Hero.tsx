@@ -1,5 +1,8 @@
+"use client";
+
 import type { ReactNode } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { CtaButton } from "./CtaButton";
 
@@ -63,11 +66,11 @@ function IconPin() {
   );
 }
 
-const DEFAULT_TRUST: TrustItem[] = [
-  { icon: <IconStar />, label: "Google 5.0" },
-  { icon: <IconShield />, label: "Licencirani skiperi" },
-  { icon: <IconPin />, label: "Hum, Foča" },
-];
+const DEFAULT_TRUST_KEYS = ["trustGoogle", "trustSkippers", "trustLocation"] as const;
+
+function DefaultTrustIcons() {
+  return [<IconStar key="s" />, <IconShield key="h" />, <IconPin key="p" />];
+}
 
 function Topo() {
   return (
@@ -117,9 +120,16 @@ export function Hero({
   nazadLink,
   cta = [],
 }: HeroProps) {
+  const t = useTranslations("Hero");
   const isA = variant === "a";
   const minHeight = isA ? "92vh" : (visina ?? "56vh");
-  const trustItems = trust ?? DEFAULT_TRUST;
+  const icons = DefaultTrustIcons();
+  const trustItems =
+    trust ??
+    DEFAULT_TRUST_KEYS.map((key, i) => ({
+      icon: icons[i],
+      label: t(key),
+    }));
 
   return (
     <section

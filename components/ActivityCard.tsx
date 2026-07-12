@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ImageSlot } from "./ImageSlot";
 
@@ -20,11 +23,11 @@ const LIFT =
   "transition-[transform,box-shadow] duration-300 hover:-translate-y-[5px] hover:shadow-card-hover";
 const ZOOM = "transition-transform duration-500 group-hover:scale-105";
 
-const NIVO_LABEL: Record<ActivityNivo, string> = {
-  lagano: "Lagano",
-  srednje: "Srednje",
-  zahtjevno: "Zahtjevno",
-  pocetnici: "Za početnike",
+const NIVO_KEY: Record<ActivityNivo, "difficultyEasy" | "difficultyMedium" | "difficultyHard" | "difficultyBeginner"> = {
+  lagano: "difficultyEasy",
+  srednje: "difficultyMedium",
+  zahtjevno: "difficultyHard",
+  pocetnici: "difficultyBeginner",
 };
 
 const NIVO_CHIP: Record<ActivityNivo, string> = {
@@ -63,10 +66,14 @@ export function ActivityCard({
   opis,
   cijena,
   href,
-  ctaLabel = "Pitaj →",
+  ctaLabel,
   slika,
   gradient = "var(--gradient-slot-1)",
 }: ActivityCardProps) {
+  const t = useTranslations("Common");
+  const cta = ctaLabel ?? t("askArrow");
+  const displayPrice = cijena === "na upit" ? t("onRequest") : cijena;
+
   return (
     <Link
       href={href}
@@ -95,7 +102,7 @@ export function ActivityCard({
           <span
             className={`rounded-pill border px-2.5 py-1 font-sans text-[11px] font-semibold ${NIVO_CHIP[nivo]}`}
           >
-            {NIVO_LABEL[nivo]}
+            {t(NIVO_KEY[nivo])}
           </span>
         </div>
 
@@ -104,9 +111,9 @@ export function ActivityCard({
         </p>
 
         <div className="mt-1 flex items-center justify-between border-t border-line pt-4">
-          <span className="font-display text-xl font-bold text-ink">{cijena}</span>
+          <span className="font-display text-xl font-bold text-ink">{displayPrice}</span>
           <span className="inline-flex items-center gap-1 font-sans text-sm font-bold text-terracotta">
-            {ctaLabel}
+            {cta}
             <Arrow />
           </span>
         </div>
