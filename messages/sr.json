@@ -364,7 +364,61 @@
       "button": "Rezerviši smeštaj i turu"
     }
   },
-  "Aktivnosti": {},
+  "Aktivnosti": {
+    "meta": {
+      "title": "Aktivnosti — NP Sutjeska, kanjoning, Durmitor, jahanje | Kamp Konak",
+      "description": "Aktivnosti iz rafting kampa Konak: cjelodnevni izlet u NP Sutjeska (Perućica, Trnovačko jezero), kanjoning Nevidio i Hrčavka, Durmitor, Zelengora, Pivsko jezero i jahanje konja.",
+      "keywords": "NP Sutjeska izlet, kanjoning Nevidio, kanjoning Hrčavka, Durmitor izlet, Zelengora, Pivsko jezero, jahanje konja Tara",
+      "ogTitle": "Aktivnosti oko kampa Konak — više od rijeke",
+      "ogDescription": "Nacionalni parkovi, kanjoning, planinski izleti i jahanje — spojite više avantura u jedan boravak."
+    },
+    "hero": {
+      "eyebrow": "Više od rijeke",
+      "naslov": "Aktivnosti oko kampa",
+      "lead": "Nacionalni parkovi, kanjoning, planinski izleti i jahanje — spojite više avantura u jedan boravak. Sve organizujemo iz kampa.",
+      "imageAlt": "Aktivnosti oko kampa — pogled na NP Sutjeska"
+    },
+    "overview": {
+      "eyebrow": "Pregled ponude",
+      "naslov": "Sve aktivnosti na jednom mjestu.",
+      "lead": "Iz kampa organizujemo rafting na Tari, kanjoning kroz Nevidio i Hrčavku, planinske izlete (NP Sutjeska, Durmitor, Zelengora, Piva) i jahanje. Spojite više avantura u jedan boravak — sve polazi odavde."
+    },
+    "items": [
+      {
+        "kategorija": "Glavna ponuda · od 50€",
+        "naslov": "Rafting na Tari",
+        "opis": "Jednodnevni i višednevni aranžmani niz najdublji kanjon Evrope — od brzog spusta do četvorodnevne ekspedicije cijelim tokom Tare.",
+        "linkLabel": "Sve rafting ture →",
+        "imageAlt": "Rafting na Tari — spust kroz kanjon"
+      },
+      {
+        "kategorija": "Kanjoning · od 120€",
+        "naslov": "Nevidio i Hrčavka",
+        "opis": "Skokovi, tobogani i prolazi kroz dva najljepša kanjona u okolini — za početnike (Hrčavka) i iskusne avanturiste (Nevidio).",
+        "linkLabel": "Pogledaj kanjoning →",
+        "imageAlt": "Kanjoning — prolaz kroz kanjon"
+      },
+      {
+        "kategorija": "Izleti · na upit",
+        "naslov": "NP Sutjeska, Durmitor i planine",
+        "opis": "Perućica, Trnovačko jezero, Durmitor, Zelengora i Piva — planinski izleti i kombinacije uz rafting boravak.",
+        "linkLabel": "Pogledaj izlete →",
+        "imageAlt": "Nacionalni park Sutjeska — planinski izlet iz kampa"
+      },
+      {
+        "kategorija": "Avantura · na upit",
+        "naslov": "Jahanje konja",
+        "opis": "Jahanje na vrhu najdubljeg kanjona Tare — pogled odozgo na rijeku, hiljadu i tri stotine metara ispod. Organizujemo na upit.",
+        "linkLabel": "Pošalji upit →",
+        "imageAlt": "Pogled na kanjon Tare — jahanje na vidikovcu"
+      }
+    ],
+    "cta": {
+      "headline": "Spojite rafting i aktivnosti.",
+      "lead": "U rezervaciji možete dodati NP Sutjeska i druge aktivnosti uz svoju rafting turu — javite nam šta vas zanima.",
+      "button": "Pošalji upit"
+    }
+  },
   "Rafting": {
     "meta": {
       "title": "Rafting na Tari — ture od 1 do 4 dana | Rafting kamp Konak",
@@ -600,7 +654,88 @@
       "ctaBook": "Pošalji upit"
     }
   },
-  "Teambuilding": {},
+  "Teambuilding": {
+    "meta": {
+      "title": "Teambuilding i grupe — rafting, kanjoning, smještaj | Rafting kamp Konak",
+      "description": "Teambuilding i grupni aranžmani u kampu Konak: rafting na Tari, kanjoning, planinski izleti, smještaj i hrana za grupe do 60 osoba, livada za timske aktivnosti.",
+      "keywords": "teambuilding rafting, grupe Tara, corporate retreat BiH, tim building Foča, grupni aranžman rafting",
+      "ogTitle": "Teambuilding i grupe — Rafting kamp Konak",
+      "ogDescription": "Tim koji dijeli avanturu na rijeci jača na obali — smještaj, hrana i aktivnosti na jednom mjestu."
+    },
+    "hero": {
+      "eyebrow": "Teambuilding i grupe",
+      "naslov": "Tim koji dijeli avanturu, jača",
+      "lead": "Firme, škole i sportske ekipe — sve na jednom mjestu uz Taru. Rafting, kanjoning, smještaj i domaća kuhinja bez logističke muke.",
+      "imageAlt": "Teambuilding grupa na raftingu u kampu Konak"
+    },
+    "whyKonak": {
+      "eyebrow": "Zašto Konak",
+      "naslov": "Sve što timu treba — na obali rijeke.",
+      "opis": "Nema transfera po gradu, nema gužve u restoranu u pet sati poslije podne. Kamp Konak je zatvoreni ekosistem: smještaj, hrana, oprema i vodiči na istom mjestu. Tim provodi dan na vodi ili u kanjonu, veče uz roštilj i rakiju dobrodošlice, a livada čeka za timske igre ili prezentacije.",
+      "chips": [
+        "Do 60 osoba",
+        "Profesionalni vodiči",
+        "Pun pansion",
+        "Livada za grupe",
+        "Parking za autobus"
+      ],
+      "imageBadge": "Grupe do 60",
+      "imageAlt": "Grupni gosti u opremi ispred kampa Konak"
+    },
+    "activities": {
+      "eyebrow": "Aktivnosti",
+      "naslov": "Program po mjeri vašeg tima",
+      "items": [
+        {
+          "kategorija": "Tim na vodi",
+          "naslov": "Rafting za timove",
+          "trajanje": "1–4 dana",
+          "opis": "Spust niz Taru u istom čamcu — koordinacija, povjerenje i adrenalin koji tim spaja bolje nego bilo koja sala.",
+          "imageAlt": "Rafting za timove na Tari"
+        },
+        {
+          "kategorija": "Adrenalin",
+          "naslov": "Kanjoning",
+          "trajanje": "1 dan",
+          "opis": "Nevidio ili Hrčavka — izlazak iz zone komfora zajedno, uz iskusne vodiče i opremu po najvišim standardima.",
+          "imageAlt": "Kanjoning za grupe — spust kroz kanjon"
+        },
+        {
+          "kategorija": "Priroda",
+          "naslov": "NP Sutjeska i planina",
+          "trajanje": "cijeli dan",
+          "opis": "Prašuma Perućica, Trnovačko jezero ili Maglić — dan u prirodi kao predah od vode i prilika za timsku povezanost.",
+          "imageAlt": "Izlet u Nacionalni park Sutjeska za timove"
+        }
+      ],
+      "ctaLabel": "Detaljnije →"
+    },
+    "offer": {
+      "eyebrow": "Za grupe",
+      "naslov": "Smještaj, hrana i livada",
+      "items": [
+        {
+          "naslov": "Smještaj za grupe",
+          "opis": "13 bungalova — privatna kupatila, mir uz rijeku. Spavanje i hrana za grupe do 60 osoba: firme, škole i sportski timovi."
+        },
+        {
+          "naslov": "Hrana za cijeli tim",
+          "opis": "Pun pansion domaće kuhinje — jela ispod sača, roštilj i prilagođeni meniji. Vegetarijansko i vegansko na upit."
+        },
+        {
+          "naslov": "Livada i prostor",
+          "opis": "Prostrana livada uz kamp — idealna za timske igre, prezentacije na otvorenom, roštilj i večernje druženje uz vatru."
+        }
+      ]
+    },
+    "form": {
+      "eyebrow": "Upit",
+      "naslov": "Forma za upit grupe",
+      "lead": "Popunite formu — šaljemo upit direktno u kamp. Možete i preko WhatsApp-a. Minimum 4 osobe; odgovaramo sa ponudom i tačnim terminom.",
+      "labelFirma": "Firma / organizacija",
+      "labelKontakt": "Kontakt osoba"
+    }
+  },
   "Ponuda": {
     "meta": {
       "title": "Ponuda i cijene 2026 — rafting, kanjoning i izleti | Rafting kamp Konak",
@@ -695,11 +830,190 @@
       "button": "Otvori kalkulator"
     }
   },
-  "KakoDoNas": {},
+  "KakoDoNas": {
+    "meta": {
+      "title": "Kako do nas — Hum, Foča (sastav Tare i Pive) | Rafting kamp Konak",
+      "description": "Kako doći do rafting kampa Konak u Humu (Foča), tamo gdje se Tara i Piva spajaju u Drinu. Putokaz iz Sarajeva, Podgorice, Dubrovnika i Beograda, GPS, Google mapa i besplatan parking.",
+      "keywords": "kako do rafting kamp Konak, Hum Foča lokacija, rafting Tara put, Šćepan Polje pristup, sastav Tare i Pive, parking rafting",
+      "ogTitle": "Kako do nas — Hum, Foča",
+      "ogDescription": "Kamp Konak na sastavu Tare i Pive — oko 20 km od Foče, besplatan parking i prostor za autobus."
+    },
+    "hero": {
+      "eyebrow": "Kako do nas",
+      "naslov": "Tamo gdje nastaje Drina",
+      "lead": "Kamp Konak nalazi se u Humu kod Foče — na samom sastavu Tare i Pive, gdje se dvije rijeke spajaju u Drinu. Oko 20 km od Foče i svega 2 km od mjesta gdje se rijeke sastaju."
+    },
+    "location": {
+      "eyebrow": "Lokacija",
+      "naslov": "Hum, Foča (73300)",
+      "lead": "Smješteni smo na granici Bosne i Hercegovine i Crne Gore, u mjestu Hum nadomak Šćepan Polja. To je polazna tačka za rafting niz Taru i idealna baza za izlete u NP Sutjeska, na Durmitor i Pivsko jezero.",
+      "info": [
+        {
+          "label": "Adresa",
+          "value": "Hum, Foča 73300, BiH"
+        },
+        {
+          "label": "GPS koordinate",
+          "value": "43.3528783, 18.8229302"
+        },
+        {
+          "label": "Udaljenost",
+          "value": "~20 km od Foče · ~2 km od sastava rijeka"
+        },
+        {
+          "label": "Parking",
+          "value": "Besplatan, sa video nadzorom · prostor za autobus"
+        }
+      ]
+    },
+    "routes": {
+      "eyebrow": "Putokazi",
+      "naslov": "Kako doći do kampa",
+      "items": [
+        {
+          "naslov": "Iz Sarajeva",
+          "opis": "Preko Trnova i Foče do Huma.",
+          "meta": "90 km"
+        },
+        {
+          "naslov": "Iz Podgorice",
+          "opis": "Preko Nikšića i Plužina, dolinom Pive do Šćepan Polja i Huma.",
+          "meta": "140 km"
+        },
+        {
+          "naslov": "Iz Dubrovnika",
+          "opis": "Preko Trebinja i Nikšića, pa dolinom Pive.",
+          "meta": "180 km"
+        },
+        {
+          "naslov": "Iz Beograda",
+          "opis": "Preko Užica i Foče do Huma.",
+          "meta": "350 km"
+        }
+      ]
+    },
+    "tips": {
+      "eyebrow": "Prije nego krenete",
+      "naslov": "Nekoliko stvari koje je dobro znati",
+      "items": [
+        {
+          "naslov": "Ponesite gotovinu",
+          "tekst": "Plaćanje u kampu je isključivo u gotovini — kartice ne primamo. Foča je posljednje mjesto na putu gdje ima banaka i bankomata, pa podignite novac tamo. Poslije Foče, do kampa nema gdje."
+        },
+        {
+          "naslov": "Natočite gorivo u Foči",
+          "tekst": "Foča je posljednje veće mjesto prije kanjona. Tu su pumpe, prodavnice i apoteka. Kroz kanjon do kampa nema ničega — samo rijeka i stijene."
+        },
+        {
+          "naslov": "Put kroz kanjon je vijugav",
+          "tekst": "Posljednjih dvadesetak kilometara vozite uz rijeku, kroz kanjon. Put je uzak i krivudav, i nije za žurbu — ali je i sam po sebi lijep. Računajte malo više vremena nego što vam navigacija kaže."
+        },
+        {
+          "naslov": "Signal slabi u kanjonu",
+          "tekst": "U kanjonu mobilni signal zna da nestane. Ako se izgubite ili kasnite, javite nam prije nego uđete u kanjon. Preuzmite mapu offline za svaki slučaj."
+        },
+        {
+          "naslov": "Dolazak nije vezan za sat",
+          "tekst": "Nemamo fiksni sat prijave. Dođite kad vam odgovara — dočekaćemo vas."
+        },
+        {
+          "naslov": "Parking",
+          "tekst": "Besplatan, pod video nadzorom, ima mjesta i za autobus."
+        },
+        {
+          "naslov": "Dokumenti",
+          "tekst": "Ponesite ličnu kartu ili pasoš — rijeka na dijelu toka prolazi kroz dvije države, a i granični prelaz Šćepan Polje je odmah tu."
+        }
+      ]
+    },
+    "maps": {
+      "iframeTitle": "Google mapa — Rafting kamp Konak, Hum Foča",
+      "button": "Otvori navigaciju u Google Maps"
+    }
+  },
   "OpremaSigurnost": {},
   "FAQ": {},
-  "Galerija": {},
-  "Kontakt": {},
+  "Galerija": {
+    "meta": {
+      "title": "Galerija — rafting na Tari, kamp i hrana | Rafting kamp Konak",
+      "description": "Fotografije rafting kampa Konak: spust niz Taru, lux bungalovi i domaća kuhinja. Filtriraj po kategorijama — rafting, kamp, hrana.",
+      "keywords": "rafting Tara fotografije, galerija kamp Konak, kanjon Tare slike, bungalovi Tara, rafting BiH galerija",
+      "ogTitle": "Galerija — Rafting kamp Konak",
+      "ogDescription": "Tara, kakvu morate vidjeti — rafting, kamp i domaća kuhinja u jednoj galeriji."
+    },
+    "hero": {
+      "eyebrow": "Galerija",
+      "naslov": "Tara, kakvu morate vidjeti.",
+      "lead": "Spust niz rijeku, kamp i domaća kuhinja — izaberi kategoriju."
+    },
+    "photos": {
+      "filterAll": "Sve",
+      "filterRafting": "Rafting",
+      "filterKamp": "Kamp",
+      "filterHrana": "Hrana",
+      "labels": {
+        "r-2": "Rafting",
+        "r-3": "Spust niz Taru",
+        "r-4": "Ekipa na vodi",
+        "r-5": "Kanjon Tare",
+        "r-7": "Brzaci",
+        "r-11": "Čamac u kanjonu",
+        "r-12": "Grupa na spustu",
+        "r-13": "Smaragdna voda",
+        "r-15": "Veslanje",
+        "r-16": "Dolazak u Hum",
+        "r-36": "Avantura na vodi",
+        "r-38": "Skiperi i gosti",
+        "r-40": "Trenutak sa Tare",
+        "k-1": "Kamp uz rijeku",
+        "k-2": "Bungalovi",
+        "k-3": "Ispred kampa",
+        "k-4": "Smještaj",
+        "k-5": "Soba bungalova",
+        "k-6": "Odmor u kampu",
+        "k-7": "Kamp na obali",
+        "k-8": "Kupatilo",
+        "k-9": "Auto kamp",
+        "k-10": "Kamperi u kampu",
+        "h-1": "Čorba i ručak",
+        "h-2": "Desert",
+        "h-3": "Doručak",
+        "h-4": "Pite i sirevi",
+        "h-5": "Jela uz vatru",
+        "h-6": "Ručak ispod sača",
+        "h-7": "Balkanski doručak",
+        "h-8": "Obilni doručak",
+        "h-9": "Ispod sača",
+        "h-10": "Kolač i ručak"
+      }
+    }
+  },
+  "Kontakt": {
+    "meta": {
+      "title": "Kontakt — Rafting kamp Konak | Hum, Foča, BiH",
+      "description": "Kontaktirajte rafting kamp Konak: telefon i WhatsApp +387 65 848 110, konakraftingkamp@gmail.com, Hum, Foča 73300, BiH. Rezervacije, upiti i lokacija.",
+      "keywords": "rafting kamp Konak kontakt, rafting Tara telefon, rezervacija rafting Foča",
+      "ogTitle": "Kontakt — Rafting kamp Konak",
+      "ogDescription": "Odgovaramo brzo — putem WhatsApp-a, telefona ili e-maila."
+    },
+    "hero": {
+      "eyebrow": "Kontakt",
+      "naslov": "Javite nam se",
+      "lead": "Odgovaramo brzo — putem WhatsApp-a, telefona ili e-maila. Pomažemo oko termina, smještaja, prevoza i grupa."
+    },
+    "cards": {
+      "phoneLabel": "Telefon · WhatsApp · Viber",
+      "emailLabel": "E-mail",
+      "locationLabel": "Lokacija",
+      "locationValue": "Hum, Foča 73300, BiH"
+    },
+    "season": "Sezona maj–oktobar · odgovaramo svakog dana",
+    "location": {
+      "eyebrow": "Gdje se nalazimo",
+      "naslov": "Kamp na sastavu Tare i Pive",
+      "iframeTitle": "Google mapa — Rafting kamp Konak"
+    }
+  },
   "Rezervacija": {
     "meta": {
       "title": "Rezervacija — pošalji upit | Rafting kamp Konak",
@@ -1131,5 +1445,209 @@
   },
   "LanguageSwitcher": {
     "aria": "Izbor jezika"
+  },
+  "Izleti": {
+    "meta": {
+      "title": "Izleti i kombinacije — rafting + Sutjeska, Durmitor, kanjoning | Konak",
+      "description": "Izleti i kombinacije iz kampa Konak: rafting uz NP Sutjeska, kanjoning ili Durmitor. Spojite više avantura u jedan boravak. Planinski izleti (Perućica, Zelengora, Trnovačko) na upit.",
+      "keywords": "izleti Tara, rafting kombinacije, rafting i Sutjeska, rafting Durmitor, izleti Foča, kombinovani aranžmani rafting",
+      "ogTitle": "Izleti i kombinacije — rafting + Sutjeska, Durmitor, kanjoning",
+      "ogDescription": "Najljepši boravci spajaju vodu i planinu — rafting kao okosnica, a uz njega što god poželite."
+    },
+    "hero": {
+      "eyebrow": "Izleti i kombinacije",
+      "naslov": "Spojite više avantura.",
+      "lead": "Najljepši boravci su oni koji spoje vodu i planinu. Evo kombinacija koje gosti najviše vole — rafting kao okosnica, a uz njega što god poželite.",
+      "imageAlt": "Planinski izleti oko Tare i NP Sutjeska"
+    },
+    "combinations": {
+      "eyebrow": "Kombinovani aranžmani",
+      "naslov": "Omiljene kombinacije",
+      "items": [
+        {
+          "kategorija": "Najtraženije · na upit",
+          "naslov": "Rafting + NP Sutjeska",
+          "opis": "Dan na vodi i dan u prašumi Perućici i kod Trnovačkog jezera — voda i planina u balansu. Cijena na upit.",
+          "linkLabel": "Pošalji upit →",
+          "imageAlt": "Rafting i izlet u Nacionalni park Sutjeska"
+        },
+        {
+          "kategorija": "Za avanturiste · od 120€",
+          "naslov": "Rafting + kanjoning",
+          "opis": "Dupla doza adrenalina — spust niz Taru i probijanje kroz Nevidio ili Hrčavku. Za one koji ne staju.",
+          "linkLabel": "Pogledaj kanjoning →",
+          "imageAlt": "Kombinacija raftinga i kanjoninga"
+        },
+        {
+          "kategorija": "Opušteno · na upit",
+          "naslov": "Rafting + Durmitor",
+          "opis": "Adrenalin na rijeci, pa miran dan na Durmitoru i kod Crnog jezera. Cijena na upit.",
+          "linkLabel": "Pošalji upit →",
+          "imageAlt": "Planinski izlet na Durmitor uz rafting boravak"
+        }
+      ]
+    },
+    "mountain": {
+      "eyebrow": "Planinski izleti",
+      "naslov": "Planinski izleti — na upit, uz rafting boravak",
+      "blogLead": "Više o svakom izletu pročitajte u vodiču kroz aktivnosti ili nas pitajte direktno.",
+      "blogLink": "vodiču kroz aktivnosti",
+      "items": [
+        {
+          "naslov": "Prašuma Perućica",
+          "meta": "NP Sutjeska · na upit",
+          "opis": "Najveća prašuma u Evropi — cjelodnevni izlet iz kampa, na upit.",
+          "imageAlt": "Planinski izlet — prašuma Perućica"
+        },
+        {
+          "naslov": "Trnovačko jezero",
+          "meta": "Hiking · na upit",
+          "opis": "Hiking do srcolikog jezera ispod Maglića — uz rafting boravak.",
+          "imageAlt": "Izlet do Trnovačkog jezera"
+        },
+        {
+          "naslov": "Zelengora",
+          "meta": "Gorska jezera · na upit",
+          "opis": "Gorska jezera i pejzaži Zelengore — organizujemo iz kampa.",
+          "imageAlt": "Planinski izlet na Zelengoru"
+        },
+        {
+          "naslov": "Pivsko jezero",
+          "meta": "Izlet · na upit",
+          "opis": "Kratki izlet do Pivskog jezera — mirna pauza uz vodu.",
+          "imageAlt": "Izlet do Pivskog jezera"
+        },
+        {
+          "naslov": "Jahanje konja",
+          "meta": "Avantura · na upit",
+          "opis": "Jahanje na vrhu najdubljeg kanjona Tare — pogled odozgo na rijeku, hiljadu i tri stotine metara ispod. Organizujemo na upit.",
+          "imageAlt": "Pogled na kanjon Tare — jahanje na vidikovcu"
+        }
+      ],
+      "linkLabel": "Pošalji upit →"
+    },
+    "cta": {
+      "headline": "Sklopimo vaš program",
+      "lead": "Recite nam koliko dana ostajete i šta vas zanima — napravimo kombinaciju po vašoj mjeri.",
+      "button": "Pošalji upit"
+    }
+  },
+  "Oprema": {
+    "meta": {
+      "title": "Oprema i sigurnost — certifikovani skiperi i kompletna oprema | Konak",
+      "description": "Kako brinemo o vašoj sigurnosti na Tari: certifikovani skiperi i vodiči, nova oprema po savremenim standardima, sigurnosni brifing i procjena vremenskih uslova prije svake ture.",
+      "keywords": "rafting sigurnost, rafting oprema, certifikovani skiperi, sigurnosni brifing rafting, je li rafting bezbjedan, kacige prsluci rafting",
+      "ogTitle": "Oprema i sigurnost — Rafting kamp Konak",
+      "ogDescription": "Certifikovani skiperi, nova oprema i jasna pravila na svakoj turi."
+    },
+    "hero": {
+      "eyebrow": "Oprema i sigurnost",
+      "naslov": "Vaša sigurnost, naš posao",
+      "lead": "Rijeka se poštuje, ne potcjenjuje. Zato kod nas ništa nije prepušteno slučaju — od opreme do procjene vremena.",
+      "imageAlt": "Certifikovani skiper i grupa u opremi na Tari"
+    },
+    "intro": {
+      "subheading": "Avantura i sigurnost nisu suprotnosti — kod nas idu zajedno.",
+      "p1": "Sa preko 20 godina na Tari, naši skiperi su rijeku upoznali u svakom raspoloženju — i kad je mirna kao jezero, i kad nosi. Tu vrstu iskustva ne može da zamijeni nijedan papir. Ali uz to dolaze i certifikati, provjerena oprema i jasna pravila kojih se držimo na svakoj turi, bez izuzetka."
+    },
+    "guides": {
+      "eyebrow": "Vodiči",
+      "naslov": "Certifikovani skiperi u svakom čamcu",
+      "lead": "Svaku turu vodi certifikovani skiper koji rijeku poznaje napamet — svaki buk, svaku struju i svako sigurno mjesto za pauzu. On bira liniju, daje komande i prilagođava tempo grupi. Vi samo slušate i uživate."
+    },
+    "equipment": {
+      "eyebrow": "Naša oprema",
+      "naslov": "Nova oprema, po savremenim standardima",
+      "p1": "Oprema je jedino mjesto gdje ne štedimo. Naša oprema je nova i usklađena sa savremenim standardima — čamci, prsluci, kacige, neopren, vesla. Ništa od toga nije nasljeđeno, iznajmljeno ni „dobro još malo“.",
+      "p2": "U opremu ulažemo kontinuirano, svake sezone. To je značajan trošak i mnogi kampovi tu prave uštedu — mi ne pravimo. Prosto: čovjek koji vam sjedi u čamcu je nečiji otac, nečije dijete, i to je jedina računica koja nas zanima.",
+      "p3": "Oprema se redovno održava i kontroliše. Prije svake sezone i tokom nje pregledamo sve — svaki prsluk, svaku kacigu, svaki čamac. Ono što pokaže i najmanji znak istrošenosti ne ide više na vodu."
+    },
+    "gear": {
+      "eyebrow": "Oprema",
+      "naslov": "Kompletna oprema, na vas spremna",
+      "items": [
+        {
+          "naslov": "Neoprensko odijelo",
+          "opis": "Drži toplotu i u hladnoj vodi"
+        },
+        {
+          "naslov": "Neoprenske čizme",
+          "opis": "Štite stopala na stijenama"
+        },
+        {
+          "naslov": "Sigurnosni prsluk",
+          "opis": "Plovnost i sigurnost u vodi"
+        },
+        {
+          "naslov": "Kaciga",
+          "opis": "Obavezna na svakom spustu"
+        },
+        {
+          "naslov": "Veslo",
+          "opis": "Lagano i izdržljivo"
+        }
+      ]
+    },
+    "briefing": {
+      "naslov": "Sigurnosni brifing",
+      "lead": "Prije svake ture skiper objasni komande veslanja, kako se ponašati u brzaku i šta raditi ako neko upadne u vodu. Kratko, jasno i bez preskakanja — tek kad su svi spremni, krećemo. Ni jedna tura nije krenula bez brifinga, i nikad neće."
+    },
+    "weather": {
+      "naslov": "Procjena vremena",
+      "lead": "Rijeka i vrijeme se mijenjaju, a sigurnost gostiju nam je uvijek na prvom mjestu. Zadržavamo pravo da, ako uslovi nisu povoljni, pomjerimo ili prilagodimo turu. Radije ćemo vas razočarati jednim danom nego rizikovati — i to nam još niko nije zamjerio."
+    },
+    "noExp": {
+      "naslov": "Iskustvo nije potrebno",
+      "lead": "Osnovna fizička spremnost i želja za avanturom su dovoljni — sve ostalo naučićete na licu mjesta, a skiper je sve vrijeme sa vama u čamcu."
+    }
+  },
+  "CestaPitanja": {
+    "meta": {
+      "title": "Česta pitanja — rafting, sigurnost, djeca, dokumenti | Kamp Konak",
+      "description": "Odgovori na česta pitanja o raftingu na Tari: bezbjednost, iskustvo, trajanje, minimalan broj učesnika, djeca, dokumenti i sezona. Sve što treba da znate prije dolaska u kamp Konak.",
+      "keywords": "rafting Tara pitanja, da li je rafting bezbjedan, rafting sa djecom, rafting dokumenti, koliko traje rafting, rafting sezona Tara",
+      "ogTitle": "Česta pitanja — Rafting kamp Konak",
+      "ogDescription": "Kratko i iskreno — najčešća pitanja gostiju prije dolaska na Taru."
+    },
+    "hero": {
+      "eyebrow": "Česta pitanja",
+      "naslov": "Sve što vas zanima",
+      "lead": "Kratko i iskreno — najčešća pitanja gostiju prije dolaska na Taru. Ako nešto ne nađete, javite nam se."
+    },
+    "items": [
+      {
+        "pitanje": "Da li je rafting bezbjedan?",
+        "odgovor": "Da. Ture vode certifikovani skiperi, dobijate kompletnu i ispravnu opremu, a prije svakog polaska radimo sigurnosni brifing — objasnimo komande, kako se vesla i šta raditi u svakoj situaciji."
+      },
+      {
+        "pitanje": "Treba li mi iskustvo?",
+        "odgovor": "Ne. Dovoljna je osnovna fizička spremnost i želja za avanturom. Sve što treba da znate naučićete na licu mjesta, a skiper je sve vrijeme u čamcu sa vama."
+      },
+      {
+        "pitanje": "Koliko traje rafting?",
+        "odgovor": "Zavisi od vodostaja i doba sezone — od oko 1,5 sat u maju, kada je voda najbrža, do oko 3,5 sata u avgustu. To je trajanje samog spusta, bez obuke, prevoza i obroka."
+      },
+      {
+        "pitanje": "Koliki je minimalan broj učesnika?",
+        "odgovor": "Nema minimalnog broja učesnika — vodimo i pojedince i parove. Možete se priključiti postojećoj grupi."
+      },
+      {
+        "pitanje": "Mogu li djeca na rafting?",
+        "odgovor": "Da, rafting je porodična avantura. Djeca do 6 godina ne plaćaju, a od 6 do 12 godina plaćaju pola cijene. Za najmlađe biramo mirnije dionice i prilagođavamo tempo."
+      },
+      {
+        "pitanje": "Treba li dokument za rafting?",
+        "odgovor": "Da. Rijeka na pojedinim dionicama prolazi kroz dvije države, pa je obavezno ponijeti ličnu kartu ili pasoš."
+      },
+      {
+        "pitanje": "Kada je sezona za rafting?",
+        "odgovor": "Sezona traje od maja do oktobra. Najviši vodostaj je u proljeće (jači adrenalin), dok je ljeti voda mirnija i toplija — idealno za porodice i početnike."
+      }
+    ],
+    "cta": {
+      "headline": "Ostalo vam pitanje?",
+      "lead": "Pišite nam ili pozovite — odgovaramo brzo i rado pomažemo oko svega.",
+      "button": "Kontaktiraj nas"
+    }
   }
 }

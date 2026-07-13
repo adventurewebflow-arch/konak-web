@@ -364,7 +364,61 @@
       "button": "Book stay & tour"
     }
   },
-  "Aktivnosti": {},
+  "Aktivnosti": {
+    "meta": {
+      "title": "Activities at Camp Konak — Beyond the River | Tara, Bosnia",
+      "description": "Activities from Camp Konak: full-day trips to Sutjeska National Park (Perućica primeval forest, Lake Trnovačko), canyoning at Nevidio and Hrčavka, Durmitor, Zelengora, Lake Piva and horse riding.",
+      "keywords": "Sutjeska National Park trip, Nevidio canyon, Hrčavka canyon, Durmitor day trip, Zelengora, Lake Piva, horse riding Tara",
+      "ogTitle": "Activities at Camp Konak — More Than the River",
+      "ogDescription": "National parks, canyoning, mountain hikes and horse riding — combine adventures in one stay."
+    },
+    "hero": {
+      "eyebrow": "More Than the River",
+      "naslov": "Activities Around the Camp",
+      "lead": "National parks, canyoning, mountain hikes and horse riding — combine as many adventures as you like in one stay. We arrange everything from the camp.",
+      "imageAlt": "Activities around the camp — view of Sutjeska National Park"
+    },
+    "overview": {
+      "eyebrow": "What's on offer",
+      "naslov": "All activities in one place.",
+      "lead": "From the camp we arrange Tara rafting, canyoning through Nevidio and Hrčavka, mountain day trips (Sutjeska NP, Durmitor, Zelengora, Piva) and horse riding. Stack as many adventures as you like — everything leaves from here."
+    },
+    "items": [
+      {
+        "kategorija": "Main offer · from €50",
+        "naslov": "Rafting on the Tara",
+        "opis": "Single-day and multi-day runs through the deepest canyon in Europe — from a quick blast to a four-day expedition down the full course of the Tara.",
+        "linkLabel": "All rafting tours →",
+        "imageAlt": "Rafting on the Tara — descent through the canyon"
+      },
+      {
+        "kategorija": "Canyoning · from €120",
+        "naslov": "Nevidio and Hrčavka",
+        "opis": "Jumps, slides and passages through two of the most spectacular canyons in the region — for beginners (Hrčavka) and experienced adventurers (Nevidio).",
+        "linkLabel": "See canyoning →",
+        "imageAlt": "Canyoning — passage through the canyon"
+      },
+      {
+        "kategorija": "Day trips · on request",
+        "naslov": "Sutjeska NP, Durmitor & the mountains",
+        "opis": "Perućica, Lake Trnovačko, Durmitor, Zelengora and Piva — mountain day trips and combinations alongside your rafting stay.",
+        "linkLabel": "See day trips →",
+        "imageAlt": "Sutjeska National Park — mountain day trip from the camp"
+      },
+      {
+        "kategorija": "Adventure · on request",
+        "naslov": "Horse riding",
+        "opis": "Riding along the rim of the Tara's deepest canyon — looking down at the river 1,300 metres below. Arranged on request.",
+        "linkLabel": "Send inquiry →",
+        "imageAlt": "View of the Tara canyon — horse riding at the viewpoint"
+      }
+    ],
+    "cta": {
+      "headline": "Combine rafting with more.",
+      "lead": "When booking, you can add Sutjeska NP or any other activity to your rafting trip — just let us know what interests you.",
+      "button": "Send inquiry"
+    }
+  },
   "Rafting": {
     "meta": {
       "title": "Tara River Rafting — Tours from 1 to 4 Days | Camp Konak",
@@ -600,7 +654,88 @@
       "ctaBook": "Send an inquiry"
     }
   },
-  "Teambuilding": {},
+  "Teambuilding": {
+    "meta": {
+      "title": "Corporate Team Building on the Tara River | Camp Konak",
+      "description": "Corporate retreats and group packages at Camp Konak: white-water rafting on the Tara, canyoning, mountain hikes, accommodation and catering for up to 60 people, plus a meadow for outdoor team activities.",
+      "keywords": "team building rafting, corporate retreat Bosnia, group rafting Tara, team building Foča, group adventure Bosnia",
+      "ogTitle": "Corporate Team Building on the Tara River | Camp Konak",
+      "ogDescription": "A team that shares an adventure on the river bonds stronger on the shore — accommodation, food and activities all in one place."
+    },
+    "hero": {
+      "eyebrow": "Team Building & Groups",
+      "naslov": "Teams that share an adventure grow stronger.",
+      "lead": "Companies, schools and sports teams — everything you need in one place on the Tara. Rafting, canyoning, accommodation and home-cooked meals without the logistical headache.",
+      "imageAlt": "Team building group on a rafting trip at Camp Konak"
+    },
+    "whyKonak": {
+      "eyebrow": "Why Konak",
+      "naslov": "Everything your team needs — right on the riverbank.",
+      "opis": "No city transfers, no queuing at a restaurant at 5 p.m. Camp Konak is a self-contained ecosystem: accommodation, food, gear and guides all in one place. Your team spends the day on the water or in the canyon, the evening around the grill with a welcome rakija (local fruit brandy), and the meadow is ready for team games or outdoor presentations.",
+      "chips": [
+        "Up to 60 people",
+        "Professional guides",
+        "Full board",
+        "Meadow for groups",
+        "Coach parking"
+      ],
+      "imageBadge": "Groups up to 60",
+      "imageAlt": "Group guests in gear outside Camp Konak"
+    },
+    "activities": {
+      "eyebrow": "Activities",
+      "naslov": "A programme built around your team",
+      "items": [
+        {
+          "kategorija": "On the water",
+          "naslov": "Rafting for teams",
+          "trajanje": "1–4 days",
+          "opis": "Running the Tara in the same boat — coordination, trust and adrenaline that bond a team better than any boardroom session.",
+          "imageAlt": "Team rafting on the Tara at Camp Konak"
+        },
+        {
+          "kategorija": "Adrenaline",
+          "naslov": "Canyoning",
+          "trajanje": "1 day",
+          "opis": "Nevidio or Hrčavka — stepping out of the comfort zone together, with experienced guides and top-grade equipment.",
+          "imageAlt": "Group canyoning — descent through the canyon"
+        },
+        {
+          "kategorija": "Nature",
+          "naslov": "Sutjeska NP & the mountains",
+          "trajanje": "full day",
+          "opis": "Perućica primeval forest, Lake Trnovačko or Maglić peak — a day in nature as a break from the water and a chance for team connection.",
+          "imageAlt": "Day trip to Sutjeska National Park for teams"
+        }
+      ],
+      "ctaLabel": "See details →"
+    },
+    "offer": {
+      "eyebrow": "For groups",
+      "naslov": "Accommodation, food and a meadow",
+      "items": [
+        {
+          "naslov": "Group accommodation",
+          "opis": "13 bungalows — private bathrooms, peaceful riverside setting. Sleeping and dining for groups of up to 60: companies, schools and sports teams."
+        },
+        {
+          "naslov": "Catering for the whole team",
+          "opis": "Full board of home-cooked Bosnian food — dishes from the sač (traditional covered pan), grill and custom menus. Vegetarian and vegan options on request."
+        },
+        {
+          "naslov": "Meadow and open space",
+          "opis": "A spacious meadow beside the camp — ideal for team games, outdoor presentations, barbecues and evening bonfires."
+        }
+      ]
+    },
+    "form": {
+      "eyebrow": "Group inquiry",
+      "naslov": "Group Inquiry Form",
+      "lead": "Fill in the form — it goes straight to the camp. You can also message us on WhatsApp. Minimum 4 people; we'll reply with availability and exact pricing.",
+      "labelFirma": "Company / organisation",
+      "labelKontakt": "Contact person"
+    }
+  },
   "Ponuda": {
     "meta": {
       "title": "Tara Rafting Prices & Packages 2026 | Camp Konak",
@@ -695,11 +830,190 @@
       "button": "Open calculator"
     }
   },
-  "KakoDoNas": {},
+  "KakoDoNas": {
+    "meta": {
+      "title": "How to Find Us — Hum, Foča, Bosnia | Camp Konak",
+      "description": "Directions to Camp Konak in Hum (Foča), where the Tara and Piva rivers meet to form the Drina. Routes from Sarajevo, Podgorica, Dubrovnik and Belgrade, GPS coordinates, Google map and free parking.",
+      "keywords": "how to get to Camp Konak, Hum Foča location, Tara rafting directions, Šćepan Polje access, Tara Piva confluence, rafting parking",
+      "ogTitle": "How to Find Us — Hum, Foča",
+      "ogDescription": "Camp Konak at the Tara–Piva confluence — about 20 km from Foča, free parking and space for a coach."
+    },
+    "hero": {
+      "eyebrow": "Getting Here",
+      "naslov": "Where the Drina is Born",
+      "lead": "Camp Konak sits in Hum, near Foča — right at the confluence of the Tara and Piva rivers, where they join to form the Drina. About 20 km from Foča and just 2 km from the confluence itself."
+    },
+    "location": {
+      "eyebrow": "Location",
+      "naslov": "Hum, Foča (73300)",
+      "lead": "We're on the border of Bosnia & Herzegovina and Montenegro, in the village of Hum near Šćepan Polje. This is the starting point for Tara rafting and an ideal base for day trips to Sutjeska NP, Durmitor and Lake Piva.",
+      "info": [
+        {
+          "label": "Address",
+          "value": "Hum, Foča 73300, BiH"
+        },
+        {
+          "label": "GPS coordinates",
+          "value": "43.3528783, 18.8229302"
+        },
+        {
+          "label": "Distance",
+          "value": "~20 km from Foča · ~2 km from the confluence"
+        },
+        {
+          "label": "Parking",
+          "value": "Free, CCTV-monitored · space for a coach"
+        }
+      ]
+    },
+    "routes": {
+      "eyebrow": "Directions",
+      "naslov": "How to get to the camp",
+      "items": [
+        {
+          "naslov": "From Sarajevo",
+          "opis": "Via Trnovo and Foča to Hum.",
+          "meta": "90 km"
+        },
+        {
+          "naslov": "From Podgorica",
+          "opis": "Via Nikšić and Plužine, along the Piva valley to Šćepan Polje and Hum.",
+          "meta": "140 km"
+        },
+        {
+          "naslov": "From Dubrovnik",
+          "opis": "Via Trebinje and Nikšić, then along the Piva valley.",
+          "meta": "180 km"
+        },
+        {
+          "naslov": "From Belgrade",
+          "opis": "Via Užice and Foča to Hum.",
+          "meta": "350 km"
+        }
+      ]
+    },
+    "tips": {
+      "eyebrow": "Before you set off",
+      "naslov": "A few things worth knowing",
+      "items": [
+        {
+          "naslov": "Bring cash",
+          "tekst": "Payment at the camp is cash only — we don't accept cards. Foča is the last town on the route with banks and ATMs, so withdraw what you need there. After Foča, there's nowhere to get cash before the camp."
+        },
+        {
+          "naslov": "Fill up in Foča",
+          "tekst": "Foča is the last major stop before the canyon. Fuel stations, shops and a pharmacy are all here. Through the canyon to the camp there's nothing — just the river and the cliffs."
+        },
+        {
+          "naslov": "The canyon road is winding",
+          "tekst": "The last twenty-odd kilometres run alongside the river through the canyon. The road is narrow and twisty — not one for rushing, but beautiful in its own right. Allow a bit more time than your sat-nav suggests."
+        },
+        {
+          "naslov": "Signal drops in the canyon",
+          "tekst": "Mobile signal can disappear in the canyon. If you think you're lost or running late, call us before you enter the canyon. Download your map offline just in case."
+        },
+        {
+          "naslov": "No fixed check-in time",
+          "tekst": "We don't have a set arrival time. Come when it suits you — we'll be here to welcome you."
+        },
+        {
+          "naslov": "Parking",
+          "tekst": "Free, CCTV-monitored parking, with room for a coach."
+        },
+        {
+          "naslov": "Documents",
+          "tekst": "Bring a national ID card or passport — the river passes through two countries on part of its course, and the Šćepan Polje border crossing is right next to us."
+        }
+      ]
+    },
+    "maps": {
+      "iframeTitle": "Google map — Camp Konak, Hum Foča",
+      "button": "Open in Google Maps"
+    }
+  },
   "OpremaSigurnost": {},
   "FAQ": {},
-  "Galerija": {},
-  "Kontakt": {},
+  "Galerija": {
+    "meta": {
+      "title": "Photo Gallery — Tara Rafting, Camp & Food | Camp Konak",
+      "description": "Photos from Camp Konak: shooting the rapids on the Tara, luxury bungalows and home-cooked meals. Filter by category — rafting, camp, food.",
+      "keywords": "Tara rafting photos, Camp Konak gallery, Tara canyon images, bungalows Tara, rafting Bosnia gallery",
+      "ogTitle": "Gallery — Camp Konak",
+      "ogDescription": "The Tara you need to see — rafting, camp life and home cooking in one gallery."
+    },
+    "hero": {
+      "eyebrow": "Gallery",
+      "naslov": "The Tara you have to see.",
+      "lead": "Running the rapids, camp life and home cooking — pick a category."
+    },
+    "photos": {
+      "filterAll": "All",
+      "filterRafting": "Rafting",
+      "filterKamp": "Camp",
+      "filterHrana": "Food",
+      "labels": {
+        "r-2": "Rafting",
+        "r-3": "Running the Tara",
+        "r-4": "Crew on the water",
+        "r-5": "Tara canyon",
+        "r-7": "Rapids",
+        "r-11": "Raft in the canyon",
+        "r-12": "Group on the run",
+        "r-13": "Emerald water",
+        "r-15": "Paddling",
+        "r-16": "Arriving in Hum",
+        "r-36": "Water adventure",
+        "r-38": "Guides and guests",
+        "r-40": "A moment on the Tara",
+        "k-1": "Camp by the river",
+        "k-2": "Bungalows",
+        "k-3": "Outside the camp",
+        "k-4": "Accommodation",
+        "k-5": "Bungalow room",
+        "k-6": "Relaxing at the camp",
+        "k-7": "Camp on the bank",
+        "k-8": "Bathroom",
+        "k-9": "Auto camp",
+        "k-10": "Campers at the camp",
+        "h-1": "Soup and lunch",
+        "h-2": "Dessert",
+        "h-3": "Breakfast",
+        "h-4": "Pies and cheese",
+        "h-5": "Food by the fire",
+        "h-6": "Lunch from the sač",
+        "h-7": "Balkan breakfast",
+        "h-8": "Hearty breakfast",
+        "h-9": "Under the sač",
+        "h-10": "Cake and lunch"
+      }
+    }
+  },
+  "Kontakt": {
+    "meta": {
+      "title": "Contact Camp Konak — Tara Rafting, Bosnia",
+      "description": "Contact Camp Konak: phone and WhatsApp +387 65 848 110, konakraftingkamp@gmail.com, Hum, Foča 73300, Bosnia. Bookings, enquiries and directions.",
+      "keywords": "Camp Konak contact, Tara rafting phone, book rafting Foča",
+      "ogTitle": "Contact — Camp Konak",
+      "ogDescription": "We reply quickly — WhatsApp, phone or email."
+    },
+    "hero": {
+      "eyebrow": "Contact",
+      "naslov": "Get in touch",
+      "lead": "We reply quickly — via WhatsApp, phone or email. We help with dates, accommodation, transfers and groups."
+    },
+    "cards": {
+      "phoneLabel": "Phone · WhatsApp · Viber",
+      "emailLabel": "Email",
+      "locationLabel": "Location",
+      "locationValue": "Hum, Foča 73300, BiH"
+    },
+    "season": "Season May–October · we reply every day",
+    "location": {
+      "eyebrow": "Where we are",
+      "naslov": "Camp at the Tara–Piva confluence",
+      "iframeTitle": "Google map — Camp Konak"
+    }
+  },
   "Rezervacija": {
     "meta": {
       "title": "Book a Tara Rafting Tour — Send an Inquiry | Camp Konak",
@@ -1131,5 +1445,209 @@
   },
   "LanguageSwitcher": {
     "aria": "Language"
+  },
+  "Izleti": {
+    "meta": {
+      "title": "Day Trips & Combinations — Rafting + Sutjeska, Durmitor, Canyoning | Konak",
+      "description": "Trips and combinations from Camp Konak: rafting plus Sutjeska NP, canyoning or Durmitor. Combine multiple adventures in one stay. Mountain day trips (Perućica, Zelengora, Trnovačko) on request.",
+      "keywords": "day trips Tara, rafting combinations, rafting Sutjeska, rafting Durmitor, excursions Foča, combined rafting packages",
+      "ogTitle": "Day Trips & Combinations — Rafting + Sutjeska, Durmitor, Canyoning",
+      "ogDescription": "The best stays pair water with mountains — rafting as the centrepiece, and whatever else you fancy."
+    },
+    "hero": {
+      "eyebrow": "Trips & Combinations",
+      "naslov": "Stack your adventures.",
+      "lead": "The best stays pair river with mountain. Here are the combinations our guests love most — rafting at the heart, and anything else you want layered on top.",
+      "imageAlt": "Mountain day trips around the Tara and Sutjeska NP"
+    },
+    "combinations": {
+      "eyebrow": "Combined packages",
+      "naslov": "Favourite combinations",
+      "items": [
+        {
+          "kategorija": "Most popular · on request",
+          "naslov": "Rafting + Sutjeska NP",
+          "opis": "A day on the water and a day in the Perućica primeval forest and at Lake Trnovačko — river and mountain in perfect balance. Price on request.",
+          "linkLabel": "Send inquiry →",
+          "imageAlt": "Rafting and a day trip to Sutjeska National Park"
+        },
+        {
+          "kategorija": "For adventurers · from €120",
+          "naslov": "Rafting + canyoning",
+          "opis": "A double dose of adrenaline — running the Tara and pushing through Nevidio or Hrčavka. For those who can't stop.",
+          "linkLabel": "See canyoning →",
+          "imageAlt": "Combined rafting and canyoning trip"
+        },
+        {
+          "kategorija": "Easy pace · on request",
+          "naslov": "Rafting + Durmitor",
+          "opis": "Adrenaline on the river, then a relaxed day on Durmitor by Black Lake. Price on request.",
+          "linkLabel": "Send inquiry →",
+          "imageAlt": "Mountain day trip to Durmitor alongside a rafting stay"
+        }
+      ]
+    },
+    "mountain": {
+      "eyebrow": "Mountain day trips",
+      "naslov": "Mountain Day Trips — on request, add-on to rafting stay",
+      "blogLead": "Read more about each trip in our activities guide or ask us directly.",
+      "blogLink": "activities guide",
+      "items": [
+        {
+          "naslov": "Perućica Primeval Forest",
+          "meta": "Sutjeska NP · on request",
+          "opis": "One of the last primeval forests in Europe — a full-day trip from the camp, on request.",
+          "imageAlt": "Mountain day trip — Perućica primeval forest"
+        },
+        {
+          "naslov": "Lake Trnovačko",
+          "meta": "Hiking · on request",
+          "opis": "Hiking up to the heart-shaped lake below Maglić peak — add it to your rafting stay.",
+          "imageAlt": "Day trip to Lake Trnovačko"
+        },
+        {
+          "naslov": "Zelengora",
+          "meta": "Mountain lakes · on request",
+          "opis": "Alpine lakes and sweeping Zelengora scenery — we arrange it from the camp.",
+          "imageAlt": "Mountain day trip to Zelengora"
+        },
+        {
+          "naslov": "Lake Piva",
+          "meta": "Day trip · on request",
+          "opis": "A short detour to Lake Piva — a peaceful break by the water.",
+          "imageAlt": "Day trip to Lake Piva"
+        },
+        {
+          "naslov": "Horse riding",
+          "meta": "Adventure · on request",
+          "opis": "Riding along the rim of the Tara's deepest canyon — looking down at the river 1,300 metres below. Arranged on request.",
+          "imageAlt": "View of the Tara canyon — horse riding at the viewpoint"
+        }
+      ],
+      "linkLabel": "Send inquiry →"
+    },
+    "cta": {
+      "headline": "Let us build your itinerary",
+      "lead": "Tell us how many days you're staying and what interests you — we'll put together a tailor-made package.",
+      "button": "Send inquiry"
+    }
+  },
+  "Oprema": {
+    "meta": {
+      "title": "Equipment & Safety — Licensed Guides, New Gear | Camp Konak",
+      "description": "How we look after your safety on the Tara: certified guides, up-to-date equipment meeting modern standards, a safety briefing and weather assessment before every run.",
+      "keywords": "rafting safety, rafting gear, certified river guides, rafting safety briefing, is rafting safe, helmets life vests rafting",
+      "ogTitle": "Equipment & Safety — Camp Konak",
+      "ogDescription": "Certified guides, new gear and clear rules on every trip."
+    },
+    "hero": {
+      "eyebrow": "Equipment & Safety",
+      "naslov": "Your safety, our business.",
+      "lead": "The river commands respect, not contempt. That's why nothing is left to chance here — from equipment to the weather check.",
+      "imageAlt": "Certified river guide and group in gear on the Tara"
+    },
+    "intro": {
+      "subheading": "Adventure and safety aren't opposites — here they go hand in hand.",
+      "p1": "With over 20 years on the Tara, our guides know the river in every mood — glassy calm and in full flood. That kind of experience can't be replaced by any certificate. But the certificates are there too, along with proven gear and clear rules we follow on every trip, no exceptions."
+    },
+    "guides": {
+      "eyebrow": "Guides",
+      "naslov": "A certified guide in every boat",
+      "lead": "Every trip is led by a certified guide who knows the river by heart — every rapid, every current and every safe spot to rest. They choose the line, call the commands and adjust the pace to the group. You just listen and enjoy."
+    },
+    "equipment": {
+      "eyebrow": "Our gear",
+      "naslov": "New equipment, up to modern standards",
+      "p1": "Gear is the one area where we never cut corners. Our equipment is new and meets current standards — boats, life vests, helmets, neoprene suits, paddles. None of it is inherited, borrowed or 'still good enough'.",
+      "p2": "We invest in gear continuously, every season. It's a significant cost, and it's where many camps make savings — we don't. Simply put: the person sitting in your boat is someone's father, someone's child, and that's the only calculation that matters to us.",
+      "p3": "Gear is regularly maintained and inspected. Before each season and throughout it, we check everything — every vest, every helmet, every boat. Anything showing the slightest sign of wear does not go back on the water."
+    },
+    "gear": {
+      "eyebrow": "Equipment",
+      "naslov": "Complete kit, ready for you",
+      "items": [
+        {
+          "naslov": "Wetsuit",
+          "opis": "Keeps you warm even in cold water"
+        },
+        {
+          "naslov": "Neoprene boots",
+          "opis": "Protect your feet on the rocks"
+        },
+        {
+          "naslov": "Life vest",
+          "opis": "Buoyancy and safety in the water"
+        },
+        {
+          "naslov": "Helmet",
+          "opis": "Required on every run"
+        },
+        {
+          "naslov": "Paddle",
+          "opis": "Light and durable"
+        }
+      ]
+    },
+    "briefing": {
+      "naslov": "Safety briefing",
+      "lead": "Before every trip the guide explains the paddle commands, how to behave in rapids and what to do if someone goes overboard. Brief, clear and never skipped — we don't push off until everyone is ready. Not one trip has ever launched without a briefing, and none ever will."
+    },
+    "weather": {
+      "naslov": "Weather assessment",
+      "lead": "The river and weather can change, and guest safety is always our first priority. We reserve the right to postpone or adjust a trip if conditions aren't right. We'd rather disappoint you on one day than take risks — and not a single guest has ever held it against us."
+    },
+    "noExp": {
+      "naslov": "No experience needed",
+      "lead": "Basic fitness and a sense of adventure are all you need — you'll learn everything else on the spot, with the guide in the boat beside you the whole time."
+    }
+  },
+  "CestaPitanja": {
+    "meta": {
+      "title": "FAQ — Tara Rafting Questions Answered | Camp Konak",
+      "description": "Answers to the most common questions about rafting on the Tara: safety, experience level, duration, minimum group size, children, documents and season. Everything you need to know before arriving at Camp Konak.",
+      "keywords": "Tara rafting FAQ, is rafting safe, rafting with children, rafting documents, how long does rafting take, rafting season Tara",
+      "ogTitle": "FAQ — Camp Konak",
+      "ogDescription": "Straight answers — the questions guests ask most before heading to the Tara."
+    },
+    "hero": {
+      "eyebrow": "FAQ",
+      "naslov": "Everything you want to know",
+      "lead": "Straight and honest — the questions guests ask most before coming to the Tara. If you can't find what you're looking for, just get in touch."
+    },
+    "items": [
+      {
+        "pitanje": "Is rafting safe?",
+        "odgovor": "Yes. All trips are led by certified guides, you receive complete and well-maintained equipment, and before every departure we run a safety briefing — covering paddle commands, how to navigate rapids and what to do in any situation."
+      },
+      {
+        "pitanje": "Do I need experience?",
+        "odgovor": "No. Basic fitness and a sense of adventure are all you need. You'll learn everything on the spot, with the guide in the boat beside you the entire time."
+      },
+      {
+        "pitanje": "How long does rafting take?",
+        "odgovor": "It depends on water levels and time of season — roughly 1.5 hours in May when the water is fastest, up to around 3.5 hours in August. That's the run itself, not including the briefing, transport and any meal."
+      },
+      {
+        "pitanje": "Is there a minimum group size?",
+        "odgovor": "No minimum — we guide solo travellers and couples too. You're welcome to join an existing group."
+      },
+      {
+        "pitanje": "Can children join?",
+        "odgovor": "Yes, rafting is a great family adventure. Children under 6 are free; ages 6–12 pay half price. For the youngest guests we choose calmer stretches and adjust the pace."
+      },
+      {
+        "pitanje": "Do I need ID for rafting?",
+        "odgovor": "Yes. The river passes through two countries on part of its course, so a national ID card or passport is required."
+      },
+      {
+        "pitanje": "When is the rafting season?",
+        "odgovor": "The season runs from May to October. Water levels are highest in spring (stronger adrenaline), while summer offers calmer, warmer water — ideal for families and beginners."
+      }
+    ],
+    "cta": {
+      "headline": "Still have a question?",
+      "lead": "Write to us or give us a call — we're quick to reply and happy to help with anything.",
+      "button": "Contact us"
+    }
   }
 }
