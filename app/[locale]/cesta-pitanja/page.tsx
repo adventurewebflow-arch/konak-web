@@ -1,67 +1,36 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import { OG_IMAGES } from "@/lib/seo";
 import { Hero } from "@/components/Hero";
 import { FaqAccordion, type FaqItem } from "@/components/FaqAccordion";
 import { CtaButton } from "@/components/CtaButton";
 
-export const metadata: Metadata = {
-  title: "Česta pitanja — rafting, sigurnost, djeca, dokumenti | Kamp Konak",
-  description:
-    "Odgovori na česta pitanja o raftingu na Tari: bezbjednost, iskustvo, trajanje, minimalan broj učesnika, djeca, dokumenti i sezona. Sve što treba da znate prije dolaska u kamp Konak.",
-  keywords: [
-    "rafting Tara pitanja",
-    "da li je rafting bezbjedan",
-    "rafting sa djecom",
-    "rafting dokumenti",
-    "koliko traje rafting",
-    "rafting sezona Tara",
-  ],
-  alternates: { canonical: "https://www.raftingkampkonak.com/cesta-pitanja" },
-  openGraph: {
-    title: "Česta pitanja — Rafting kamp Konak",
-    description:
-      "Kratko i iskreno — najčešća pitanja gostiju prije dolaska na Taru.",
-    type: "website",
-  },
-};
+const SITE = "https://www.raftingkampkonak.com";
 
-const FAQ: FaqItem[] = [
-  {
-    pitanje: "Da li je rafting bezbjedan?",
-    odgovor:
-      "Da. Ture vode certifikovani skiperi, dobijate kompletnu i ispravnu opremu, a prije svakog polaska radimo sigurnosni brifing — objasnimo komande, kako se vesla i šta raditi u svakoj situaciji.",
-  },
-  {
-    pitanje: "Treba li mi iskustvo?",
-    odgovor:
-      "Ne. Dovoljna je osnovna fizička spremnost i želja za avanturom. Sve što treba da znate naučićete na licu mjesta, a skiper je sve vrijeme u čamcu sa vama.",
-  },
-  {
-    pitanje: "Koliko traje rafting?",
-    odgovor:
-      "Zavisi od vodostaja i doba sezone — od oko 1,5 sat u maju, kada je voda najbrža, do oko 3,5 sata u avgustu. To je trajanje samog spusta, bez obuke, prevoza i obroka.",
-  },
-  {
-    pitanje: "Koliki je minimalan broj učesnika?",
-    odgovor:
-      "Nema minimalnog broja učesnika — vodimo i pojedince i parove. Možete se priključiti postojećoj grupi.",
-  },
-  {
-    pitanje: "Mogu li djeca na rafting?",
-    odgovor:
-      "Da, rafting je porodična avantura. Djeca do 6 godina ne plaćaju, a od 6 do 12 godina plaćaju pola cijene. Za najmlađe biramo mirnije dionice i prilagođavamo tempo.",
-  },
-  {
-    pitanje: "Treba li dokument za rafting?",
-    odgovor:
-      "Da. Rijeka na pojedinim dionicama prolazi kroz dvije države, pa je obavezno ponijeti ličnu kartu ili pasoš.",
-  },
-  {
-    pitanje: "Kada je sezona za rafting?",
-    odgovor:
-      "Sezona traje od maja do oktobra. Najviši vodostaj je u proljeće (jači adrenalin), dok je ljeti voda mirnija i toplija — idealno za porodice i početnike.",
-  },
-];
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "CestaPitanja" });
+  return {
+    title: { absolute: t("meta.title") },
+    description: t("meta.description"),
+    keywords: t("meta.keywords")
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean),
+    alternates: { canonical: `${SITE}/cesta-pitanja` },
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "website",
+      locale: locale === "en" ? "en_US" : "sr_BA",
+      images: [...OG_IMAGES],
+    },
+  };
+}
 
 export default async function CestaPitanjaPage({
   params,
@@ -70,15 +39,18 @@ export default async function CestaPitanjaPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("CestaPitanja");
+
+  const FAQ = t.raw("items") as FaqItem[];
 
   return (
     <>
       <Hero
         variant="b"
         visina="44vh"
-        eyebrow="Česta pitanja"
-        naslov="Sve što vas zanima"
-        lead="Kratko i iskreno — najčešća pitanja gostiju prije dolaska na Taru. Ako nešto ne nađete, javite nam se."
+        eyebrow={t("hero.eyebrow")}
+        naslov={t("hero.naslov")}
+        lead={t("hero.lead")}
       />
 
       <section className="kon-section">
@@ -101,17 +73,17 @@ export default async function CestaPitanjaPage({
                 letterSpacing: "-0.02em",
               }}
             >
-              Ostalo vam pitanje?
+              {t("cta.headline")}
             </h2>
             <p
               className="mt-4 max-w-lg font-sans text-on-dark"
               style={{ fontSize: "clamp(16px, 1.4vw, 18px)", lineHeight: 1.65 }}
             >
-              Pišite nam ili pozovite — odgovaramo brzo i rado pomažemo oko svega.
+              {t("cta.lead")}
             </p>
             <div className="mt-8">
               <CtaButton href="/kontakt" arrow>
-                Kontaktiraj nas
+                {t("cta.button")}
               </CtaButton>
             </div>
           </div>

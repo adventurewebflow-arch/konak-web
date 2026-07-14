@@ -1,60 +1,14 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import { OG_IMAGES } from "@/lib/seo";
 import { Hero } from "@/components/Hero";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ImageSlot } from "@/components/ImageSlot";
 
-export const metadata: Metadata = {
-  title: "Oprema i sigurnost — certifikovani skiperi i kompletna oprema | Konak",
-  description:
-    "Kako brinemo o vašoj sigurnosti na Tari: certifikovani skiperi i vodiči, nova oprema po savremenim standardima, sigurnosni brifing i procjena vremenskih uslova prije svake ture.",
-  keywords: [
-    "rafting sigurnost",
-    "rafting oprema",
-    "certifikovani skiperi",
-    "sigurnosni brifing rafting",
-    "je li rafting bezbjedan",
-    "kacige prsluci rafting",
-  ],
-  alternates: { canonical: "https://www.raftingkampkonak.com/oprema-i-sigurnost" },
-  openGraph: {
-    title: "Oprema i sigurnost — Rafting kamp Konak",
-    description:
-      "Certifikovani skiperi, nova oprema i jasna pravila na svakoj turi.",
-    type: "article",
-  },
-};
-
 const SITE = "https://www.raftingkampkonak.com";
 
-const OPREMA: { naslov: string; opis: string; ikona: ReactNode }[] = [
-  {
-    naslov: "Neoprensko odijelo",
-    opis: "Drži toplotu i u hladnoj vodi",
-    ikona: <IconSuit />,
-  },
-  {
-    naslov: "Neoprenske čizme",
-    opis: "Štite stopala na stijenama",
-    ikona: <IconBoot />,
-  },
-  {
-    naslov: "Sigurnosni prsluk",
-    opis: "Plovnost i sigurnost u vodi",
-    ikona: <IconVest />,
-  },
-  {
-    naslov: "Kaciga",
-    opis: "Obavezna na svakom spustu",
-    ikona: <IconHelmet />,
-  },
-  {
-    naslov: "Veslo",
-    opis: "Lagano i izdržljivo",
-    ikona: <IconPaddle />,
-  },
-];
+type GearItem = { naslov: string; opis: string };
 
 function IconSuit() {
   return (
@@ -120,6 +74,39 @@ function IconPaddle() {
   );
 }
 
+const GEAR_ICONS: ReactNode[] = [
+  <IconSuit key="suit" />,
+  <IconBoot key="boot" />,
+  <IconVest key="vest" />,
+  <IconHelmet key="helmet" />,
+  <IconPaddle key="paddle" />,
+];
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Oprema" });
+  return {
+    title: { absolute: t("meta.title") },
+    description: t("meta.description"),
+    keywords: t("meta.keywords")
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean),
+    alternates: { canonical: `${SITE}/oprema-i-sigurnost` },
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "article",
+      locale: locale === "en" ? "en_US" : "sr_BA",
+      images: [...OG_IMAGES],
+    },
+  };
+}
+
 export default async function OpremaPage({
   params,
 }: {
@@ -127,12 +114,15 @@ export default async function OpremaPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Oprema");
+
+  const gearItems = t.raw("gear.items") as GearItem[];
 
   const schemaLd = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: "Oprema i sigurnost — Rafting kamp Konak",
-    about: "Sigurnost i oprema za rafting na Tari",
+    headline: t("meta.ogTitle"),
+    about: t("meta.ogDescription"),
     author: {
       "@type": "Organization",
       name: "Rafting kamp Konak",
@@ -154,18 +144,11 @@ export default async function OpremaPage({
       <Hero
         variant="b"
         visina="52vh"
-        eyebrow="Oprema i sigurnost"
-        naslov={
-          <>
-            Vaša sigurnost,
-            <br />
-            naš posao
-          </>
-        }
-        lead="Rijeka se poštuje, ne potcjenjuje. Zato kod nas ništa nije prepušteno slučaju — od opreme do procjene vremena."
+        eyebrow={t("hero.eyebrow")}
+        naslov={t("hero.naslov")}
+        lead={t("hero.lead")}
       />
 
-      {/* Uvod */}
       <section className="kon-section">
         <div
           className="kon-container space-y-4 font-sans text-body"
@@ -175,19 +158,12 @@ export default async function OpremaPage({
           }}
         >
           <p className="font-display text-xl font-semibold text-ink sm:text-2xl">
-            Avantura i sigurnost nisu suprotnosti — kod nas idu zajedno.
+            {t("intro.subheading")}
           </p>
-          <p className="text-text-secondary">
-            Sa preko 20 godina na Tari, naši skiperi su rijeku upoznali u svakom
-            raspoloženju — i kad je mirna kao jezero, i kad nosi. Tu vrstu iskustva
-            ne može da zamijeni nijedan papir. Ali uz to dolaze i certifikati,
-            provjerena oprema i jasna pravila kojih se držimo na svakoj turi, bez
-            izuzetka.
-          </p>
+          <p className="text-text-secondary">{t("intro.p1")}</p>
         </div>
       </section>
 
-      {/* Vodiči split */}
       <section className="kon-section bg-sand">
         <div
           className="kon-container kon-split kon-split-stack"
@@ -196,37 +172,31 @@ export default async function OpremaPage({
           <div className="kon-split-media">
             <ImageSlot
               src="/images/rafting/rafting-galerija8.jpg"
-              alt="Certifikovani skiper i grupa u opremi na Tari"
+              alt={t("hero.imageAlt")}
               className="aspect-[4/3] w-full rounded-card-lg shadow-soft"
               sizes="(max-width: 960px) 100vw, 520px"
             />
           </div>
           <div className="kon-split-body">
             <SectionHeader
-              eyebrow="Vodiči"
-              naslov="Certifikovani skiperi u svakom čamcu"
+              eyebrow={t("guides.eyebrow")}
+              naslov={t("guides.naslov")}
             />
             <p
               className="mt-6 max-w-xl font-sans text-body text-text-secondary"
               style={bodyStyle}
             >
-              Svaku turu vodi certifikovani skiper koji rijeku poznaje napamet —
-              svaki buk, svaku struju i svako sigurno mjesto za pauzu. On bira
-              liniju, daje komande i prilagođava tempo grupi. Vi samo slušate i
-              uživate.
+              {t("guides.lead")}
             </p>
           </div>
         </div>
       </section>
 
-      {/* Ulaganje u opremu */}
       <section className="kon-section">
         <div className="kon-container">
-          <div
-            className="mx-auto max-w-3xl overflow-hidden rounded-card-lg border border-mint-border bg-mint-surface px-6 py-8 sm:px-10 sm:py-10"
-          >
+          <div className="mx-auto max-w-3xl overflow-hidden rounded-card-lg border border-mint-border bg-mint-surface px-6 py-8 sm:px-10 sm:py-10">
             <span className="font-sans text-xs font-bold uppercase tracking-[0.14em] text-teal">
-              Naša oprema
+              {t("equipment.eyebrow")}
             </span>
             <h2
               className="mt-3 font-display font-extrabold text-pine"
@@ -236,43 +206,34 @@ export default async function OpremaPage({
                 letterSpacing: "-0.02em",
               }}
             >
-              Nova oprema, po savremenim standardima
+              {t("equipment.naslov")}
             </h2>
-            <div className="mt-5 space-y-4 font-sans text-body text-text-secondary" style={bodyStyle}>
-              <p>
-                Oprema je jedino mjesto gdje ne štedimo. Naša oprema je nova i
-                usklađena sa savremenim standardima — čamci, prsluci, kacige,
-                neopren, vesla. Ništa od toga nije naslijeđeno, iznajmljeno ni „dobro
-                još malo".
-              </p>
-              <p>
-                U opremu ulažemo kontinuirano, svake sezone. To je značajan trošak i
-                mnogi kampovi tu prave uštedu — mi ne pravimo. Prosto: čovjek koji
-                vam sjedi u čamcu je nečiji otac, nečije dijete, i to je jedina
-                računica koja nas zanima.
-              </p>
-              <p>
-                Oprema se redovno održava i kontroliše. Prije svake sezone i tokom
-                nje pregledamo sve — svaki prsluk, svaku kacigu, svaki čamac. Ono
-                što pokaže i najmanji znak istrošenosti ne ide više na vodu.
-              </p>
+            <div
+              className="mt-5 space-y-4 font-sans text-body text-text-secondary"
+              style={bodyStyle}
+            >
+              <p>{t("equipment.p1")}</p>
+              <p>{t("equipment.p2")}</p>
+              <p>{t("equipment.p3")}</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Oprema — 5 kartica */}
       <section className="kon-section bg-sand">
         <div className="kon-container">
-          <SectionHeader eyebrow="Oprema" naslov="Kompletna oprema, na vas spremna" />
+          <SectionHeader
+            eyebrow={t("gear.eyebrow")}
+            naslov={t("gear.naslov")}
+          />
           <div className="kon-eq mt-10">
-            {OPREMA.map((o) => (
+            {gearItems.map((o, i) => (
               <div
                 key={o.naslov}
                 className="rounded-card border border-line bg-surface p-5 text-center"
               >
                 <span className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-pill bg-mint-surface text-teal">
-                  {o.ikona}
+                  {GEAR_ICONS[i]}
                 </span>
                 <h3 className="font-display text-base font-semibold text-ink">
                   {o.naslov}
@@ -286,7 +247,6 @@ export default async function OpremaPage({
         </div>
       </section>
 
-      {/* Brifing + vrijeme */}
       <section className="kon-section">
         <div
           className="kon-container kon-split"
@@ -294,24 +254,18 @@ export default async function OpremaPage({
         >
           <article className="rounded-card-lg border border-line bg-surface p-7">
             <h2 className="font-display text-xl font-bold text-pine">
-              Sigurnosni brifing
+              {t("briefing.naslov")}
             </h2>
             <p className="mt-4 font-sans text-[15px] leading-relaxed text-text-secondary">
-              Prije svake ture skiper objasni komande veslanja, kako se ponašati u
-              brzaku i šta raditi ako neko upadne u vodu. Kratko, jasno i bez
-              preskakanja — tek kad su svi spremni, krećemo. Ni jedna tura nije
-              krenula bez brifinga, i nikad neće.
+              {t("briefing.lead")}
             </p>
           </article>
           <article className="rounded-card-lg border border-line bg-surface p-7">
             <h2 className="font-display text-xl font-bold text-pine">
-              Procjena vremena
+              {t("weather.naslov")}
             </h2>
             <p className="mt-4 font-sans text-[15px] leading-relaxed text-text-secondary">
-              Rijeka i vrijeme se mijenjaju, a sigurnost gostiju nam je uvijek na
-              prvom mjestu. Zadržavamo pravo da, ako uslovi nisu povoljni, pomjerimo
-              ili prilagodimo turu. Radije ćemo vas razočarati jednim danom nego
-              rizikovati — i to nam još niko nije zamjerio.
+              {t("weather.lead")}
             </p>
           </article>
         </div>
@@ -319,12 +273,10 @@ export default async function OpremaPage({
         <div className="kon-container mt-5">
           <article className="rounded-card-lg border border-mint-border bg-mint-surface p-6 sm:p-7">
             <h2 className="font-display text-lg font-bold text-pine sm:text-xl">
-              Iskustvo nije potrebno
+              {t("noExp.naslov")}
             </h2>
             <p className="mt-3 font-sans text-[15px] leading-relaxed text-text-secondary">
-              Osnovna fizička spremnost i želja za avanturom su dovoljni — sve
-              ostalo naučićete na licu mjesta, a skiper je sve vrijeme sa vama u
-              čamcu.
+              {t("noExp.lead")}
             </p>
           </article>
         </div>

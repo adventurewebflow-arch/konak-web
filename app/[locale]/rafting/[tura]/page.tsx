@@ -10,6 +10,7 @@ import { ImageSlot } from "@/components/ImageSlot";
 import { TourCard } from "@/components/TourCard";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { breadcrumbListLd } from "@/lib/breadcrumb-ld";
+import { OG_IMAGES } from "@/lib/seo";
 
 const SITE = "https://www.raftingkampkonak.com";
 const WHATSAPP_NUM = "38765848110";
@@ -267,6 +268,7 @@ export async function generateMetadata({
       title: raw["title"],
       description: raw["subtitle"],
       type: "website",
+      images: [...OG_IMAGES],
     },
   };
 }

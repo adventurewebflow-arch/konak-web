@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Hero } from "@/components/Hero";
 import { BlogCard } from "@/components/BlogCard";
 import {
@@ -8,28 +8,41 @@ import {
   GRID_SLUGS,
   blogPostUrl,
 } from "@/lib/blog-posts";
-
-export const metadata: Metadata = {
-  title: "Blog — vodič za rafting na Tari i avanture | Rafting kamp Konak",
-  description:
-    "Savjeti i vodiči za rafting na Tari: kada je najbolje vrijeme, šta ponijeti, NP Sutjeska, smeštaj i priprema za višednevni rafting. Blog rafting kampa Konak.",
-  keywords: [
-    "rafting Tara blog",
-    "kada rafting Tara",
-    "šta ponijeti rafting",
-    "vodič rafting BiH",
-    "NP Sutjeska vodič",
-  ],
-  alternates: { canonical: "https://www.raftingkampkonak.com/blog" },
-  openGraph: {
-    title: "Blog — vodič za rafting na Tari | Rafting kamp Konak",
-    description:
-      "Savjeti i vodiči prije dolaska na Taru — priprema, oprema i avanture u okolini.",
-    type: "website",
-  },
-};
+import { OG_IMAGES } from "@/lib/seo";
 
 const SITE = "https://www.raftingkampkonak.com";
+
+type PostCopy = {
+  cat: string;
+  title: string;
+  excerpt: string;
+  imageAlt: string;
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Blog" });
+  return {
+    title: { absolute: t("meta.title") },
+    description: t("meta.description"),
+    keywords: t("meta.keywords")
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean),
+    alternates: { canonical: `${SITE}/blog` },
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "website",
+      locale: locale === "en" ? "en_US" : "sr_BA",
+      images: [...OG_IMAGES],
+    },
+  };
+}
 
 export default async function BlogPage({
   params,
@@ -38,31 +51,38 @@ export default async function BlogPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Blog");
+  const tp = await getTranslations("BlogClanak");
 
-  const featured = BLOG_POSTS[FEATURED_SLUG];
+  const posts = tp.raw("posts") as Record<string, PostCopy>;
+  const featuredMeta = BLOG_POSTS[FEATURED_SLUG];
+  const featured = posts[FEATURED_SLUG];
 
   const schemaLd = {
     "@context": "https://schema.org",
     "@type": "Blog",
-    name: "Blog — Rafting kamp Konak",
-    description:
-      "Savjeti i vodiči za rafting na Tari i avanture u okolini kampa Konak.",
+    name: t("meta.ogTitle"),
+    description: t("meta.description"),
     url: `${SITE}/blog`,
     publisher: {
       "@type": "Organization",
       name: "Rafting kamp Konak",
     },
-    blogPost: Object.values(BLOG_POSTS).map((post) => ({
-      "@type": "BlogPosting",
-      headline: post.title,
-      description: post.excerpt,
-      url: blogPostUrl(post.slug),
-      datePublished: post.datePublished,
-      author: {
-        "@type": "Organization",
-        name: "Rafting kamp Konak",
-      },
-    })),
+    blogPost: Object.keys(BLOG_POSTS).map((slug) => {
+      const meta = BLOG_POSTS[slug];
+      const copy = posts[slug];
+      return {
+        "@type": "BlogPosting",
+        headline: copy.title,
+        description: copy.excerpt,
+        url: blogPostUrl(slug),
+        datePublished: meta.datePublished,
+        author: {
+          "@type": "Organization",
+          name: "Rafting kamp Konak",
+        },
+      };
+    }),
   };
 
   return (
@@ -70,12 +90,12 @@ export default async function BlogPage({
       <Hero
         variant="b"
         visina="48vh"
-        eyebrow="Vodič kroz Taru"
-        naslov="Blog i savjeti"
-        lead="Sve što treba da znate prije dolaska — vrijeme, priprema, oprema i najljepše tačke kanjona Tare."
+        eyebrow={t("hero.eyebrow")}
+        naslov={t("hero.naslov")}
+        lead={t("hero.lead")}
         slika={{
-          src: "/images/blog-konak/blog-najbolje-vrijeme-rafting-konak.jpg",
-          alt: "Rafting na Tari — blog i vodiči kampa Konak",
+          src: featuredMeta.image,
+          alt: t("hero.imageAlt"),
         }}
       />
 
@@ -83,43 +103,32 @@ export default async function BlogPage({
         <div className="kon-container flex flex-col gap-10">
           <BlogCard
             featured
-            kategorija="IZDVOJENO · PLANIRANJE"
+            kategorija={t("featuredKategorija")}
             naslov={featured.title}
             opis={featured.excerpt}
-            href={`/blog/${featured.slug}`}
-            linkLabel="Pročitaj"
+            href={`/blog/${featuredMeta.slug}`}
+            linkLabel={t("readLabel")}
             slika={{
-              src: "/images/blog-konak/blog-najbolje-vrijeme-rafting-konak.jpg",
-              alt: "Rafting na Tari — kada je najbolje vrijeme za spust",
+              src: featuredMeta.image,
+              alt: featured.imageAlt,
             }}
           />
 
           <div className="kon-posts">
             {GRID_SLUGS.map((slug) => {
-              const post = BLOG_POSTS[slug];
-              const slika =
-                slug === "np-sutjeska-vodic"
-                  ? {
-                      src: "/images/blog-konak/blog-np-sutjeska-konak.jpg",
-                      alt: "Nacionalni park Sutjeska — izlet iz kampa",
-                    }
-                  : slug === "aktivnosti-na-tari"
-                    ? {
-                        src: "/images/hero-slike-konak/izleti-konak.png",
-                        alt: "Aktivnosti i izleti oko Tare",
-                      }
-                    : {
-                        src: "/images/blog-konak/blog-sta-ponijeti-konak.jpg",
-                        alt: "Šta ponijeti na rafting — oprema na Tari",
-                      };
+              const meta = BLOG_POSTS[slug];
+              const post = posts[slug];
               return (
                 <BlogCard
                   key={slug}
                   kategorija={post.cat}
                   naslov={post.title}
                   opis={post.excerpt}
-                  href={`/blog/${post.slug}`}
-                  slika={slika}
+                  href={`/blog/${meta.slug}`}
+                  slika={{
+                    src: meta.image,
+                    alt: post.imageAlt,
+                  }}
                 />
               );
             })}

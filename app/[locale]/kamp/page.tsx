@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { setRequestLocale, getTranslations } from "next-intl/server";
+import { OG_IMAGES } from "@/lib/seo";
 import { Hero } from "@/components/Hero";
 import { SectionHeader } from "@/components/SectionHeader";
 import { StayCard } from "@/components/StayCard";
@@ -81,6 +82,7 @@ export async function generateMetadata({
       description: t("meta.ogDescription"),
       type: "website",
       locale: locale === "en" ? "en_US" : "sr_BA",
+      images: [...OG_IMAGES],
     },
   };
 }

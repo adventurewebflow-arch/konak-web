@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
+import { OG_IMAGES } from "@/lib/seo";
 import { Hero } from "@/components/Hero";
 import { TourCard } from "@/components/TourCard";
 
@@ -25,6 +26,7 @@ export async function generateMetadata({
       title: tk("meta.ogTitle"),
       description: tk("meta.ogDescription"),
       type: "website",
+      images: [...OG_IMAGES],
     },
   };
 }

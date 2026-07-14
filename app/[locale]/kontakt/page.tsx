@@ -1,27 +1,10 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import { OG_IMAGES } from "@/lib/seo";
 import { Hero } from "@/components/Hero";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ContactForm } from "@/components/ContactForm";
-
-export const metadata: Metadata = {
-  title: "Kontakt — Rafting kamp Konak | Hum, Foča, BiH",
-  description:
-    "Kontaktirajte rafting kamp Konak: telefon i WhatsApp +387 65 848 110, konakraftingkamp@gmail.com, Hum, Foča 73300, BiH. Rezervacije, upiti i lokacija.",
-  keywords: [
-    "rafting kamp Konak kontakt",
-    "rafting Tara telefon",
-    "rezervacija rafting Foča",
-  ],
-  alternates: { canonical: "https://www.raftingkampkonak.com/kontakt" },
-  openGraph: {
-    title: "Kontakt — Rafting kamp Konak",
-    description:
-      "Odgovaramo brzo — putem WhatsApp-a, telefona ili e-maila.",
-    type: "website",
-  },
-};
 
 const SITE = "https://www.raftingkampkonak.com";
 const PHONE_DISPLAY = "+387 65 848 110";
@@ -102,6 +85,31 @@ function ContactCard({
   );
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Kontakt" });
+  return {
+    title: { absolute: t("meta.title") },
+    description: t("meta.description"),
+    keywords: t("meta.keywords")
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean),
+    alternates: { canonical: `${SITE}/kontakt` },
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "website",
+      locale: locale === "en" ? "en_US" : "sr_BA",
+      images: [...OG_IMAGES],
+    },
+  };
+}
+
 export default async function KontaktPage({
   params,
 }: {
@@ -109,6 +117,7 @@ export default async function KontaktPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Kontakt");
 
   const schemaLd = {
     "@context": "https://schema.org",
@@ -144,9 +153,9 @@ export default async function KontaktPage({
       <Hero
         variant="b"
         visina="44vh"
-        eyebrow="Kontakt"
-        naslov="Javite nam se"
-        lead="Odgovaramo brzo — putem WhatsApp-a, telefona ili e-maila. Pomažemo oko termina, smeštaja, prevoza i grupa."
+        eyebrow={t("hero.eyebrow")}
+        naslov={t("hero.naslov")}
+        lead={t("hero.lead")}
       />
 
       <section className="kon-section">
@@ -154,20 +163,20 @@ export default async function KontaktPage({
           <div className="flex flex-col gap-4">
             <ContactCard
               href={PHONE_WA}
-              label="Telefon · WhatsApp · Viber"
+              label={t("cards.phoneLabel")}
               value={PHONE_DISPLAY}
               ikona={<IconPhone />}
             />
             <ContactCard
               href={`mailto:${EMAIL}`}
-              label="E-mail"
+              label={t("cards.emailLabel")}
               value={EMAIL}
               ikona={<IconMail />}
             />
             <ContactCard
               href={MAPS_URL}
-              label="Lokacija"
-              value="Hum, Foča 73300, BiH"
+              label={t("cards.locationLabel")}
+              value={t("cards.locationValue")}
               ikona={<IconPin />}
             />
 
@@ -186,7 +195,7 @@ export default async function KontaktPage({
             </div>
 
             <p className="rounded-card border border-line-chip bg-surface-warm px-4 py-3 text-center font-sans text-sm text-text-secondary">
-              Sezona maj–oktobar · odgovaramo svakog dana
+              {t("season")}
             </p>
           </div>
 
@@ -196,9 +205,12 @@ export default async function KontaktPage({
 
       <section className="kon-section bg-sand">
         <div className="kon-container">
-          <SectionHeader eyebrow="Gdje se nalazimo" naslov="Kamp na sastavu Tare i Pive" />
+          <SectionHeader
+            eyebrow={t("location.eyebrow")}
+            naslov={t("location.naslov")}
+          />
           <iframe
-            title="Google mapa — Rafting kamp Konak"
+            title={t("location.iframeTitle")}
             src={MAPS_EMBED}
             className="mt-8 w-full rounded-card-lg border border-line shadow-soft"
             style={{ height: "clamp(320px, 46vh, 460px)" }}

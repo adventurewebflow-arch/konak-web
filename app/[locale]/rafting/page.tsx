@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { setRequestLocale, getTranslations } from "next-intl/server";
+import { OG_IMAGES } from "@/lib/seo";
 import { Hero } from "@/components/Hero";
 import { TourCard } from "@/components/TourCard";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -108,6 +109,7 @@ export async function generateMetadata({
       title: tr("meta.ogTitle"),
       description: tr("meta.ogDescription"),
       type: "website",
+      images: [...OG_IMAGES],
     },
   };
 }

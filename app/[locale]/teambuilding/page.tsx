@@ -1,99 +1,32 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import { OG_IMAGES } from "@/lib/seo";
 import { Hero } from "@/components/Hero";
 import { SectionHeader } from "@/components/SectionHeader";
 import { FeatureSplit } from "@/components/FeatureSplit";
 import { ActivityCard } from "@/components/ActivityCard";
 import { GroupInquiryForm } from "@/components/GroupInquiryForm";
 
-export const metadata: Metadata = {
-  title: "Teambuilding i grupe — rafting, kanjoning, smještaj | Rafting kamp Konak",
-  description:
-    "Teambuilding i grupni aranžmani u kampu Konak: rafting na Tari, kanjoning, planinski izleti, smještaj i hrana za grupe do 60 osoba, livada za timske aktivnosti.",
-  keywords: [
-    "teambuilding rafting",
-    "grupe Tara",
-    "corporate retreat BiH",
-    "tim building Foča",
-    "grupni aranžman rafting",
-  ],
-  alternates: { canonical: "https://www.raftingkampkonak.com/teambuilding" },
-  openGraph: {
-    title: "Teambuilding i grupe — Rafting kamp Konak",
-    description:
-      "Tim koji dijeli avanturu na rijeci jača na obali — smještaj, hrana i aktivnosti na jednom mjestu.",
-    type: "website",
-  },
-};
-
 const SITE = "https://www.raftingkampkonak.com";
 
-const AKTIVNOSTI = [
-  {
-    kategorija: "Tim na vodi",
-    naslov: "Rafting za timove",
-    trajanje: "1–4 dana",
-    nivo: "pocetnici" as const,
-    opis:
-      "Spust niz Taru u istom čamcu — koordinacija, povjerenje i adrenalin koji tim spaja bolje nego bilo koja sala.",
-    cijena: "na upit",
-    href: "/rafting",
-    slika: {
-      src: "/images/hero-slike-konak/raftingtarom-jednodnevni.jpg",
-      alt: "Rafting za timove na Tari",
-    },
-  },
-  {
-    kategorija: "Adrenalin",
-    naslov: "Kanjoning",
-    trajanje: "1 dan",
-    nivo: "srednje" as const,
-    opis:
-      "Nevidio ili Hrčavka — izlazak iz zone komfora zajedno, uz iskusne vodiče i opremu po najvišim standardima.",
-    cijena: "na upit",
-    href: "/kanjoning",
-    slika: {
-      src: "/images/hero-slike-konak/kanjoning-pocetna.jpg",
-      alt: "Kanjoning za grupe — spust kroz kanjon",
-    },
-  },
-  {
-    kategorija: "Priroda",
-    naslov: "NP Sutjeska i planina",
-    trajanje: "cijeli dan",
-    nivo: "lagano" as const,
-    opis:
-      "Prašuma Perućica, Trnovačko jezero ili Maglić — dan u prirodi kao predah od vode i prilika za timsku povezanost.",
-    cijena: "na upit",
-    href: "/izleti",
-    slika: {
-      src: "/images/blog-konak/blog-np-sutjeska-konak.jpg",
-      alt: "Izlet u Nacionalni park Sutjeska za timove",
-    },
-  },
-];
+const ACT_HREFS = ["/rafting", "/kanjoning", "/izleti"] as const;
+const ACT_IMAGES = [
+  "/images/hero-slike-konak/raftingtarom-jednodnevni.jpg",
+  "/images/hero-slike-konak/kanjoning-pocetna.jpg",
+  "/images/blog-konak/blog-np-sutjeska-konak.jpg",
+] as const;
+const ACT_NIVO = ["pocetnici", "srednje", "lagano"] as const;
 
-const PONUDA: { naslov: string; opis: string; ikona: ReactNode }[] = [
-  {
-    naslov: "Smještaj za grupe",
-    opis:
-      "13 bungalova — privatna kupatila, mir uz rijeku. Spavanje i hrana za grupe do 60 osoba: firme, škole i sportski timovi.",
-    ikona: <IconBed />,
-  },
-  {
-    naslov: "Hrana za cijeli tim",
-    opis:
-      "Pun pansion domaće kuhinje — jela ispod sača, roštilj i prilagođeni meniji. Vegetarijansko i vegansko na upit.",
-    ikona: <IconMeal />,
-  },
-  {
-    naslov: "Livada i prostor",
-    opis:
-      "Prostrana livada uz kamp — idealna za timske igre, prezentacije na otvorenom, roštilj i večernje druženje uz vatru.",
-    ikona: <IconMeadow />,
-  },
-];
+type ActItem = {
+  kategorija: string;
+  naslov: string;
+  trajanje: string;
+  opis: string;
+  imageAlt: string;
+};
+
+type OfferItem = { naslov: string; opis: string };
 
 function IconBed() {
   return (
@@ -143,6 +76,37 @@ function IconMeadow() {
   );
 }
 
+const OFFER_ICONS: ReactNode[] = [
+  <IconBed key="bed" />,
+  <IconMeal key="meal" />,
+  <IconMeadow key="meadow" />,
+];
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Teambuilding" });
+  return {
+    title: { absolute: t("meta.title") },
+    description: t("meta.description"),
+    keywords: t("meta.keywords")
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean),
+    alternates: { canonical: `${SITE}/teambuilding` },
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "website",
+      locale: locale === "en" ? "en_US" : "sr_BA",
+      images: [...OG_IMAGES],
+    },
+  };
+}
+
 export default async function TeambuildingPage({
   params,
 }: {
@@ -150,13 +114,29 @@ export default async function TeambuildingPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Teambuilding");
+  const tc = await getTranslations("Common");
+
+  const actItems = t.raw("activities.items") as ActItem[];
+  const AKTIVNOSTI = actItems.map((a, i) => ({
+    kategorija: a.kategorija,
+    naslov: a.naslov,
+    trajanje: a.trajanje,
+    nivo: ACT_NIVO[i],
+    opis: a.opis,
+    cijena: tc("onRequest"),
+    href: ACT_HREFS[i],
+    slika: { src: ACT_IMAGES[i], alt: a.imageAlt },
+  }));
+
+  const offerItems = t.raw("offer.items") as OfferItem[];
+  const chips = t.raw("whyKonak.chips") as string[];
 
   const schemaLd = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "Teambuilding i grupni aranžmani — Rafting kamp Konak",
-    description:
-      "Teambuilding programi sa raftingom, kanjoningom i planinskim izletima. Smještaj, domaća hrana i livada za grupe do 60 osoba.",
+    name: t("meta.ogTitle"),
+    description: t("meta.description"),
     url: `${SITE}/teambuilding`,
     provider: {
       "@type": "LocalBusiness",
@@ -180,74 +160,63 @@ export default async function TeambuildingPage({
       <Hero
         variant="b"
         visina="58vh"
-        eyebrow="Teambuilding i grupe"
-        naslov={
-          <>
-            Tim koji dijeli
-            <br />
-            avanturu, jača
-          </>
-        }
-        lead="Firme, škole i sportske ekipe — sve na jednom mjestu uz Taru. Rafting, kanjoning, smještaj i domaća kuhinja bez logističke muke."
+        eyebrow={t("hero.eyebrow")}
+        naslov={t("hero.naslov")}
+        lead={t("hero.lead")}
         slika={{
           src: "/images/galerija/galerija25.jpg",
-          alt: "Teambuilding grupa na raftingu u kampu Konak",
+          alt: t("hero.imageAlt"),
         }}
       />
 
-      {/* Zašto Konak */}
       <section className="kon-section">
         <div className="kon-container">
           <FeatureSplit
-            eyebrow="Zašto Konak"
-            naslov="Sve što timu treba — na obali rijeke."
-            opis="Nema transfera po gradu, nema gužve u restoranu u pet sati poslije podne. Kamp Konak je zatvoreni ekosistem: smještaj, hrana, oprema i vodiči na istom mjestu. Tim provodi dan na vodi ili u kanjonu, veče uz roštilj i rakiju dobrodošlice, a livada čeka za timske igre ili prezentacije."
-            chips={[
-              "Do 60 osoba",
-              "Profesionalni vodiči",
-              "Pun pansion",
-              "Livada za grupe",
-              "Parking za autobus",
-            ]}
-            imageBadge="Grupe do 60"
+            eyebrow={t("whyKonak.eyebrow")}
+            naslov={t("whyKonak.naslov")}
+            opis={t("whyKonak.opis")}
+            chips={chips}
+            imageBadge={t("whyKonak.imageBadge")}
             slika={{
               src: "/images/galerija/galerija40.jpg",
-              alt: "Grupni gosti u opremi ispred kampa Konak",
+              alt: t("whyKonak.imageAlt"),
             }}
           />
         </div>
       </section>
 
-      {/* 3 aktivnosti */}
       <section className="kon-section bg-sand">
         <div className="kon-container">
           <SectionHeader
-            eyebrow="Aktivnosti"
-            naslov="Program po mjeri vašeg tima"
+            eyebrow={t("activities.eyebrow")}
+            naslov={t("activities.naslov")}
           />
           <div className="kon-acts mt-10">
             {AKTIVNOSTI.map((a) => (
-              <ActivityCard key={a.naslov} {...a} ctaLabel="Detaljnije →" />
+              <ActivityCard
+                key={a.naslov}
+                {...a}
+                ctaLabel={t("activities.ctaLabel")}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Smještaj / hrana / livada */}
       <section className="kon-section">
         <div className="kon-container">
           <SectionHeader
-            eyebrow="Za grupe"
-            naslov="Smještaj, hrana i livada"
+            eyebrow={t("offer.eyebrow")}
+            naslov={t("offer.naslov")}
           />
           <div className="kon-grp-offer mt-10">
-            {PONUDA.map((p) => (
+            {offerItems.map((p, i) => (
               <div
                 key={p.naslov}
                 className="rounded-card border border-line bg-surface p-6"
               >
                 <span className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-pill bg-mint-surface text-teal">
-                  {p.ikona}
+                  {OFFER_ICONS[i]}
                 </span>
                 <h3 className="font-display text-lg font-semibold text-ink">
                   {p.naslov}
@@ -261,19 +230,17 @@ export default async function TeambuildingPage({
         </div>
       </section>
 
-      {/* Forma za upit grupe */}
       <section className="kon-section bg-sand" id="upit">
         <div className="kon-container">
           <SectionHeader
-            eyebrow="Upit"
-            naslov="Forma za upit grupe"
+            eyebrow={t("form.eyebrow")}
+            naslov={t("form.naslov")}
           />
           <p
             className="mt-4 max-w-2xl font-sans text-body"
             style={{ fontSize: "clamp(16px, 1.35vw, 18px)", lineHeight: 1.65 }}
           >
-            Popunite formu — šaljemo upit direktno u kamp. Možete i preko WhatsApp-a.
-            Minimum 4 osobe; odgovaramo sa ponudom i tačnim terminom.
+            {t("form.lead")}
           </p>
           <div className="mt-8 max-w-2xl">
             <GroupInquiryForm />

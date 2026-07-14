@@ -1,85 +1,53 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import { OG_IMAGES } from "@/lib/seo";
 import { Hero } from "@/components/Hero";
 import { SectionHeader } from "@/components/SectionHeader";
 import { BlogCard } from "@/components/BlogCard";
 import { CtaButton } from "@/components/CtaButton";
 
-export const metadata: Metadata = {
-  title: "Aktivnosti — NP Sutjeska, kanjoning, Durmitor, jahanje | Kamp Konak",
-  description:
-    "Aktivnosti iz rafting kampa Konak: cjelodnevni izlet u NP Sutjeska (Perućica, Trnovačko jezero), kanjoning Nevidio i Hrčavka, Durmitor, Zelengora, Pivsko jezero i jahanje konja.",
-  keywords: [
-    "NP Sutjeska izlet",
-    "kanjoning Nevidio",
-    "kanjoning Hrčavka",
-    "Durmitor izlet",
-    "Zelengora",
-    "Pivsko jezero",
-    "jahanje konja Tara",
-  ],
-  alternates: { canonical: "https://www.raftingkampkonak.com/aktivnosti" },
-  openGraph: {
-    title: "Aktivnosti oko kampa Konak — više od rijeke",
-    description:
-      "Nacionalni parkovi, kanjoning, planinski izleti i jahanje — spojite više avantura u jedan boravak.",
-    type: "website",
-  },
-};
-
 const SITE = "https://www.raftingkampkonak.com";
 
-// Samo aktivnosti — smještaj, hrana, kamp i teambuilding imaju svoje stranice.
-const AKTIVNOSTI = [
-  {
-    kategorija: "Glavna ponuda · od 50€",
-    naslov: "Rafting na Tari",
-    opis:
-      "Jednodnevni i višednevni aranžmani niz najdublji kanjon Evrope — od brzog spusta do četvorodnevne ekspedicije cijelim tokom Tare.",
-    href: "/rafting",
-    linkLabel: "Sve rafting ture →",
-    slika: {
-      src: "/images/hero-slike-konak/raftingtarom-jednodnevni.jpg",
-      alt: "Rafting na Tari — spust kroz kanjon",
+const HREFS = ["/rafting", "/kanjoning", "/izleti", "/kontakt"] as const;
+const IMAGES = [
+  "/images/hero-slike-konak/raftingtarom-jednodnevni.jpg",
+  "/images/hero-slike-konak/kanjoning-pocetna.jpg",
+  "/images/blog-konak/blog-np-sutjeska-konak.jpg",
+  "/images/hero-slike-konak/np-sutjeska-konak.webp",
+] as const;
+
+type Item = {
+  kategorija: string;
+  naslov: string;
+  opis: string;
+  linkLabel: string;
+  imageAlt: string;
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Aktivnosti" });
+  return {
+    title: { absolute: t("meta.title") },
+    description: t("meta.description"),
+    keywords: t("meta.keywords")
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean),
+    alternates: { canonical: `${SITE}/aktivnosti` },
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "website",
+      locale: locale === "en" ? "en_US" : "sr_BA",
+      images: [...OG_IMAGES],
     },
-  },
-  {
-    kategorija: "Kanjoning · od 120€",
-    naslov: "Nevidio i Hrčavka",
-    opis:
-      "Skokovi, tobogani i prolazi kroz dva najljepša kanjona u okolini — za početnike (Hrčavka) i iskusne avanturiste (Nevidio).",
-    href: "/kanjoning",
-    linkLabel: "Pogledaj kanjoning →",
-    slika: {
-      src: "/images/hero-slike-konak/kanjoning-pocetna.jpg",
-      alt: "Kanjoning — prolaz kroz kanjon",
-    },
-  },
-  {
-    kategorija: "Izleti · na upit",
-    naslov: "NP Sutjeska, Durmitor i planine",
-    opis:
-      "Perućica, Trnovačko jezero, Durmitor, Zelengora i Piva — planinski izleti i kombinacije uz rafting boravak.",
-    href: "/izleti",
-    linkLabel: "Pogledaj izlete →",
-    slika: {
-      src: "/images/blog-konak/blog-np-sutjeska-konak.jpg",
-      alt: "Nacionalni park Sutjeska — planinski izlet iz kampa",
-    },
-  },
-  {
-    kategorija: "Avantura · na upit",
-    naslov: "Jahanje konja",
-    opis:
-      "Jahanje na vrhu najdubljeg kanjona Tare — pogled odozgo na rijeku, hiljadu i tri stotine metara ispod. Organizujemo na upit.",
-    href: "/kontakt",
-    linkLabel: "Pošalji upit →",
-    slika: {
-      src: "/images/hero-slike-konak/np-sutjeska-konak.webp",
-      alt: "Pogled na kanjon Tare — jahanje na vidikovcu",
-    },
-  },
-];
+  };
+}
 
 export default async function AktivnostiPage({
   params,
@@ -88,6 +56,14 @@ export default async function AktivnostiPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Aktivnosti");
+
+  const items = t.raw("items") as Item[];
+  const AKTIVNOSTI = items.map((item, i) => ({
+    ...item,
+    href: HREFS[i],
+    slika: { src: IMAGES[i], alt: item.imageAlt },
+  }));
 
   const itemListLd = {
     "@context": "https://schema.org",
@@ -105,28 +81,26 @@ export default async function AktivnostiPage({
       <Hero
         variant="b"
         visina="54vh"
-        eyebrow="Više od rijeke"
-        naslov="Aktivnosti oko kampa"
-        lead="Nacionalni parkovi, kanjoning, planinski izleti i jahanje — spojite više avantura u jedan boravak. Sve organizujemo iz kampa."
+        eyebrow={t("hero.eyebrow")}
+        naslov={t("hero.naslov")}
+        lead={t("hero.lead")}
         slika={{
           src: "/images/blog-konak/blog-np-sutjeska-konak.jpg",
-          alt: "Aktivnosti oko kampa — pogled na NP Sutjeska",
+          alt: t("hero.imageAlt"),
         }}
       />
 
       <section className="kon-section">
         <div className="kon-container">
           <SectionHeader
-            eyebrow="Pregled ponude"
-            naslov="Sve aktivnosti na jednom mjestu."
+            eyebrow={t("overview.eyebrow")}
+            naslov={t("overview.naslov")}
           />
           <p
             className="mt-5 max-w-2xl font-sans text-body text-text-secondary"
             style={{ fontSize: "clamp(16px, 1.35vw, 18px)", lineHeight: 1.65 }}
           >
-            Iz kampa organizujemo rafting na Tari, kanjoning kroz Nevidio i
-            Hrčavku, planinske izlete (NP Sutjeska, Durmitor, Zelengora, Piva) i
-            jahanje. Spojite više avantura u jedan boravak — sve polazi odavde.
+            {t("overview.lead")}
           </p>
           <div className="kon-acts mt-10">
             {AKTIVNOSTI.map((a) => (
@@ -157,18 +131,17 @@ export default async function AktivnostiPage({
               letterSpacing: "-0.025em",
             }}
           >
-            Spojite rafting i aktivnosti.
+            {t("cta.headline")}
           </h2>
           <p
             className="mt-5 max-w-xl font-sans text-body"
             style={{ fontSize: "clamp(16px, 1.4vw, 19px)", lineHeight: 1.65 }}
           >
-            U rezervaciji možete dodati NP Sutjeska i druge aktivnosti uz svoju
-            rafting turu — javite nam šta vas zanima.
+            {t("cta.lead")}
           </p>
           <div className="mt-8">
             <CtaButton href="/rezervacija" arrow>
-              Pošalji upit
+              {t("cta.button")}
             </CtaButton>
           </div>
         </div>

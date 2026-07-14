@@ -4,12 +4,26 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Hero } from "@/components/Hero";
 import { CtaButton } from "@/components/CtaButton";
 import {
-  BLOG_POSTS,
   blogPostUrl,
   getAllBlogSlugs,
+  getBlogPostMeta,
 } from "@/lib/blog-posts";
+import { OG_IMAGES } from "@/lib/seo";
 
 const SITE = "https://www.raftingkampkonak.com";
+
+type BlogBlock = { h: string; p: string[] };
+
+type PostCopy = {
+  cat: string;
+  title: string;
+  excerpt: string;
+  metaTitle: string;
+  metaDescription: string;
+  lead: string;
+  ctaLabel: string;
+  blocks: BlogBlock[];
+};
 
 export function generateStaticParams() {
   return getAllBlogSlugs().map((clanak) => ({ clanak }));
@@ -20,18 +34,26 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string; clanak: string }>;
 }): Promise<Metadata> {
-  const { clanak } = await params;
-  const post = BLOG_POSTS[clanak];
+  const { locale, clanak } = await params;
+  const meta = getBlogPostMeta(clanak);
+  if (!meta) return {};
+
+  const t = await getTranslations({ locale, namespace: "BlogClanak" });
+  const posts = t.raw("posts") as Record<string, PostCopy>;
+  const post = posts[clanak];
   if (!post) return {};
+
   return {
-    title: post.metaTitle,
+    title: { absolute: post.metaTitle },
     description: post.metaDescription,
     alternates: { canonical: `${SITE}/blog/${clanak}` },
     openGraph: {
       title: post.metaTitle,
       description: post.metaDescription,
       type: "article",
-      publishedTime: post.datePublished,
+      publishedTime: meta.datePublished,
+      locale: locale === "en" ? "en_US" : "sr_BA",
+      images: [...OG_IMAGES],
     },
   };
 }
@@ -42,18 +64,26 @@ export default async function BlogClanakPage({
   params: Promise<{ locale: string; clanak: string }>;
 }) {
   const { locale, clanak } = await params;
-  const post = BLOG_POSTS[clanak];
-  if (!post) notFound();
+  const meta = getBlogPostMeta(clanak);
+  if (!meta) notFound();
+
   setRequestLocale(locale);
   const tc = await getTranslations("Common");
+  const t = await getTranslations("BlogClanak");
+
+  const posts = t.raw("posts") as Record<string, PostCopy>;
+  const post = posts[clanak];
+  if (!post) notFound();
+
+  const hasCta = Boolean(meta.ctaHref);
 
   const schemaLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
     description: post.lead,
-    url: blogPostUrl(post.slug),
-    datePublished: post.datePublished,
+    url: blogPostUrl(meta.slug),
+    datePublished: meta.datePublished,
     author: {
       "@type": "Organization",
       name: "Rafting kamp Konak",
@@ -62,7 +92,7 @@ export default async function BlogClanakPage({
       "@type": "Organization",
       name: "Rafting kamp Konak",
     },
-    mainEntityOfPage: `${SITE}/blog/${post.slug}`,
+    mainEntityOfPage: `${SITE}/blog/${meta.slug}`,
   };
 
   return (
@@ -115,22 +145,18 @@ export default async function BlogClanakPage({
             className="rounded-card-lg px-8 py-10 text-center sm:px-12"
             style={{ background: "var(--gradient-hero)" }}
           >
-            <h3
-              className="font-display text-2xl font-bold text-white sm:text-3xl"
-            >
-              {post.cta ? "Spremni za sljedeći korak?" : "Spremni za Taru?"}
+            <h3 className="font-display text-2xl font-bold text-white sm:text-3xl">
+              {hasCta ? t("cta.headline") : t("cta.headlineDefault")}
             </h3>
             <p
               className="mx-auto mt-4 max-w-lg font-sans text-on-dark"
               style={{ fontSize: "clamp(16px, 1.4vw, 18px)", lineHeight: 1.65 }}
             >
-              {post.cta
-                ? "Javite nam šta vas zanima — dogovaramo termin i detalje."
-                : "Izaberite turu i termin — cijenu računamo odmah, a upit šaljete u dva klika."}
+              {hasCta ? t("cta.lead") : t("cta.leadDefault")}
             </p>
             <div className="mt-8">
-              <CtaButton href={post.cta?.href ?? "/rezervacija"} arrow>
-                {post.cta?.label ?? "Rezerviši rafting"}
+              <CtaButton href={meta.ctaHref ?? "/rezervacija"} arrow>
+                {hasCta ? post.ctaLabel : t("cta.defaultButton")}
               </CtaButton>
             </div>
           </div>

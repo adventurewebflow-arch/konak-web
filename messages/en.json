@@ -931,8 +931,6 @@
       "button": "Open in Google Maps"
     }
   },
-  "OpremaSigurnost": {},
-  "FAQ": {},
   "Galerija": {
     "meta": {
       "title": "Photo Gallery — Tara Rafting, Camp & Food | Camp Konak",
@@ -1043,7 +1041,23 @@
       }
     }
   },
-  "Blog": {},
+  "Blog": {
+    "meta": {
+      "title": "Tara Rafting Guides & Tips | Camp Konak Blog",
+      "description": "Guides and tips for rafting the Tara: best time to go, what to pack, Sutjeska National Park, and how to prepare for a multi-day trip. From Camp Konak.",
+      "keywords": "Tara rafting blog, best time Tara rafting, what to pack rafting, rafting guide Bosnia, Sutjeska NP guide",
+      "ogTitle": "Tara Rafting Guides & Tips | Camp Konak Blog",
+      "ogDescription": "Practical guides before you reach the Tara — timing, kit, and adventures around the camp."
+    },
+    "hero": {
+      "eyebrow": "A Guide to the Tara",
+      "naslov": "Blog & tips",
+      "lead": "Everything you need before you arrive — timing, preparation, gear and the finest stretches of the Tara canyon.",
+      "imageAlt": "Rafting the Tara — Camp Konak blog and guides"
+    },
+    "featuredKategorija": "FEATURED · PLANNING",
+    "readLabel": "Read"
+  },
   "TuraDetalj": {
     "ui": {
       "schedule": "HOW THE DAY UNFOLDS",
@@ -1438,7 +1452,201 @@
       }
     }
   },
-  "BlogClanak": {},
+  "BlogClanak": {
+    "cta": {
+      "headline": "Ready for the next step?",
+      "headlineDefault": "Ready for the Tara?",
+      "lead": "Tell us what you're after — we'll sort the dates and the details.",
+      "leadDefault": "Pick a tour and a date — we calculate the price on the spot, and you send the inquiry in two clicks.",
+      "defaultButton": "Book rafting"
+    },
+    "posts": {
+      "kada-na-taru": {
+        "cat": "PLANNING · GUIDE",
+        "title": "When Is the Best Time to Raft the Tara?",
+        "excerpt": "May or August? What the river is like month by month — when it's fastest, when it's warmest, and who should choose which.",
+        "metaTitle": "Best Time to Raft the Tara River — Month by Month | Camp Konak",
+        "metaDescription": "May or August? A guide to the Tara rafting season — water levels by month, when it's fastest, when it's warmest, and which month suits whom. From guides with 20+ years on the river.",
+        "lead": "The question we get most often before a booking. There isn't one answer — because the Tara in May is not the Tara in August. Here's how the river looks month by month, so you can pick the Tara that fits you.",
+        "ctaLabel": "See rafting tours",
+        "imageAlt": "Rafting the Tara — when is the best time for a run",
+        "blocks": [
+          {
+            "h": "The short answer",
+            "p": [
+              "If you want adrenaline and fast water — May and June. If you're bringing a family and want warm water and a calmer run — July and August. If you want quiet, no crowds and the canyon's finest colours — September. Our season runs from May to October."
+            ]
+          },
+          {
+            "h": "May and June — the Tara shows its teeth",
+            "p": [
+              "This is when snowmelt from Durmitor and Sinjajevina pours into the Tara. The river is fast, full, and the rapids are at their fiercest. A run that takes three and a half hours in August flies by in an hour and a half in May — the river simply carries you.",
+              "The water is cold. But we kit you out in a wetsuit, boots and a life vest, so it doesn't feel the way it sounds. What you do feel is the river doing its job while you hold the paddle.",
+              "This is the month for people who want a real ride. Not for those looking for a gentle afternoon on the water."
+            ]
+          },
+          {
+            "h": "July and August — the Tara for everyone",
+            "p": [
+              "Water levels drop, the river warms up, and it grows gentler. All eighteen rapids are still there — but they're softer, and between them there's far more time to look up at the canyon walls.",
+              "This is when we swim the most. We stop at emerald pools, jump from the rocks, bask on the raft. The run lasts longer — three and a half hours — and that isn't a drawback; it's exactly why people come then.",
+              "If you're bringing children or someone sitting in a raft for the first time, this is your month."
+            ]
+          },
+          {
+            "h": "September and October — the canyon to yourself",
+            "p": [
+              "The crowds leave; the river stays. The water is still pleasantly warm, the days are clear, and the canyon takes on colours you don't see in summer — beech turns gold, the rock reddens under the lower sun.",
+              "Fewer people on the water means everything runs without rush. For us these are the finest days on the Tara, even if guests rarely know that in advance."
+            ]
+          },
+          {
+            "h": "Whatever you choose",
+            "p": [
+              "The Tara is drinkable — and that's not marketing. It's a river you can scoop up in your palm and drink, on any stretch. The first year people are surprised; the next year they tell the story themselves.",
+              "Whichever month you pick, there's a guide in the boat who's been running the Tara for over twenty years. They know the line for that water level, where to stop and where not to. You just show up."
+            ]
+          }
+        ]
+      },
+      "sta-ponijeti-na-rafting": {
+        "cat": "PREP · GUIDE",
+        "title": "What to Pack for Rafting the Tara",
+        "excerpt": "A proven checklist — what we provide and what you bring yourself: clothing, footwear, sun protection and the small things that make a difference on the river.",
+        "metaTitle": "What to Pack for Rafting the Tara — Checklist | Camp Konak",
+        "metaDescription": "What to pack for rafting the Tara: clothing, footwear, sun protection and a waterproof bag. A practical guide from Camp Konak — what we supply and what you bring.",
+        "lead": "Rafting the Tara doesn't take much kit — most of it comes from us. But a few small things can turn a good day on the river into a perfect one. Here's a proven list, from guides with over 20 years on the Tara.",
+        "ctaLabel": "See rafting tours",
+        "imageAlt": "What to pack for rafting — gear on the Tara",
+        "blocks": [
+          {
+            "h": "What we provide (you don't need to bring)",
+            "p": [
+              "Full rafting kit on site: wetsuit, neoprene boots, wind jacket, life vest, helmet and paddle. Everything is fitted to your size before we leave.",
+              "The raft also carries waterproof barrels for anything you want to keep dry on the run. Every trip is led by a licensed guide — your safety and navigation through the canyon are on them."
+            ]
+          },
+          {
+            "h": "What you must bring",
+            "p": [
+              "Swimwear or shorts (worn under the wetsuit), a towel and dry clothes for after the run. Footwear that can get wet — sandals, trainers or boots you don't mind soaking.",
+              "Sun protection: cream, a cap or hat, glasses with a strap. The sun on the water and in the canyon is stronger than you expect, even under cloud."
+            ]
+          },
+          {
+            "h": "For multi-day tours",
+            "p": [
+              "Toiletries, a warm layer for evenings at camp, a head torch and a phone charger. You sleep in a bungalow, but nights by the river can be cooler.",
+              "A waterproof pouch or dry bag for documents and your phone on the water, plus a little cash for anything you need at camp."
+            ]
+          },
+          {
+            "h": "What NOT to bring",
+            "p": [
+              "Jewellery, watches and valuables — leave them in your room or at home. Large amounts of cash aren't needed.",
+              "A phone without waterproof protection — always keep it in a sealed case or dry bag. There's no room for risk on the water."
+            ]
+          },
+          {
+            "h": "A short packing list",
+            "p": [
+              "Swimwear, towel, dry clothes, sun protection and water shoes. For multi-day trips — warm layers and toiletries.",
+              "Leave the kit, vest, helmet, guide and meals to us — that's our job."
+            ]
+          }
+        ]
+      },
+      "np-sutjeska-vodic": {
+        "cat": "NATURE · DAY TRIP",
+        "title": "Sutjeska National Park — A Day Trip from Camp",
+        "excerpt": "A full-day trip: Perućica primeval forest, Lake Trnovačko and Maglić. What you can fit into one day and how we organise it.",
+        "metaTitle": "Sutjeska National Park — Day Trip from Camp Konak | Perućica, Trnovačko, Maglić",
+        "metaDescription": "A full-day trip to Sutjeska National Park from Camp Konak: Perućica primeval forest, Lake Trnovačko and Maglić. What fits in one day and how we arrange it.",
+        "lead": "While you're here, Bosnia and Herzegovina's oldest national park is an hour's drive from camp. For guests staying several days, a day in Sutjeska is a natural break from the river — and many say it was the highlight of their stay.",
+        "ctaLabel": "Send inquiry",
+        "imageAlt": "Sutjeska National Park — a day trip from camp",
+        "blocks": [
+          {
+            "h": "Perućica primeval forest",
+            "p": [
+              "One of the last primeval forests in Europe. Never felled, never touched — trees that grow, fall and rot exactly as they did a thousand years ago. You enter only with a park guide, and that's a good thing: without one you'd walk past everything and see nothing.",
+              "From the Dragoš Sedlo viewpoint the whole forest opens up, and Skakavac waterfall drops some eighty metres into the valley."
+            ]
+          },
+          {
+            "h": "Lake Trnovačko",
+            "p": [
+              "A heart-shaped glacial lake at 1,517 metres, ringed by Volujak and Maglić. You hike up to it — not a stroll, but not an expedition either. The water is painfully cold and clear to the bottom. It's one of those places people come back to these mountains for."
+            ]
+          },
+          {
+            "h": "Maglić — the roof of Bosnia",
+            "p": [
+              "At 2,386 metres, the highest peak in Bosnia and Herzegovina. For those in good shape with a full day to spare. On a clear day you can see Durmitor and half of Montenegro from the top."
+            ]
+          },
+          {
+            "h": "How it works from camp",
+            "p": [
+              "We organise Sutjeska trips for guests on a multi-day package with us. We tailor it to how many of you there are, how fit you are and how much time you have — then choose Perućica, Trnovačko, or both.",
+              "Price on request. Guests who've already booked a rafting package get our best rate."
+            ]
+          },
+          {
+            "h": "What to bring",
+            "p": [
+              "Decent trainers or hiking boots, a jacket (it's colder up there than in the canyon, even in summer), water and something to eat. Everything else we sort together."
+            ]
+          }
+        ]
+      },
+      "aktivnosti-na-tari": {
+        "cat": "ADVENTURE · GUIDE",
+        "title": "What to Do on the Tara Besides Rafting",
+        "excerpt": "Nevidio and Hrčavka canyoning, horseback riding above Europe's deepest canyon, Sutjeska NP, Durmitor — what you can layer onto a rafting stay.",
+        "metaTitle": "What to Do on the Tara Besides Rafting | Camp Konak",
+        "metaDescription": "Nevidio and Hrčavka canyoning, horseback riding above Europe's deepest canyon, Sutjeska NP, Durmitor — everything you can combine with rafting at Camp Konak.",
+        "lead": "Rafting is why most people come. But when you stay a few days, the river turns out to be only the beginning — everything around it is worth just as much.",
+        "ctaLabel": "See our offers",
+        "imageAlt": "Activities and day trips around the Tara",
+        "blocks": [
+          {
+            "h": "Canyoning — Nevidio and Hrčavka",
+            "p": [
+              "Two canyons, two completely different days.",
+              "Hrčavka sits in Sutjeska National Park near Tjentište — gentler, pure enjoyment. Waterfalls, deep pools, natural slides. If this is your first canyon, start here. Fit teenagers from fourteen up can join.",
+              "Nevidio is another story. The Komarnica canyon under Durmitor — the last canyon conquered in Europe. Narrow passages, jumps of up to eight metres, swimming through ice-cold water. This one is for fit adventurers, and you don't enter without a licensed guide."
+            ]
+          },
+          {
+            "h": "Horseback riding above Europe's deepest canyon",
+            "p": [
+              "This is the activity guests don't expect — which is why it surprises them most. You ride up on the rim of the Tara's deepest canyon, with 1,300 metres of gorge beneath you. Looking down on the river you ran yesterday is something else entirely.",
+              "We arrange it on request — get in touch and we'll sort the details."
+            ]
+          },
+          {
+            "h": "Sutjeska National Park",
+            "p": [
+              "Perućica primeval forest, Lake Trnovačko, Maglić. A full-day trip from camp for guests on a multi-day package. More detail in a separate article."
+            ]
+          },
+          {
+            "h": "Durmitor and Lake Piva",
+            "p": [
+              "The Durmitor Ring is one of the most beautiful roads in the Balkans — and we drive it every year on the way to the four-day tour put-in. Lake Piva is on the route: turquoise, quiet, water that looks painted."
+            ]
+          },
+          {
+            "h": "How to combine it all",
+            "p": [
+              "Easiest through a multi-day package. Rafting is the spine; everything else grafts on — a day on the water, a day in the canyon, a day in the mountains. Tell us how many days you have and what pulls you, and we'll build it."
+            ]
+          }
+        ]
+      }
+    }
+  },
   "MobileCtaBar": {
     "callAria": "Call us",
     "whatsappAria": "Message us on WhatsApp"
@@ -1542,7 +1750,7 @@
     },
     "hero": {
       "eyebrow": "Equipment & Safety",
-      "naslov": "Your safety, our business.",
+      "naslov": "Your safety, our responsibility.",
       "lead": "The river commands respect, not contempt. That's why nothing is left to chance here — from equipment to the weather check.",
       "imageAlt": "Certified river guide and group in gear on the Tara"
     },

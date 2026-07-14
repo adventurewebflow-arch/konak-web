@@ -1,121 +1,68 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import { OG_IMAGES } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
 import { Hero } from "@/components/Hero";
 import { SectionHeader } from "@/components/SectionHeader";
 import { BlogCard } from "@/components/BlogCard";
 import { CtaButton } from "@/components/CtaButton";
 
-export const metadata: Metadata = {
-  title: "Izleti i kombinacije — rafting + Sutjeska, Durmitor, kanjoning | Konak",
-  description:
-    "Izleti i kombinacije iz kampa Konak: rafting uz NP Sutjeska, kanjoning ili Durmitor. Spojite više avantura u jedan boravak. Planinski izleti (Perućica, Zelengora, Trnovačko) na upit.",
-  keywords: [
-    "izleti Tara",
-    "rafting kombinacije",
-    "rafting i Sutjeska",
-    "rafting Durmitor",
-    "izleti Foča",
-    "kombinovani aranžmani rafting",
-  ],
-  alternates: { canonical: "https://www.raftingkampkonak.com/izleti" },
-  openGraph: {
-    title: "Izleti i kombinacije — rafting + Sutjeska, Durmitor, kanjoning",
-    description:
-      "Najljepši boravci spajaju vodu i planinu — rafting kao okosnica, a uz njega što god poželite.",
-    type: "website",
-  },
-};
-
 const SITE = "https://www.raftingkampkonak.com";
 
-const KOMBINACIJE = [
-  {
-    kategorija: "Najtraženije · na upit",
-    naslov: "Rafting + NP Sutjeska",
-    opis:
-      "Dan na vodi i dan u prašumi Perućici i kod Trnovačkog jezera — voda i planina u balansu. Cijena na upit.",
-    href: "/kontakt",
-    linkLabel: "Pošalji upit →",
-    slika: {
-      src: "/images/blog-konak/blog-np-sutjeska-konak.jpg",
-      alt: "Rafting i izlet u Nacionalni park Sutjeska",
-    },
-  },
-  {
-    kategorija: "Za avanturiste · od 120€",
-    naslov: "Rafting + kanjoning",
-    opis:
-      "Dupla doza adrenalina — spust niz Taru i probijanje kroz Nevidio ili Hrčavku. Za one koji ne staju.",
-    href: "/kanjoning",
-    linkLabel: "Pogledaj kanjoning →",
-    slika: {
-      src: "/images/hero-slike-konak/kanjoning-pocetna.jpg",
-      alt: "Kombinacija raftinga i kanjoninga",
-    },
-  },
-  {
-    kategorija: "Opušteno · na upit",
-    naslov: "Rafting + Durmitor",
-    opis:
-      "Adrenalin na rijeci, pa miran dan na Durmitoru i kod Crnog jezera. Cijena na upit.",
-    href: "/kontakt",
-    linkLabel: "Pošalji upit →",
-    slika: {
-      src: "/images/hero-slike-konak/izleti-konak.png",
-      alt: "Planinski izlet na Durmitor uz rafting boravak",
-    },
-  },
-];
+const COMBO_HREFS = ["/kontakt", "/kanjoning", "/kontakt"] as const;
+const COMBO_IMAGES = [
+  "/images/blog-konak/blog-np-sutjeska-konak.jpg",
+  "/images/hero-slike-konak/kanjoning-pocetna.jpg",
+  "/images/hero-slike-konak/izleti-konak.png",
+] as const;
 
-const PLANINSKI = [
-  {
-    naslov: "Prašuma Perućica",
-    meta: "NP Sutjeska · na upit",
-    opis: "Najveća prašuma u Evropi — cjelodnevni izlet iz kampa, na upit.",
-    slika: {
-      src: "/images/hero-slike-konak/izleti-konak.png",
-      alt: "Planinski izlet — prašuma Perućica",
+const MOUNTAIN_IMAGES = [
+  "/images/hero-slike-konak/izleti-konak.png",
+  "/images/blog-konak/blog-np-sutjeska-konak.jpg",
+  "/images/hero-slike-konak/izleti-konak.png",
+  "/images/hero-slike-konak/izleti-konak.png",
+  "/images/hero-slike-konak/np-sutjeska-konak.webp",
+] as const;
+
+type ComboItem = {
+  kategorija: string;
+  naslov: string;
+  opis: string;
+  linkLabel: string;
+  imageAlt: string;
+};
+
+type MountainItem = {
+  naslov: string;
+  meta: string;
+  opis: string;
+  imageAlt: string;
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Izleti" });
+  return {
+    title: { absolute: t("meta.title") },
+    description: t("meta.description"),
+    keywords: t("meta.keywords")
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean),
+    alternates: { canonical: `${SITE}/izleti` },
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "website",
+      locale: locale === "en" ? "en_US" : "sr_BA",
+      images: [...OG_IMAGES],
     },
-  },
-  {
-    naslov: "Trnovačko jezero",
-    meta: "Hiking · na upit",
-    opis: "Hiking do srcolikog jezera ispod Maglića — uz rafting boravak.",
-    slika: {
-      src: "/images/blog-konak/blog-np-sutjeska-konak.jpg",
-      alt: "Izlet do Trnovačkog jezera",
-    },
-  },
-  {
-    naslov: "Zelengora",
-    meta: "Gorska jezera · na upit",
-    opis: "Gorska jezera i pejzaži Zelengore — organizujemo iz kampa.",
-    slika: {
-      src: "/images/hero-slike-konak/izleti-konak.png",
-      alt: "Planinski izlet na Zelengoru",
-    },
-  },
-  {
-    naslov: "Pivsko jezero",
-    meta: "Izlet · na upit",
-    opis: "Kratki izlet do Pivskog jezera — mirna pauza uz vodu.",
-    slika: {
-      src: "/images/hero-slike-konak/izleti-konak.png",
-      alt: "Izlet do Pivskog jezera",
-    },
-  },
-  {
-    naslov: "Jahanje konja",
-    meta: "Avantura · na upit",
-    opis:
-      "Jahanje na vrhu najdubljeg kanjona Tare — pogled odozgo na rijeku, hiljadu i tri stotine metara ispod. Organizujemo na upit.",
-    slika: {
-      src: "/images/hero-slike-konak/np-sutjeska-konak.webp",
-      alt: "Pogled na kanjon Tare — jahanje na vidikovcu",
-    },
-  },
-];
+  };
+}
 
 export default async function IzletiPage({
   params,
@@ -124,6 +71,24 @@ export default async function IzletiPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Izleti");
+
+  const comboItems = t.raw("combinations.items") as ComboItem[];
+  const KOMBINACIJE = comboItems.map((k, i) => ({
+    ...k,
+    href: COMBO_HREFS[i],
+    slika: { src: COMBO_IMAGES[i], alt: k.imageAlt },
+  }));
+
+  const mountainItems = t.raw("mountain.items") as MountainItem[];
+  const PLANINSKI = mountainItems.map((p, i) => ({
+    ...p,
+    slika: { src: MOUNTAIN_IMAGES[i], alt: p.imageAlt },
+  }));
+
+  const blogLead = t("mountain.blogLead");
+  const blogLink = t("mountain.blogLink");
+  const blogParts = blogLead.split(blogLink);
 
   const itemListLd = {
     "@context": "https://schema.org",
@@ -141,24 +106,21 @@ export default async function IzletiPage({
       <Hero
         variant="b"
         visina="52vh"
-        eyebrow="Izleti i kombinacije"
-        naslov={
-          <>
-            Spojite više{" "}
-            <span className="text-teal-light">avantura.</span>
-          </>
-        }
-        lead="Najljepši boravci su oni koji spoje vodu i planinu. Evo kombinacija koje gosti najviše vole — rafting kao okosnica, a uz njega što god poželite."
+        eyebrow={t("hero.eyebrow")}
+        naslov={t("hero.naslov")}
+        lead={t("hero.lead")}
         slika={{
           src: "/images/hero-slike-konak/izleti-konak.png",
-          alt: "Planinski izleti oko Tare i NP Sutjeska",
+          alt: t("hero.imageAlt"),
         }}
       />
 
-      {/* 4.3 — Omiljene kombinacije */}
       <section className="kon-section">
         <div className="kon-container">
-          <SectionHeader eyebrow="Kombinovani aranžmani" naslov="Omiljene kombinacije" />
+          <SectionHeader
+            eyebrow={t("combinations.eyebrow")}
+            naslov={t("combinations.naslov")}
+          />
           <div className="kon-combos mt-10">
             {KOMBINACIJE.map((k) => (
               <BlogCard
@@ -175,19 +137,11 @@ export default async function IzletiPage({
         </div>
       </section>
 
-      {/* 4.4 — Planinski izleti (sekundarno) */}
       <section className="kon-section bg-sand">
         <div className="kon-container">
           <SectionHeader
-            eyebrow="Planinski izleti"
-            naslov={
-              <>
-                Planinski izleti{" "}
-                <span className="font-sans text-[0.55em] font-semibold text-muted">
-                  — na upit, uz rafting boravak
-                </span>
-              </>
-            }
+            eyebrow={t("mountain.eyebrow")}
+            naslov={t("mountain.naslov")}
           />
           <div className="kon-combos mt-8">
             {PLANINSKI.map((p) => (
@@ -197,25 +151,24 @@ export default async function IzletiPage({
                 naslov={p.naslov}
                 opis={p.opis}
                 href="/kontakt"
-                linkLabel="Pošalji upit →"
+                linkLabel={t("mountain.linkLabel")}
                 slika={p.slika}
               />
             ))}
           </div>
           <p className="mt-6 font-sans text-sm text-text-secondary">
-            Više o svakom izletu pročitajte u{" "}
+            {blogParts[0]}
             <Link
               href="/blog/aktivnosti-na-tari"
               className="font-semibold text-terracotta transition-colors hover:text-terracotta-hover"
             >
-              vodiču kroz aktivnosti
-            </Link>{" "}
-            ili nas pitajte direktno.
+              {blogLink}
+            </Link>
+            {blogParts[1] ?? ""}
           </p>
         </div>
       </section>
 
-      {/* 4.5 — Tamna CTA kartica */}
       <section className="kon-section">
         <div className="kon-container">
           <div
@@ -230,18 +183,17 @@ export default async function IzletiPage({
                 letterSpacing: "-0.02em",
               }}
             >
-              Sklopimo vaš program
+              {t("cta.headline")}
             </h2>
             <p
               className="mt-4 max-w-lg font-sans text-on-dark"
               style={{ fontSize: "clamp(16px, 1.4vw, 18px)", lineHeight: 1.65 }}
             >
-              Recite nam koliko dana ostajete i šta vas zanima — napravimo
-              kombinaciju po vašoj mjeri.
+              {t("cta.lead")}
             </p>
             <div className="mt-8">
               <CtaButton href="/kontakt" arrow>
-                Pošalji upit
+                {t("cta.button")}
               </CtaButton>
             </div>
           </div>

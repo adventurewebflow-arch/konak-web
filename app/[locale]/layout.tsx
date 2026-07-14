@@ -7,6 +7,7 @@ import { routing } from "@/i18n/routing";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { MobileCtaBar } from "@/components/MobileCtaBar";
+import { OG_IMAGES, SITE_URL } from "@/lib/seo";
 import "../globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -24,7 +25,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.raftingkampkonak.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Rafting kamp Konak",
     template: "%s | Rafting kamp Konak",
@@ -38,14 +39,7 @@ export const metadata: Metadata = {
     title: "Rafting kamp Konak",
     description:
       "Rafting na Tari, kanjoning, smještaj i domaća kuhinja u Humu kod Foče.",
-    images: [
-      {
-        url: "/og-konak.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Rafting kamp Konak — rafting na Tari",
-      },
-    ],
+    images: [...OG_IMAGES],
   },
   twitter: {
     card: "summary_large_image",
