@@ -1,4 +1,4 @@
-export const SITE_URL = "https://konak-web-gamma.vercel.app";
+export const SITE_URL = "https://www.raftingkampkonak.com";
 
 export const OG_IMAGE = {
   url: "/og-konak.jpg",

@@ -34,6 +34,7 @@ export const metadata: Metadata = {
     "Rafting kamp Konak — rafting na Tari, kanjoning, smještaj i domaća kuhinja u Humu kod Foče.",
   openGraph: {
     type: "website",
+    url: SITE_URL,
     siteName: "Rafting kamp Konak",
     locale: "sr_BA",
     title: "Rafting kamp Konak",

@@ -1,3 +1,5 @@
+import { SITE_URL } from "@/lib/seo";
+
 export interface BlogPostMeta {
   slug: string;
   datePublished: string;
@@ -5,8 +7,6 @@ export interface BlogPostMeta {
   ctaHref?: string;
   image: string;
 }
-
-const SITE = "https://www.raftingkampkonak.com";
 
 export const BLOG_POSTS: Record<string, BlogPostMeta> = {
   "kada-na-taru": {
@@ -48,7 +48,7 @@ export const GRID_SLUGS = [
 ] as const;
 
 export function blogPostUrl(slug: string) {
-  return `${SITE}/blog/${slug}`;
+  return `${SITE_URL}/blog/${slug}`;
 }
 
 export function getAllBlogSlugs() {

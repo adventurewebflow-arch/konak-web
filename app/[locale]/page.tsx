@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { OG_IMAGES } from "@/lib/seo";
+import { OG_IMAGES, SITE_URL } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
 import { Hero } from "@/components/Hero";
 import { TourCard } from "@/components/TourCard";
@@ -133,6 +133,9 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Home" });
 
+  const canonical =
+    locale === "en" ? `${SITE_URL}/en` : SITE_URL;
+
   return {
     title: { absolute: t("meta.title") },
     description: t("meta.description"),
@@ -140,10 +143,12 @@ export async function generateMetadata({
       .split(",")
       .map((k) => k.trim())
       .filter(Boolean),
+    alternates: { canonical },
     openGraph: {
       title: t("meta.ogTitle"),
       description: t("meta.ogDescription"),
       type: "website",
+      url: canonical,
       locale: locale === "en" ? "en_US" : "sr_BA",
       images: [...OG_IMAGES],
     },
