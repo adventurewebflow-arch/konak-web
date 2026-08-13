@@ -9,7 +9,7 @@ const SITE = "https://www.raftingkampkonak.com";
 
 const OFFERS: {
   name: string;
-  price: number;
+  price?: number;
   url: string;
   description?: string;
 }[] = [
@@ -21,6 +21,7 @@ const OFFERS: {
   },
   { name: "Dvodnevni aranžman", price: 100, url: "/rafting/dvodnevni" },
   { name: "Trodnevni aranžman", price: 140, url: "/rafting/trodnevni" },
+  { name: "Vikend rafting — dva spusta", url: "/rafting/vikend-dva-raftinga" },
   { name: "Rafting cijelom Tarom", price: 300, url: "/rafting/cijela-tara" },
   { name: "Kanjoning Nevidio", price: 130, url: "/kanjoning/nevidio" },
   { name: "Kanjoning Hrčavka", price: 120, url: "/kanjoning/hrcavka" },
@@ -69,9 +70,10 @@ export default async function PonudaPage({
       "@type": "Offer",
       position: i + 1,
       name: o.name,
-      price: o.price,
-      priceCurrency: "EUR",
       url: `${SITE}${o.url}`,
+      ...(typeof o.price === "number"
+        ? { price: o.price, priceCurrency: "EUR" }
+        : {}),
       ...("description" in o && o.description
         ? { description: o.description }
         : {}),

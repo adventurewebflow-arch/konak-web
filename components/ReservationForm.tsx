@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { CtaButton } from "./CtaButton";
+import { TrodnevniPriceBlock } from "./TrodnevniPriceBlock";
 import {
   CAMP_EMAIL,
   EMPTY_UTM,
@@ -13,7 +14,7 @@ import {
 
 const WHATSAPP_NUM = "38765848110";
 
-const TOUR_KEYS = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8"] as const;
+const TOUR_KEYS = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"] as const;
 type TourKey = (typeof TOUR_KEYS)[number];
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -72,6 +73,7 @@ function Stepper({
 export function ReservationForm() {
   const t = useTranslations("Forms");
   const tr = useTranslations("Rezervacija");
+  const tc = useTranslations("Common");
   const tours = TOUR_KEYS.map((k) => ({ id: k, label: tr(`form.tours.${k}`) }));
   const [turaKey, setTuraKey] = useState<TourKey>("t1");
   const [datum, setDatum] = useState("");
@@ -202,6 +204,14 @@ export function ReservationForm() {
             );
           })}
         </div>
+        {turaKey === "t3" && (
+          <div className="mt-4 rounded-card border border-line bg-surface-warm p-4">
+            <span className="mb-2 block font-sans text-[11px] font-bold uppercase tracking-[0.16em] text-muted">
+              {tc("pricePerPerson")}
+            </span>
+            <TrodnevniPriceBlock variant="light" />
+          </div>
+        )}
       </div>
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2">

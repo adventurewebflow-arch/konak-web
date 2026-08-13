@@ -17,13 +17,14 @@ interface OfferItem {
   href: string;
   tag?: string;
   slika: { src: string; alt: string };
+  groupWeekendPrice?: boolean;
 }
 
 interface OfferGroup {
   id: Filter;
   naslov: string;
   note: string;
-  cols: "4" | "2" | "3";
+  cols: "5" | "4" | "2" | "3";
   stavke: OfferItem[];
 }
 
@@ -39,6 +40,7 @@ const BLOG = "/images/blog-konak";
 const GAL = "/images/galerija";
 
 const COLS_CLS: Record<OfferGroup["cols"], string> = {
+  "5": "kon-cards-5",
   "4": "kon-cards-4",
   "2": "kon-cards-2",
   "3": "kon-cards-3",
@@ -62,7 +64,7 @@ export function PonudaCatalog() {
       id: "rafting",
       naslov: tp("offers.raftingNaslov"),
       note: tp("catalog.raftingNote"),
-      cols: "4",
+      cols: "5",
       stavke: [
         {
           id: "r1",
@@ -99,9 +101,24 @@ export function PonudaCatalog() {
           cijena: "140€",
           href: "/rafting/trodnevni",
           tag: "__featured__",
+          groupWeekendPrice: true,
           slika: {
             src: `${HERO}/raftingtarom-trodnevni.jpg`,
             alt: tp("offers.r3.alt"),
+          },
+        },
+        {
+          id: "r5",
+          kategorija: "rafting",
+          kicker: tp("offers.r5.kicker"),
+          naslov: tp("offers.r5.naslov"),
+          opis: tp("offers.r5.opis"),
+          cijena: ON_REQUEST_PRICE,
+          cijenaLabel: "",
+          href: "/rafting/vikend-dva-raftinga",
+          slika: {
+            src: "/images/rafting/rafting-hero.jpg",
+            alt: tp("offers.r5.alt"),
           },
         },
         {

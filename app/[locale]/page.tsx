@@ -10,6 +10,7 @@ import { ImageSlot } from "@/components/ImageSlot";
 import { ReviewCard } from "@/components/ReviewCard";
 import { BlogCard } from "@/components/BlogCard";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { ON_REQUEST_PRICE } from "@/lib/prices";
 
 const IMG = "/images/hero-slike-konak";
 const BLOG_IMG = "/images/blog-konak";
@@ -21,6 +22,7 @@ const TOUR_META = [
   { key: "oneDay" as const, href: "/rafting/jednodnevni", cijena: "50€", featured: false, src: `${IMG}/raftingtarom-jednodnevni.jpg` },
   { key: "twoDay" as const, href: "/rafting/dvodnevni", cijena: "100€", featured: false, src: `${IMG}/raftingtarom-dvodnevni.jpg` },
   { key: "threeDay" as const, href: "/rafting/trodnevni", cijena: "140€", featured: true, src: `${IMG}/raftingtarom-trodnevni.jpg` },
+  { key: "weekendTwo" as const, href: "/rafting/vikend-dva-raftinga", cijena: ON_REQUEST_PRICE, featured: false, src: "/images/rafting/rafting-hero.jpg" },
   { key: "fourDay" as const, href: "/rafting/cijela-tara", cijena: "300€", featured: false, src: `${IMG}/raftingtarom-cetverodnevni.jpg` },
 ];
 
@@ -324,7 +326,7 @@ export default async function Home({
             link={{ href: "/rafting", label: t("tours.linkAll") }}
           />
 
-          <div className="kon-grid4 mt-10">
+          <div className="kon-grid5 mt-10">
             {TOUR_META.map((tour) => (
               <TourCard
                 key={tour.href}
@@ -338,7 +340,8 @@ export default async function Home({
                   { tekst: t(`tours.${tour.key}.fact3`) },
                 ]}
                 cijena={tour.cijena}
-                cijenaLabel={tc("from")}
+                cijenaLabel={tour.cijena === ON_REQUEST_PRICE ? "" : tc("from")}
+                groupWeekendPrice={tour.key === "threeDay"}
                 slika={{
                   src: tour.src,
                   alt: t(`tours.${tour.key}.alt`),

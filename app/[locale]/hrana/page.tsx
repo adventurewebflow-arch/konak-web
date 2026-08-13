@@ -129,12 +129,12 @@ export default async function HranaPage({
         </div>
       </section>
 
-      {/* Kuvar Brane — istaknuti tekstualni blok */}
+      {/* Naša kuhinja — istaknuti tekstualni blok */}
       <section className="kon-section">
         <div className="kon-container">
           <div className="mx-auto max-w-3xl overflow-hidden rounded-card-lg border border-mint-border bg-mint-surface px-6 py-8 sm:px-10 sm:py-10">
             <span className="font-sans text-xs font-bold uppercase tracking-[0.14em] text-teal">
-              {t("brane.eyebrow")}
+              {t("kuhinja.eyebrow")}
             </span>
             <h2
               className="mt-3 font-display font-extrabold text-pine"
@@ -144,16 +144,22 @@ export default async function HranaPage({
                 letterSpacing: "-0.02em",
               }}
             >
-              {t("brane.naslov")}
+              {t("kuhinja.naslov")}
             </h2>
             <p
               className="mt-5 font-sans text-body"
               style={{ fontSize: "clamp(16px, 1.35vw, 18px)", lineHeight: 1.65 }}
             >
-              {t("brane.p1")}
+              {t("kuhinja.p1")}
+            </p>
+            <p
+              className="mt-4 font-sans text-body"
+              style={{ fontSize: "clamp(16px, 1.35vw, 18px)", lineHeight: 1.65 }}
+            >
+              {t("kuhinja.p2")}
             </p>
             <p className="mt-4 font-sans text-sm font-semibold text-text-secondary">
-              {t("brane.note")}
+              {t("kuhinja.note")}
             </p>
           </div>
         </div>

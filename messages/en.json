@@ -3,6 +3,12 @@
     "home": "Home",
     "offer": "Offers",
     "rafting": "Rafting",
+    "allRafting": "All rafting tours",
+    "tourOneDay": "One-day rafting",
+    "tourTwoDay": "Two-day package",
+    "tourThreeDay": "Three-day package",
+    "tourWeekendTwo": "Weekend rafting — two descents",
+    "tourFullTara": "The Full Tara — 4 days",
     "activities": "Activities",
     "camp": "Camp",
     "aboutCamp": "About the camp",
@@ -54,6 +60,14 @@
     "perPerson": "per person",
     "perPersonSlash": "/ person",
     "pricePerPerson": "Price / person",
+    "trodnevniPrice": {
+      "weekday": "Weekday",
+      "weekend": "Weekend",
+      "two": "2 people",
+      "three": "3 people",
+      "fourPlus": "4+ people",
+      "note": "The more of you there are, the better the price per person."
+    },
     "onRequest": "on request",
     "featured": "MOST POPULAR",
     "featuredTitle": "Most popular",
@@ -189,6 +203,14 @@
         "fact2": "2 nights",
         "fact3": "5 meals",
         "alt": "Three-day rafting on the Tara"
+      },
+      "weekendTwo": {
+        "kicker": "3 DAYS · 2 RAFTS",
+        "title": "Weekend rafting — two descents",
+        "fact1": "3 days (Fri–Sun)",
+        "fact2": "2 nights",
+        "fact3": "2 rafts (Sat + Sun)",
+        "alt": "Weekend rafting — two descents on the Tara"
       },
       "fourDay": {
         "kicker": "4 DAYS",
@@ -453,6 +475,12 @@
         "imageAlt": "Three-day rafting on the Tara",
         "tag": "Most popular"
       },
+      "vikendDva": {
+        "kicker": "3 DAYS · 2 RAFTS",
+        "title": "Weekend rafting — two descents",
+        "description": "Friday, Saturday, Sunday — and the river twice. For those who can't get enough of a single run.",
+        "imageAlt": "Weekend rafting — two descents on the Tara"
+      },
       "cijelaTara": {
         "kicker": "4 DAYS · 76 km · full run",
         "title": "The Full Tara — 4 Days",
@@ -538,10 +566,10 @@
   "Hrana": {
     "meta": {
       "title": "Home-Cooked Balkan Food on the Tara | Camp Konak",
-      "description": "Camp Konak's kitchen: slow-cooked dishes under the sač (traditional iron bell), farm-raised meat from Zavait, organic vegetables and family-recipe desserts. Breakfast, lunch, dinner and a welcome rakija.",
+      "description": "Camp Konak's kitchen: slow-cooked dishes under the sač (traditional iron bell), meat from farms nearby, organic vegetables and family-recipe desserts. Breakfast, lunch, dinner and a welcome rakija.",
       "keywords": "home cooking rafting camp, sač cooking Tara, traditional Balkan food Bosnia, Camp Konak restaurant, organic food Foča",
       "ogTitle": "Food & menu — home-cooked under the sač",
-      "ogDescription": "A kitchen you'll remember — ingredients from the Spasojević farm and local gardens, sač dishes and a fire-grilled dinner."
+      "ogDescription": "A kitchen you'll remember — ingredients from farms and gardens nearby, sač dishes and a fire-grilled dinner."
     },
     "hero": {
       "eyebrow": "Food at camp",
@@ -552,14 +580,15 @@
     },
     "intro": {
       "lead": "Food here is part of the experience, not an afterthought.",
-      "p1": "In the Konak kitchen everything starts with the ingredient. Meat comes from the Spasojević family farm on the mountain Zavait (1,600 m), vegetables from the gardens nearby, and cheese and dairy from high-altitude pastures. We put on the table what is healthy, organic and raised without rush — the way food used to be. For guests who don't eat meat we prepare vegetarian and vegan dishes; just let us know in advance.",
+      "p1": "In the Konak kitchen everything starts with the ingredient. Meat comes from farms nearby, vegetables from the gardens around us, and the kajmak and cheese are homemade, from mountain villages close by. We put on the table what is healthy and raised without rush — the way food used to be. For guests who don't eat meat we prepare vegetarian and vegan dishes; just let us know in advance.",
       "p2": "And before anything else — every guest is welcomed with a shot of rakija (homemade fruit brandy). That's simply how we do things here."
     },
-    "brane": {
+    "kuhinja": {
       "eyebrow": "Our kitchen",
-      "naslov": "Chef Brane",
-      "p1": "Brane has run the camp kitchen since day one — the sač (traditional iron bell used for slow-cooking over embers), the grill and the homemade bread all follow recipes he learned from the Spasojević family. He knows exactly which cut from Zavait goes under the sač, how much patience a good soup needs, and how to make every meal the thing guests talk about when they get home.",
-      "note": "Home cooking · Spasojević farm · Zavait 1,600 m"
+      "naslov": "Home cooking",
+      "p1": "Our cooking is home cooking, the kind you remember from a village kitchen. We don't invent things — we make what we know, with ingredients from the area.",
+      "p2": "Veal cooked under the sač (a traditional iron bell) from local calves, a creamy soup, homemade bread and fresh salads from the gardens nearby. The kajmak and cheese are homemade, from mountain villages close by. Home-baked desserts from old recipes to finish.",
+      "note": "Ingredients from the area · sač and grill"
     },
     "menu": {
       "item1Eyebrow": "Breakfast",
@@ -619,7 +648,7 @@
     "evening": {
       "eyebrow": "Evening at camp",
       "naslov": "The thing you don't plan — and remember most",
-      "p1": "The best part of the Tara isn't on the river. It happens in the evening, when everyone's back, showered and sitting down at the table. The fire, dinner from Brane's kitchen, a glass of wine, and a conversation that starts about the rapids and ends somewhere else entirely.",
+      "p1": "The best part of the Tara isn't on the river. It happens in the evening, when everyone's back, showered and sitting down at the table. The fire, dinner from our kitchen, a glass of wine, and a conversation that starts about the rapids and ends somewhere else entirely.",
       "p2": "People who met in the raft that morning are acting like old friends by nightfall. That's not something we arrange — the river does it for us.",
       "p3": "Dogs are welcome. Parking is free and CCTV-monitored. The river is two steps away and asks nothing of you.",
       "imageAlt": "Evening at Camp Konak — atmosphere by the river"
@@ -779,6 +808,12 @@
         "naslov": "Three-day package",
         "opis": "Our most popular package: rafting, two evenings and a day for Sutjeska or a rest.",
         "alt": "Three-day rafting package on the Tara"
+      },
+      "r5": {
+        "kicker": "3 DAYS · 2 RAFTS",
+        "naslov": "Weekend rafting — two descents",
+        "opis": "Friday, Saturday, Sunday — and the river twice. For those who can't get enough of a single run.",
+        "alt": "Weekend rafting — two descents on the Tara"
       },
       "r4": {
         "kicker": "4 DAYS · FULL RUN",
@@ -1034,10 +1069,11 @@
         "t2": "Two-day package",
         "t3": "Three-day package",
         "t4": "Full Tara run",
-        "t5": "Hrčavka canyoning",
-        "t6": "Nevidio canyoning",
-        "t7": "Teambuilding / group",
-        "t8": "Something else"
+        "t5": "Weekend rafting — two descents",
+        "t6": "Hrčavka canyoning",
+        "t7": "Nevidio canyoning",
+        "t8": "Teambuilding / group",
+        "t9": "Something else"
       }
     }
   },
@@ -1067,6 +1103,7 @@
       "included": "What's included",
       "notIncluded": "Not included",
       "notes": "Good to know",
+      "combineNote": "Every package can be adjusted and combined — rafting, canyoning, day trips and extra days by arrangement.",
       "similarEyebrow": "Explore more",
       "similarTitle": "You might also like",
       "similarAllOffer": "All offers",
@@ -1083,7 +1120,10 @@
       "weekend": "Weekend",
       "perPerson": "per person",
       "waTemplate": "Hi! I'm interested in {title} ({price}). Please let me know your available dates and details.",
-      "fromCanyon": "From the canyon"
+      "fromCanyon": "From the canyon",
+      "weekendNudgeText": "Want to raft two days? Try the weekend package with two descents.",
+      "weekendNudgeCta": "See weekend rafting",
+      "weekendNudgeClose": "Close"
     },
     "notesShared": {
       "n1": "No experience needed — the Tara is ideal even for those sitting in a raft for the very first time.",
@@ -1159,8 +1199,8 @@
         "p5Title": "Shower and lunch",
         "p5Text": "Rafts pull in at camp. Hot water, shower, dry clothes — and then, if you booked with lunch, the reason so many guests come back.",
         "menuTitle": "Menu (with the €65 package)",
-        "menu1Text": "A creamy homemade soup to start. Then veal cooked under the sač (a traditional iron bell) — from local calves, not from something that spent two months travelling from Argentina — with homemade bread baked the same way, over embers. Fresh salads from gardens nearby, and kajmak and cheese from the Spasojević family farm at Zavait, 1,600 metres up. Home-baked desserts to finish.",
-        "menu2Text": "The sač at our place is Brane's domain — a cook since he was nineteen, trained in what were once the finest kitchens of Yugoslavia. What he lifts out from under the embers is not something you learn in a hurry.",
+        "menu1Text": "A creamy homemade soup to start. Then veal cooked under the sač (a traditional iron bell) — from local calves, not from something that spent two months travelling from Argentina — with homemade bread baked the same way, over embers. Fresh salads from gardens nearby, and the kajmak and cheese are homemade, from mountain villages close by. Home-baked desserts to finish.",
+        "menu2Text": "The sač is what we're known for — meat and bread baked over embers, slowly, without rush.",
         "menuNote": "Lunch is optional — but it's the reason so many guests come back.",
         "i1": "Full rafting kit (wetsuit, boots, life jacket, helmet, paddle)",
         "i2": "Licensed river guide in every raft",
@@ -1207,7 +1247,7 @@
         "p1Text": "We greet you with a welcome rakija and settle you into a lux bungalow with a private bathroom. The rest of the day is yours — the river is a step away, the bank is your own, no rush. In the evening, dinner from our kitchen, by the fire, with a conversation that stretches late into the night.",
         "p2Label": "DAY 2",
         "p2Title": "Breakfast, kit up and descent",
-        "p2Text": "Breakfast at camp — burek, fried dough rolls, kajmak and Spasojević cheese. Then kit up, briefing and a minibus ride to Brštanovica. Next: the descent — eighteen kilometres down the Tara and into the Drina, eighteen rapids, swims in emerald water.",
+        "p2Text": "Breakfast at camp — burek, fried dough rolls, homemade kajmak and cheese. Then kit up, briefing and a minibus ride to Brštanovica. Next: the descent — eighteen kilometres down the Tara and into the Drina, eighteen rapids, swims in emerald water.",
         "p3Label": "DAY 2",
         "p3Title": "Lunch and check-out",
         "p3Text": "Back at camp, hot water and lunch — veal under the sač, soup, homemade bread. After lunch the package ends, but nobody's pushing you out — stay as long as you like.",
@@ -1215,10 +1255,10 @@
         "menu1Label": "Dinner (day 1)",
         "menu1Text": "Grilled meat from local farms, fresh salads from nearby gardens. By the fire, with a glass of wine.",
         "menu2Label": "Breakfast (day 2)",
-        "menu2Text": "Homemade burek and warm fried dough rolls, cured meats, kajmak and Spasojević cheese from Zavait, omelettes and sausages.",
+        "menu2Text": "Homemade burek and warm fried dough rolls, cured meats, homemade kajmak and cheese, omelettes and sausages.",
         "menu3Label": "Lunch (day 2)",
         "menu3Text": "Creamy homemade soup, veal cooked under the sač from local calves, bread under the sač, salads. Home-baked desserts.",
-        "menu4Text": "All from Brane's hands — a cook since nineteen, trained in what were once the finest kitchens of Yugoslavia.",
+        "menu4Text": "Everything is made at camp — under the sač, over the grill, with homemade bread.",
         "i1": "1 night in a lux bungalow with private bathroom",
         "i2": "3 meals (dinner, breakfast, lunch)",
         "i3": "Full rafting kit",
@@ -1251,8 +1291,14 @@
         "priceNote": "per person",
         "priceOpt1Label": "Weekday",
         "priceOpt1": "140€",
-        "priceOpt2Label": "Weekend",
-        "priceOpt2": "160€",
+        "priceWeekendLabel": "Weekend",
+        "priceOpt2Label": "2 people",
+        "priceOpt2": "170€",
+        "priceOpt3Label": "3 people",
+        "priceOpt3": "160€",
+        "priceOpt4Label": "4+ people",
+        "priceOpt4": "150€",
+        "priceGroupNote": "The more of you there are, the better the price per person.",
         "durationFact": "3 days",
         "stayFact": "2 nights · lux bungalow",
         "mealsFact": "5 meals",
@@ -1270,14 +1316,14 @@
         "menu1Label": "Dinner (day 1)",
         "menu1Text": "Grilled meat from local farms, fresh salads from nearby gardens, by the fire with a glass of wine.",
         "menu2Label": "Breakfast (day 2)",
-        "menu2Text": "Homemade burek and fried dough rolls, cured meats, kajmak and Spasojević cheese from 1,600 metres up.",
+        "menu2Text": "Homemade burek and fried dough rolls, cured meats, homemade kajmak and cheese from mountain villages close by.",
         "menu3Label": "Lunch (day 2)",
         "menu3Text": "Creamy soup, veal cooked under the sač from local calves, bread under the sač, salads, home-baked desserts.",
         "menu4Label": "Dinner (day 2)",
         "menu4Text": "Another evening by the fire — grilled meat, salads, good company.",
         "menu5Label": "Breakfast (day 3)",
         "menu5Text": "A Balkan breakfast before the road home.",
-        "menu6Text": "All made by Brane — a cook with forty years behind him, trained in what were once the finest kitchens of Yugoslavia.",
+        "menu6Text": "Everything is made at camp — under the sač, over the grill, with homemade bread.",
         "i1": "2 nights in a lux bungalow with private bathroom",
         "i2": "5 meals",
         "i3": "Full rafting kit",
@@ -1301,7 +1347,61 @@
         "similar3Kicker": "HRČAVKA · half day",
         "similar3Cijena": "120€",
         "metaTitle": "Three-Day Tara Rafting Package — from €140 | Camp Konak",
-        "metaDescription": "Our most popular rafting package: full-day descent, 2 nights, 5 meals. Weekday from €140, weekend €160."
+        "metaDescription": "Our most popular rafting package: full-day descent, 2 nights, 5 meals. Weekday €140, weekend €170/€160/€150 per person — the more of you, the better the rate."
+      },
+      "vikend-dva-raftinga": {
+        "badge": "3 days · 2 rafts · Fri–Sun",
+        "title": "Weekend rafting — two descents",
+        "subtitle": "Friday, Saturday, Sunday — and the river twice. For those who can't get enough of a single run.",
+        "price": "on request",
+        "priceNote": "The price of this package is on request, and it's affordable. The second raft (Sunday) is at a lower rate — arranged with the camp manager. Send us your date and group size and we'll send you an offer.",
+        "durationFact": "3 days (Fri–Sun)",
+        "stayFact": "2 nights · lux bungalow",
+        "mealsFact": "full board",
+        "intro": "Arrive Friday, then two days on the water — rafting Saturday and Sunday. Same canyon, never the same run: on the second day you already know the river, so the experience is entirely different. Between the two descents — an evening at camp, home cooking and rest by the water.",
+        "p1Label": "DAY 1 · FRIDAY",
+        "p1Title": "Arrival and check-in",
+        "p1Text": "Arrival, check-in to a lux bungalow, an evening at camp.",
+        "p2Label": "DAY 2 · SATURDAY",
+        "p2Title": "First raft",
+        "p2Text": "Breakfast, then the first raft — 18 km, 18 rapids. Evening at camp.",
+        "p3Label": "DAY 3 · SUNDAY",
+        "p3Title": "Second raft",
+        "p3Text": "Breakfast, then the second raft. After lunch, departure.",
+        "menuTitle": "Menu (full board)",
+        "menu1Label": "Dinner (Friday)",
+        "menu1Text": "Grilled meat from local farms, fresh salads from nearby gardens, by the fire with a glass of wine.",
+        "menu2Label": "Breakfast (Saturday)",
+        "menu2Text": "Homemade burek and fried dough rolls, cured meats, homemade kajmak and cheese from mountain villages close by.",
+        "menu3Label": "Lunch (Saturday)",
+        "menu3Text": "Creamy soup, veal cooked under the sač from local calves, bread under the sač, salads, home-baked desserts.",
+        "menu4Label": "Dinner (Saturday)",
+        "menu4Text": "Another evening by the fire — grilled meat, salads, good company.",
+        "menu5Label": "Breakfast (Sunday)",
+        "menu5Text": "A Balkan breakfast before the second descent.",
+        "menu6Label": "Lunch (Sunday)",
+        "menu6Text": "Hot water after the river, then lunch under the sač before you leave.",
+        "i1": "2 nights in a lux bungalow",
+        "i2": "Meals — full board",
+        "i3": "2 rafts with full kit",
+        "i4": "Licensed river guide",
+        "i5": "All fees and insurance",
+        "notesExtra1": "This package is a weekend stay: arrive Friday, raft Saturday and Sunday. The second descent (Sunday) is at a lower rate — arranged with the camp manager.",
+        "similar1Title": "Three-Day Package",
+        "similar1Opis": "The package guests choose most — and keep coming back to.",
+        "similar1Kicker": "3 DAYS · 2 nights",
+        "similar1Cijena": "140€",
+        "similar1Tag": "Most popular",
+        "similar2Title": "Two-Day Package",
+        "similar2Opis": "An evening at camp and a full day on the river.",
+        "similar2Kicker": "2 DAYS · 1 night",
+        "similar2Cijena": "100€",
+        "similar3Title": "The Full Tara — 4 Days",
+        "similar3Opis": "76 km — the full run and a night at the deepest point of the canyon.",
+        "similar3Kicker": "4 DAYS · 76 km",
+        "similar3Cijena": "300€",
+        "metaTitle": "Weekend Tara Rafting — Two Descents | Camp Konak",
+        "metaDescription": "Friday, Saturday, Sunday — and the river twice. Two Tara descents, 2 nights in a lux bungalow. Price on request."
       },
       "cijela-tara": {
         "badge": "4 days · full run · 76 km",
@@ -1332,7 +1432,7 @@
         "p4Text": "Breakfast at camp and a quiet morning before the drive home.",
         "canyonStay": "We spend the night in the canyon at a small inn at the deepest point of the Tara — clean, well-kept and full of character. Meals are buffet style. This is a place you can almost only reach by river.",
         "menuTitle": "Menu (8 meals, full board)",
-        "menu1Text": "Breakfasts and dinners at camp — homemade burek, fried dough rolls, Spasojević kajmak, grilled meat from local farms, veal under the sač from Brane's kitchen. In the canyon, at the inn, meals are buffet style. Every meal is included in the price.",
+        "menu1Text": "Breakfasts and dinners at camp — homemade burek, fried dough rolls, homemade kajmak, grilled meat from local farms, veal under the sač. In the canyon, at the inn, meals are buffet style. Every meal is included in the price.",
         "i1": "3 nights (lux bungalow + 1 night at the canyon inn)",
         "i2": "8 meals, full board",
         "i3": "Full rafting kit",

@@ -7,7 +7,8 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { CtaButton } from "./CtaButton";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
-type NavChild = { href: string; labelKey: string };
+/** exact: link je aktivan samo na tačnoj putanji (npr. /rafting, a ne i /rafting/trodnevni). */
+type NavChild = { href: string; labelKey: string; exact?: boolean };
 type NavItem =
   | { type: "link"; href: string; labelKey: string }
   | { type: "group"; labelKey: string; href: string; children: NavChild[] };
@@ -15,7 +16,19 @@ type NavItem =
 const NAV_ITEMS: NavItem[] = [
   { type: "link", href: "/", labelKey: "home" },
   { type: "link", href: "/ponuda", labelKey: "offer" },
-  { type: "link", href: "/rafting", labelKey: "rafting" },
+  {
+    type: "group",
+    labelKey: "rafting",
+    href: "/rafting",
+    children: [
+      { href: "/rafting", labelKey: "allRafting", exact: true },
+      { href: "/rafting/jednodnevni", labelKey: "tourOneDay" },
+      { href: "/rafting/dvodnevni", labelKey: "tourTwoDay" },
+      { href: "/rafting/trodnevni", labelKey: "tourThreeDay" },
+      { href: "/rafting/vikend-dva-raftinga", labelKey: "tourWeekendTwo" },
+      { href: "/rafting/cijela-tara", labelKey: "tourFullTara" },
+    ],
+  },
   { type: "link", href: "/aktivnosti", labelKey: "activities" },
   {
     type: "group",
@@ -69,14 +82,13 @@ function HamburgerIcon({ open }: { open: boolean }) {
   );
 }
 
-function pathActive(pathname: string, href: string) {
-  return href === "/"
-    ? pathname === "/"
-    : pathname === href || pathname.startsWith(`${href}/`);
+function pathActive(pathname: string, href: string, exact?: boolean) {
+  if (href === "/" || exact) return pathname === href;
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 function groupActive(pathname: string, children: NavChild[]) {
-  return children.some((c) => pathActive(pathname, c.href));
+  return children.some((c) => pathActive(pathname, c.href, c.exact));
 }
 
 export function Nav() {
@@ -86,9 +98,10 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [navHidden, setNavHidden] = useState(false);
   const [open, setOpen] = useState(false);
-  const [kampOpen, setKampOpen] = useState(false);
-  const [desktopKampOpen, setDesktopKampOpen] = useState(false);
-  const kampRef = useRef<HTMLDivElement>(null);
+  // labelKey grupe koja je otvorena, ili null — da se dvije grupe ne otvaraju zajedno.
+  const [mobileGroup, setMobileGroup] = useState<string | null>(null);
+  const [desktopGroup, setDesktopGroup] = useState<string | null>(null);
+  const desktopNavRef = useRef<HTMLElement>(null);
   const lastY = useRef(0);
   const openRef = useRef(open);
 
@@ -139,8 +152,8 @@ export function Nav() {
 
   useEffect(() => {
     setOpen(false);
-    setKampOpen(false);
-    setDesktopKampOpen(false);
+    setMobileGroup(null);
+    setDesktopGroup(null);
   }, [pathname]);
 
   useEffect(() => {
@@ -148,14 +161,14 @@ export function Nav() {
   }, [open]);
 
   useEffect(() => {
-    if (!desktopKampOpen) return;
+    if (!desktopGroup) return;
     const onPointer = (e: MouseEvent) => {
-      if (kampRef.current && !kampRef.current.contains(e.target as Node)) {
-        setDesktopKampOpen(false);
+      if (desktopNavRef.current && !desktopNavRef.current.contains(e.target as Node)) {
+        setDesktopGroup(null);
       }
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setDesktopKampOpen(false);
+      if (e.key === "Escape") setDesktopGroup(null);
     };
     document.addEventListener("mousedown", onPointer);
     document.addEventListener("keydown", onKey);
@@ -163,7 +176,7 @@ export function Nav() {
       document.removeEventListener("mousedown", onPointer);
       document.removeEventListener("keydown", onKey);
     };
-  }, [desktopKampOpen]);
+  }, [desktopGroup]);
 
   const linkCls = (active: boolean) =>
     `font-sans text-[14.5px] tracking-[0.005em] transition-colors ${
@@ -205,6 +218,7 @@ export function Nav() {
           </Link>
 
           <nav
+            ref={desktopNavRef}
             className="hidden items-center gap-6 min-[960px]:flex xl:gap-7"
             aria-label={t("mainNavAria")}
           >
@@ -224,39 +238,43 @@ export function Nav() {
               }
 
               const active = groupActive(pathname, item.children);
+              const groupOpen = desktopGroup === item.labelKey;
               return (
                 <div
                   key={item.labelKey}
-                  ref={kampRef}
                   className="relative"
-                  onMouseEnter={() => setDesktopKampOpen(true)}
-                  onMouseLeave={() => setDesktopKampOpen(false)}
+                  onMouseEnter={() => setDesktopGroup(item.labelKey)}
+                  onMouseLeave={() =>
+                    setDesktopGroup((v) => (v === item.labelKey ? null : v))
+                  }
                 >
                   <button
                     type="button"
-                    aria-expanded={desktopKampOpen}
+                    aria-expanded={groupOpen}
                     aria-haspopup="menu"
-                    onClick={() => setDesktopKampOpen((v) => !v)}
+                    onClick={() =>
+                      setDesktopGroup((v) => (v === item.labelKey ? null : item.labelKey))
+                    }
                     className={`inline-flex items-center gap-1 ${linkCls(active)}`}
                   >
                     {t(item.labelKey)}
-                    <Chevron open={desktopKampOpen} />
+                    <Chevron open={groupOpen} />
                   </button>
-                  {desktopKampOpen && (
+                  {groupOpen && (
                     <div
                       role="menu"
-                      className="absolute left-1/2 top-full z-50 min-w-[180px] -translate-x-1/2 pt-2"
+                      className="absolute left-1/2 top-full z-50 min-w-[248px] -translate-x-1/2 pt-2"
                     >
-                      <div className="overflow-hidden rounded-card border border-line bg-surface shadow-card">
+                      <div className="overflow-hidden rounded-card border border-line bg-surface shadow-soft">
                         {item.children.map((child) => {
-                          const childActive = pathActive(pathname, child.href);
+                          const childActive = pathActive(pathname, child.href, child.exact);
                           return (
                             <Link
                               key={child.href}
                               href={child.href}
                               role="menuitem"
                               aria-current={childActive ? "page" : undefined}
-                              className={`block border-b border-line px-4 py-3 font-sans text-sm last:border-b-0 ${
+                              className={`block whitespace-nowrap border-b border-line px-4 py-3 font-sans text-sm last:border-b-0 ${
                                 childActive
                                   ? "bg-mint-surface font-bold text-teal"
                                   : "font-semibold text-body hover:bg-sand hover:text-teal"
@@ -325,23 +343,26 @@ export function Nav() {
                 }
 
                 const active = groupActive(pathname, item.children);
+                const groupOpen = mobileGroup === item.labelKey;
                 return (
                   <div key={item.labelKey} className="border-b border-line">
                     <button
                       type="button"
-                      aria-expanded={kampOpen}
-                      onClick={() => setKampOpen((v) => !v)}
+                      aria-expanded={groupOpen}
+                      onClick={() =>
+                        setMobileGroup((v) => (v === item.labelKey ? null : item.labelKey))
+                      }
                       className={`flex w-full items-center justify-between py-[13px] font-sans text-base ${
                         active ? "font-bold text-teal" : "font-semibold text-body"
                       }`}
                     >
                       {t(item.labelKey)}
-                      <Chevron open={kampOpen} />
+                      <Chevron open={groupOpen} />
                     </button>
-                    {kampOpen && (
+                    {groupOpen && (
                       <div className="flex flex-col pb-2 pl-3">
                         {item.children.map((child) => {
-                          const childActive = pathActive(pathname, child.href);
+                          const childActive = pathActive(pathname, child.href, child.exact);
                           return (
                             <Link
                               key={child.href}

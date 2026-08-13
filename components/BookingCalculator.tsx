@@ -10,6 +10,7 @@ import {
   submitToFormspree,
   type UtmFields,
 } from "@/lib/formspree";
+import { TRODNEVNI_WEEKDAY, TRODNEVNI_WEEKEND, trodnevniWeekendPerPerson } from "@/lib/prices";
 
 const WHATSAPP_NUM = "38765848110";
 
@@ -23,12 +24,14 @@ interface Tour {
   weekend: boolean;
   /** Da li petak računamo kao vikend (samo višednevne). */
   friday: boolean;
+  onRequest?: boolean;
 }
 
 const TOURS: Tour[] = [
   { id: "r1", naziv: "Jednodnevni rafting", kratko: "1 dan", wd: 50, we: 60, weekend: true, friday: false },
   { id: "r2", naziv: "Dvodnevni aranžman", kratko: "2 dana", wd: 100, we: 120, weekend: true, friday: true },
-  { id: "r3", naziv: "Trodnevni aranžman", kratko: "3 dana", wd: 140, we: 160, weekend: true, friday: true },
+  { id: "r3", naziv: "Trodnevni aranžman", kratko: "3 dana", wd: TRODNEVNI_WEEKDAY, we: 170, weekend: true, friday: true },
+  { id: "r5", naziv: "Vikend rafting — dva spusta", kratko: "3 dana · 2 spusta", wd: 0, we: 0, weekend: true, friday: true, onRequest: true },
   { id: "r4", naziv: "Rafting cijelom Tarom", kratko: "4 dana", wd: 300, we: 340, weekend: true, friday: true },
   { id: "k1", naziv: "Kanjoning Hrčavka", kratko: "1 dan", wd: 120, we: 130, weekend: true, friday: false },
   { id: "k2", naziv: "Kanjoning Nevidio", kratko: "1 dan", wd: 130, we: 140, weekend: true, friday: false },
@@ -124,6 +127,7 @@ export function BookingCalculator() {
 
   const tour = TOURS.find((t) => t.id === tourId) ?? TOURS[0];
   const weekend = isWeekend(datum, tour);
+  const payingPeople = osobe + djeca;
   const perPerson =
     tour.id === "r1"
       ? weekend
@@ -133,9 +137,11 @@ export function BookingCalculator() {
         : lunch
           ? 65
           : 50
-      : weekend
-        ? tour.we
-        : tour.wd;
+      : tour.id === "r3" && weekend
+        ? trodnevniWeekendPerPerson(payingPeople)
+        : weekend
+          ? tour.we
+          : tour.wd;
   const total = perPerson * osobe + (perPerson / 2) * djeca;
 
   const activeDodaci = DODACI.filter((d) => addons[d.id]);
@@ -157,7 +163,7 @@ export function BookingCalculator() {
       }`,
     );
     if (ishrana) l.push(`Posebna ishrana: ${ishrana}`);
-    l.push(`Procjena: ${total}€`);
+    l.push(`Procjena: ${tour.onRequest ? "na upit" : `${total}€`}`);
     if (ime) l.push(`Ime: ${ime}`);
     if (telefon) l.push(`Telefon: ${telefon}`);
     if (email) l.push(`Email: ${email}`);
@@ -219,8 +225,8 @@ export function BookingCalculator() {
       rucak:
         tour.id === "r1" ? (lunch ? "sa ručkom" : "bez ručka") : "n/a",
       vikend: weekend ? "da" : "ne",
-      cijena_po_osobi: perPerson,
-      procjena_ukupno: `${total}€`,
+      cijena_po_osobi: tour.onRequest ? "na upit" : perPerson,
+      procjena_ukupno: tour.onRequest ? "na upit" : `${total}€`,
       dodatne_aktivnosti: activeDodaci.length
         ? activeDodaci.map((d) => d.naziv).join(", ")
         : "—",
@@ -267,7 +273,7 @@ export function BookingCalculator() {
                     {t.naziv}
                   </span>
                   <span className="mt-0.5 block font-sans text-xs text-muted">
-                    {t.kratko} · od {t.wd}€
+                    {t.onRequest ? `${t.kratko} · ${tc("onRequest")}` : `${t.kratko} · od ${t.wd}€`}
                   </span>
                 </button>
               );
@@ -322,9 +328,11 @@ export function BookingCalculator() {
             />
           </div>
 
-          {weekend && (
+          {weekend && !tour.onRequest && (
             <p className="mt-4 rounded-input border border-amber/40 bg-amber-light/25 px-4 py-3 font-sans text-sm font-semibold text-ink">
-              Izabran je vikend — primjenjuje se vikend cijena ({perPerson}€ / os.).
+              {tour.id === "r3"
+                ? `Izabran je vikend — grupna cijena ${perPerson}€ / os. (2 os. ${TRODNEVNI_WEEKEND.two}€ · 3 os. ${TRODNEVNI_WEEKEND.three}€ · 4+ ${TRODNEVNI_WEEKEND.fourPlus}€).`
+                : `Izabran je vikend — primjenjuje se vikend cijena (${perPerson}€ / os.).`}
             </p>
           )}
         </div>
@@ -424,10 +432,10 @@ export function BookingCalculator() {
                 {osobe} os.
               </span>
               <span className="shrink-0 font-semibold text-white">
-                {perPerson * osobe}€
+                {tour.onRequest ? tc("onRequest") : `${perPerson * osobe}€`}
               </span>
             </li>
-            {djeca > 0 && (
+            {djeca > 0 && !tour.onRequest && (
               <li className="flex items-start justify-between gap-3">
                 <span className="text-on-dark-muted">
                   Djeca 6–12 (50%) × {djeca}
@@ -454,7 +462,7 @@ export function BookingCalculator() {
               Ukupno (procjena)
             </span>
             <span className="font-display text-4xl font-extrabold text-teal-light">
-              {total}€
+              {tour.onRequest ? tc("onRequest") : `${total}€`}
             </span>
           </div>
 

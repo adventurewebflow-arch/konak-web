@@ -8,6 +8,7 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { CtaButton } from "@/components/CtaButton";
 import { GallerySlider } from "@/components/GallerySlider";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { ON_REQUEST_PRICE } from "@/lib/prices";
 
 const SITE = "https://www.raftingkampkonak.com";
 const HERO_IMG = "/images/hero-slike-konak";
@@ -160,10 +161,24 @@ export default async function RaftingPage({
       cijena: "140€",
       cijenaLabel: tc("from"),
       tag: tr("cards.trodnevni.tag"),
+      groupWeekendPrice: true,
       obrnuto: false,
       slika: {
         src: `${HERO_IMG}/raftingtarom-trodnevni.jpg`,
         alt: tr("cards.trodnevni.imageAlt"),
+      },
+    },
+    {
+      href: "/rafting/vikend-dva-raftinga",
+      kicker: tr("cards.vikendDva.kicker"),
+      naslov: tr("cards.vikendDva.title"),
+      opis: tr("cards.vikendDva.description"),
+      cijena: ON_REQUEST_PRICE,
+      cijenaLabel: "",
+      obrnuto: true,
+      slika: {
+        src: "/images/rafting/rafting-hero.jpg",
+        alt: tr("cards.vikendDva.imageAlt"),
       },
     },
     {
@@ -174,7 +189,7 @@ export default async function RaftingPage({
       cijena: "300€",
       cijenaLabel: tc("from"),
       tamna: true,
-      obrnuto: true,
+      obrnuto: false,
       slika: {
         src: `${HERO_IMG}/raftingtarom-cetverodnevni.jpg`,
         alt: tr("cards.cijelaTara.imageAlt"),
@@ -285,6 +300,7 @@ export default async function RaftingPage({
               tag={t.tag}
               tamna={t.tamna}
               obrnuto={t.obrnuto}
+              groupWeekendPrice={t.groupWeekendPrice}
               slika={t.slika}
             />
           ))}

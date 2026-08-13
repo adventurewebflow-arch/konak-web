@@ -3,9 +3,10 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ImageSlot } from "./ImageSlot";
+import { ON_REQUEST_PRICE } from "@/lib/prices";
+import { TrodnevniPriceBlock } from "./TrodnevniPriceBlock";
 
-/** Sentinel u podacima — prikaz ide preko Common.onRequest. */
-export const ON_REQUEST_PRICE = "na upit";
+export { ON_REQUEST_PRICE };
 
 interface OfferCardProps {
   kicker: string;
@@ -17,6 +18,8 @@ interface OfferCardProps {
   tag?: string;
   slika?: { src: string; alt: string };
   gradient?: string;
+  /** Trodnevni — vikend grupni popust u kvadratu cijene. */
+  groupWeekendPrice?: boolean;
 }
 
 const LIFT =
@@ -54,6 +57,7 @@ export function OfferCard({
   tag,
   slika,
   gradient = "var(--gradient-slot-1)",
+  groupWeekendPrice = false,
 }: OfferCardProps) {
   const t = useTranslations("Common");
   const fromLabel = cijenaLabel ?? t("from");
@@ -93,30 +97,37 @@ export function OfferCard({
           {opis}
         </p>
         <div className="my-4 h-px bg-line" />
-        <div className="flex items-end justify-between gap-3">
-          <div>
-            {!isOnRequest && (
-              <span className="block font-sans text-[11px] text-faint">{t("perPerson")}</span>
-            )}
-            <span className="font-display text-2xl font-bold text-pine">
-              {isOnRequest ? (
-                <span className="font-sans text-lg font-semibold italic text-text-secondary">
-                  {t("onRequest")}
-                </span>
-              ) : (
-                <>
-                  <span className="mr-1 font-sans text-xs font-semibold text-faint">
-                    {fromLabel}
-                  </span>
-                  {cijena}
-                </>
+        <div>
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              {!isOnRequest && (
+                <span className="block font-sans text-[11px] text-faint">{t("perPerson")}</span>
               )}
+              <span className="font-display text-2xl font-bold text-pine">
+                {isOnRequest ? (
+                  <span className="font-sans text-lg font-semibold italic text-text-secondary">
+                    {t("onRequest")}
+                  </span>
+                ) : (
+                  <>
+                    <span className="mr-1 font-sans text-xs font-semibold text-faint">
+                      {fromLabel}
+                    </span>
+                    {cijena}
+                  </>
+                )}
+              </span>
+            </div>
+            <span className="inline-flex shrink-0 items-center gap-1 font-sans text-sm font-bold text-terracotta">
+              {t("seeDetails")}
+              <Arrow />
             </span>
           </div>
-          <span className="inline-flex shrink-0 items-center gap-1 font-sans text-sm font-bold text-terracotta">
-            {t("seeDetails")}
-            <Arrow />
-          </span>
+          {groupWeekendPrice && (
+            <div className="mt-3">
+              <TrodnevniPriceBlock variant="light" />
+            </div>
+          )}
         </div>
       </div>
     </Link>

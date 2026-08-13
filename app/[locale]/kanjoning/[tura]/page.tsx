@@ -8,6 +8,7 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { CtaButton } from "@/components/CtaButton";
 import { ImageSlot } from "@/components/ImageSlot";
 import { TourCard } from "@/components/TourCard";
+import { CombineNote } from "@/components/CombineNote";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { breadcrumbListLd } from "@/lib/breadcrumb-ld";
 import { OG_IMAGES } from "@/lib/seo";
@@ -523,6 +524,7 @@ export default async function KanjoningTuraPage({
                 </li>
               ))}
             </ul>
+            <CombineNote className="mt-6" />
           </div>
         </div>
       </section>

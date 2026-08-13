@@ -8,9 +8,13 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { CtaButton } from "@/components/CtaButton";
 import { ImageSlot } from "@/components/ImageSlot";
 import { TourCard } from "@/components/TourCard";
+import { TrodnevniPriceBlock } from "@/components/TrodnevniPriceBlock";
+import { CombineNote } from "@/components/CombineNote";
+import { WeekendRaftingNudge } from "@/components/WeekendRaftingNudge";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { breadcrumbListLd } from "@/lib/breadcrumb-ld";
 import { OG_IMAGES } from "@/lib/seo";
+import { ON_REQUEST_PRICE } from "@/lib/prices";
 
 const SITE = "https://www.raftingkampkonak.com";
 const WHATSAPP_NUM = "38765848110";
@@ -18,13 +22,14 @@ const EMAIL = "konakraftingkamp@gmail.com";
 const HERO_IMG = "/images/hero-slike-konak";
 const RAFTING_IMG = "/images/rafting";
 
-const VALID_SLUGS = ["jednodnevni", "dvodnevni", "trodnevni", "cijela-tara"] as const;
+const VALID_SLUGS = ["jednodnevni", "dvodnevni", "trodnevni", "vikend-dva-raftinga", "cijela-tara"] as const;
 type RaftingSlug = (typeof VALID_SLUGS)[number];
 
-const TOUR_UNITS: Record<RaftingSlug, number> = {
+const TOUR_UNITS: Record<RaftingSlug, number | null> = {
   jednodnevni: 50,
   dvodnevni: 100,
   trodnevni: 140,
+  "vikend-dva-raftinga": null,
   "cijela-tara": 300,
 };
 
@@ -63,7 +68,7 @@ interface TuraData {
   price: string;
   priceNote: string;
   priceOptions: PriceOption[];
-  unit: number;
+  unit: number | null;
   durationFact: string;
   stayFact: string;
   mealsFact: string;
@@ -105,6 +110,11 @@ const SIMILAR_STATIC: Record<RaftingSlug, SimilarStatic[]> = {
     { href: "/rafting/cijela-tara", slika: { src: `${HERO_IMG}/raftingtarom-cetverodnevni.jpg`, alt: "Rafting cijelim tokom" } },
     { href: "/kanjoning/hrcavka" },
   ],
+  "vikend-dva-raftinga": [
+    { href: "/rafting/trodnevni", slika: { src: `${HERO_IMG}/raftingtarom-trodnevni.jpg`, alt: "Trodnevni rafting" } },
+    { href: "/rafting/dvodnevni", slika: { src: `${HERO_IMG}/raftingtarom-dvodnevni.jpg`, alt: "Dvodnevni rafting" } },
+    { href: "/rafting/cijela-tara", slika: { src: `${HERO_IMG}/raftingtarom-cetverodnevni.jpg`, alt: "Rafting cijelim tokom" } },
+  ],
   "cijela-tara": [
     { href: "/rafting/trodnevni", slika: { src: `${HERO_IMG}/raftingtarom-trodnevni.jpg`, alt: "Trodnevni rafting" } },
     { href: "/kanjoning/nevidio" },
@@ -138,6 +148,14 @@ const TURA_IMAGES: Record<
       { src: `${RAFTING_IMG}/rafting-galerija7.jpg`, alt: "Trodnevni rafting — dionica Brštanovica" },
       { src: `${RAFTING_IMG}/rafting-galerija8.jpg`, alt: "Trodnevni rafting — grupa na Tari" },
       { src: `${RAFTING_IMG}/rafting-galerija9.jpg`, alt: "Trodnevni rafting — večer u kampu Konak" },
+    ],
+  },
+  "vikend-dva-raftinga": {
+    hero: { src: `${RAFTING_IMG}/rafting-hero.jpg`, alt: "Vikend rafting — dva spusta na Tari" },
+    gallery: [
+      { src: `${RAFTING_IMG}/rafting-galerija8.jpg`, alt: "Vikend rafting — grupa na Tari" },
+      { src: `${RAFTING_IMG}/rafting-galerija10.jpg`, alt: "Vikend rafting — drugi dan na rijeci" },
+      { src: `${RAFTING_IMG}/rafting-galerija9.jpg`, alt: "Vikend rafting — veče u kampu Konak" },
     ],
   },
   "cijela-tara": {
@@ -378,8 +396,12 @@ export default async function TuraDetaljPage({
     { label: tour.title, href: `/rafting/${tura}` },
   ];
 
+  const onRequest = tour.unit == null;
   const waText = encodeURIComponent(
-    tTD("ui.waTemplate", { title: tour.title, price: tour.price }),
+    tTD("ui.waTemplate", {
+      title: tour.title,
+      price: onRequest ? tc("onRequest") : tour.price,
+    }),
   );
   const waHref = `https://wa.me/${WHATSAPP_NUM}?text=${waText}`;
   const mailHref = `mailto:${EMAIL}?subject=${encodeURIComponent(
@@ -394,8 +416,9 @@ export default async function TuraDetaljPage({
     brand: { "@type": "Organization", name: "Rafting kamp Konak" },
     offers: {
       "@type": "Offer",
-      price: tour.unit,
-      priceCurrency: "EUR",
+      ...(onRequest
+        ? { description: tc("onRequest") }
+        : { price: tour.unit, priceCurrency: "EUR" }),
       availability: "https://schema.org/InStock",
       url: `${SITE}/rafting/${tura}`,
     },
@@ -535,27 +558,45 @@ export default async function TuraDetaljPage({
                 {tc("pricePerPerson")}
               </span>
               <div className="mt-1 flex items-baseline gap-2">
-                <span className="font-display text-4xl font-extrabold text-white">
-                  {tour.price}
-                </span>
+                {onRequest ? (
+                  <span className="font-sans text-2xl font-semibold italic text-on-dark">
+                    {tc("onRequest")}
+                  </span>
+                ) : (
+                  <span className="font-display text-4xl font-extrabold text-white">
+                    {tour.price}
+                  </span>
+                )}
               </div>
-              <p className="mt-1 font-sans text-sm text-on-dark-muted">
+              <p
+                className={`mt-2 font-sans text-sm leading-relaxed ${
+                  onRequest ? "text-on-dark" : "text-on-dark-muted"
+                }`}
+              >
                 {tour.priceNote}
               </p>
 
-              <ul className="mt-4 flex flex-col gap-2 rounded-input bg-white/8 p-3.5">
-                {tour.priceOptions.map((opt) => (
-                  <li
-                    key={opt.label}
-                    className="flex items-baseline justify-between gap-3 font-sans text-sm"
-                  >
-                    <span className="text-on-dark-muted">{opt.label}</span>
-                    <span className="font-display text-base font-bold text-white">
-                      {opt.price}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              {(tura === "trodnevni" || tour.priceOptions.length > 0) && (
+                <div className="mt-4 rounded-input bg-white/8 p-3.5">
+                  {tura === "trodnevni" ? (
+                    <TrodnevniPriceBlock variant="dark" />
+                  ) : (
+                    <ul className="flex flex-col gap-2">
+                      {tour.priceOptions.map((opt) => (
+                        <li
+                          key={opt.label}
+                          className="flex items-baseline justify-between gap-3 font-sans text-sm"
+                        >
+                          <span className="text-on-dark-muted">{opt.label}</span>
+                          <span className="font-display text-base font-bold text-white">
+                            {opt.price}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
 
               <div className="my-6 h-px bg-white/12" />
 
@@ -639,6 +680,7 @@ export default async function TuraDetaljPage({
                 </li>
               ))}
             </ul>
+            <CombineNote className="mt-6" />
           </div>
         </div>
       </section>
@@ -680,7 +722,7 @@ export default async function TuraDetaljPage({
                 opis={card.opis}
                 kicker={card.kicker}
                 cijena={card.cijena}
-                cijenaLabel={tc("from")}
+                cijenaLabel={card.cijena === ON_REQUEST_PRICE ? "" : tc("from")}
                 tag={card.tag ? tc("featuredTitle") : undefined}
                 slika={card.slika}
                 fakti={card.fakti}
@@ -702,6 +744,8 @@ export default async function TuraDetaljPage({
           </div>
         </div>
       </section>
+
+      {tura !== "vikend-dva-raftinga" && <WeekendRaftingNudge />}
 
       <script
         type="application/ld+json"

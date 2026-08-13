@@ -4,6 +4,8 @@ import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ImageSlot } from "./ImageSlot";
+import { ON_REQUEST_PRICE } from "@/lib/prices";
+import { TrodnevniPriceBlock } from "./TrodnevniPriceBlock";
 
 export interface TourFakt {
   ikona?: ReactNode;
@@ -29,6 +31,8 @@ interface TourCardProps {
   obrnuto?: boolean;
   /** Red varijanta: tamna (pine) pozadina umjesto svijetle. */
   tamna?: boolean;
+  /** Trodnevni — vikend grupni popust u kvadratu cijene. */
+  groupWeekendPrice?: boolean;
 }
 
 function Arrow() {
@@ -78,23 +82,39 @@ function Cijena({
   labelCls,
   priceCls,
   detaljnijeLabel,
+  extra,
+  onRequestLabel,
 }: {
   cijena: string;
   cijenaLabel?: string;
   labelCls: string;
   priceCls: string;
   detaljnijeLabel: string;
+  extra?: ReactNode;
+  onRequestLabel: string;
 }) {
+  const isOnRequest = cijena === ON_REQUEST_PRICE;
   return (
-    <div className="flex items-center justify-between">
-      <span className="flex items-baseline gap-1">
-        {cijenaLabel && <span className={`font-sans text-xs ${labelCls}`}>{cijenaLabel}</span>}
-        <span className={`font-display text-2xl font-bold ${priceCls}`}>{cijena}</span>
-      </span>
-      <span className="inline-flex items-center gap-1 font-sans text-sm font-bold text-terracotta">
-        {detaljnijeLabel}
-        <Arrow />
-      </span>
+    <div>
+      <div className="flex items-center justify-between">
+        <span className="flex items-baseline gap-1">
+          {isOnRequest ? (
+            <span className={`font-sans text-lg font-semibold italic ${priceCls === "text-teal-light" ? "text-on-dark-muted" : "text-text-secondary"}`}>
+              {onRequestLabel}
+            </span>
+          ) : (
+            <>
+              {cijenaLabel && <span className={`font-sans text-xs ${labelCls}`}>{cijenaLabel}</span>}
+              <span className={`font-display text-2xl font-bold ${priceCls}`}>{cijena}</span>
+            </>
+          )}
+        </span>
+        <span className="inline-flex items-center gap-1 font-sans text-sm font-bold text-terracotta">
+          {detaljnijeLabel}
+          <Arrow />
+        </span>
+      </div>
+      {extra && <div className="mt-3">{extra}</div>}
     </div>
   );
 }
@@ -112,10 +132,14 @@ export function TourCard({
   varijanta = "grid",
   obrnuto = false,
   tamna = false,
+  groupWeekendPrice = false,
 }: TourCardProps) {
   const t = useTranslations("Common");
   const fromLabel = cijenaLabel ?? t("from");
   const highlighted = Boolean(tag);
+  const priceExtra = groupWeekendPrice ? (
+    <TrodnevniPriceBlock variant={tamna || varijanta === "tamna" ? "dark" : "light"} />
+  ) : undefined;
 
   // ---- RED varijanta (horizontalna) ----
   if (varijanta === "red") {
@@ -171,6 +195,8 @@ export function TourCard({
               labelCls={redLabel}
               priceCls={redPrice}
               detaljnijeLabel={t("viewProgram")}
+              extra={priceExtra}
+              onRequestLabel={t("onRequest")}
             />
           </div>
         </div>
@@ -231,6 +257,8 @@ export function TourCard({
           labelCls={labelCls}
           priceCls={priceCls}
           detaljnijeLabel={t("seeDetails")}
+          extra={priceExtra}
+          onRequestLabel={t("onRequest")}
         />
       </div>
     </Link>

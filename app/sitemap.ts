@@ -8,6 +8,7 @@ const STATIC_PATHS = [
   "/rafting/jednodnevni",
   "/rafting/dvodnevni",
   "/rafting/trodnevni",
+  "/rafting/vikend-dva-raftinga",
   "/rafting/cijela-tara",
   "/kanjoning",
   "/kanjoning/nevidio",
